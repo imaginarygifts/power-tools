@@ -1,0 +1,34 @@
+body{
+font-family:Arial;
+padding:20px;
+background:#f4f4f4;
+}
+
+h2{
+text-align:center;
+}
+
+.controls{
+margin:15px 0;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+input{
+padding:8px;
+}
+
+button{
+padding:10px 15px;
+background:#2196f3;
+color:white;
+border:none;
+border-radius:5px;
+}
+
+#preview img{
+width:100px;
+margin:5px;
+border-radius:6px;
+}
