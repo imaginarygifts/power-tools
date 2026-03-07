@@ -2,23 +2,26 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bulk Image Tool</title>
+<title>Bulk Image Resizer</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>Bulk Image Resizer & Renamer</h2>
+<h2>Bulk Image Resizer</h2>
 
 <input type="file" id="upload" multiple accept="image/*">
 
-<div class="controls">
-<input type="number" id="width" placeholder="Width (px)">
-<input type="number" id="height" placeholder="Height (px)">
-<input type="text" id="prefix" placeholder="File Prefix">
-</div>
+<select id="resolution">
+<option value="1280">HD (1280)</option>
+<option value="1920">Full HD (1920)</option>
+<option value="2560">QHD (2560)</option>
+<option value="3840">4K (3840)</option>
+</select>
 
-<button onclick="processImages()">Process Images</button>
+<input type="text" id="prefix" placeholder="File prefix">
+
+<button onclick="processImages()">Resize Images</button>
 
 <div id="preview"></div>
 
