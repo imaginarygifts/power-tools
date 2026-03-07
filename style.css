@@ -30,18 +30,18 @@ margin-top:20px;
 }
 
 .imageBox{
-width:90px;
+width:100px;
 text-align:center;
 }
 
 .imageBox img{
-width:90px;
+width:100px;
 border-radius:6px;
 }
 
 .downloadBtn{
-font-size:12px;
 margin-top:4px;
+font-size:12px;
 padding:5px;
 background:#4caf50;
 color:white;
