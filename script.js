@@ -1,68 +1,91 @@
-let files=[];
+let files=[]
+let processed=[]
 
-document.getElementById("upload").addEventListener("change",(e)=>{
-files=[...e.target.files];
-});
+const drop=document.getElementById("drop")
 
-function processImages(){
+drop.addEventListener("dragover",e=>e.preventDefault())
 
-let maxSize=parseInt(document.getElementById("resolution").value);
-let prefix=document.getElementById("prefix").value || "image_";
+drop.addEventListener("drop",e=>{
+e.preventDefault()
+files=[...e.dataTransfer.files]
+preview()
+})
 
-let preview=document.getElementById("preview");
-preview.innerHTML="";
+document.getElementById("fileInput").addEventListener("change",e=>{
+files=[...e.target.files]
+preview()
+})
 
-files.forEach((file,i)=>{
+function preview(){
 
-let img=new Image();
-let reader=new FileReader();
+let g=document.getElementById("gallery")
+g.innerHTML=""
 
-reader.onload=function(e){
-img.src=e.target.result;
+files.forEach(f=>{
+let img=document.createElement("img")
+img.src=URL.createObjectURL(f)
+g.appendChild(img)
+})
 
-img.onload=function(){
+}
 
-let width=img.width;
-let height=img.height;
+async function processImages(){
 
-let scale=Math.min(maxSize/width,maxSize/height);
+processed=[]
 
-if(scale>1) scale=1;
+let maxSize=parseInt(document.getElementById("resolution").value)
+let quality=parseFloat(document.getElementById("quality").value)
+let format=document.getElementById("format").value
+let prefix=document.getElementById("prefix").value||"img_"
 
-let newWidth=Math.round(width*scale);
-let newHeight=Math.round(height*scale);
+for(let i=0;i<files.length;i++){
 
-let canvas=document.createElement("canvas");
-canvas.width=newWidth;
-canvas.height=newHeight;
+let file=files[i]
 
-let ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0,newWidth,newHeight);
+let img=await createImageBitmap(file)
 
-canvas.toBlob(function(blob){
+let scale=Math.min(maxSize/img.width,maxSize/img.height)
 
-let url=URL.createObjectURL(blob);
+if(scale>1) scale=1
 
-let a=document.createElement("a");
-a.href=url;
-a.download=`${prefix}${i+1}.jpg`;
-a.innerText=`Download ${prefix}${i+1}.jpg`;
+let w=Math.round(img.width*scale)
+let h=Math.round(img.height*scale)
 
-let image=document.createElement("img");
-image.src=url;
+let canvas=document.createElement("canvas")
+canvas.width=w
+canvas.height=h
 
-preview.appendChild(image);
-preview.appendChild(a);
-preview.appendChild(document.createElement("br"));
+let ctx=canvas.getContext("2d")
+ctx.drawImage(img,0,0,w,h)
 
-});
+let blob=await new Promise(resolve=>{
+canvas.toBlob(resolve,`image/${format}`,quality)
+})
 
-};
+let name=prefix+String(i+1).padStart(3,"0")+"."+format
 
-};
+processed.push({name,blob})
 
-reader.readAsDataURL(file);
+}
 
-});
+alert("Processing finished")
 
+}
+
+async function downloadZip(){
+
+let zip=new JSZip()
+
+processed.forEach(p=>{
+zip.file(p.name,p.blob)
+})
+
+let content=await zip.generateAsync({type:"blob"})
+
+saveAs(content,"images.zip")
+
+}
+
+function toggleDark(){
+document.body.classList.toggle("dark")
 }
