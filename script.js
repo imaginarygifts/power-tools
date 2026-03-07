@@ -1,17 +1,19 @@
-let files=[]
-let processed=[]
+let files = []
+let processed = []
 
-document.getElementById("fileInput").addEventListener("change",function(e){
-files=[...e.target.files]
+const fileInput = document.getElementById("fileInput")
+
+fileInput.addEventListener("change", function(e){
+files = [...e.target.files]
 showPreview()
 })
 
 function showPreview(){
 
-let gallery=document.getElementById("gallery")
+let gallery = document.getElementById("gallery")
 gallery.innerHTML=""
 
-files.forEach(file=>{
+files.forEach(file => {
 
 let box=document.createElement("div")
 box.className="imageBox"
@@ -26,7 +28,7 @@ gallery.appendChild(box)
 
 }
 
-function resizeImages(){
+async function resizeImages(){
 
 if(files.length===0){
 alert("Please select images")
@@ -42,17 +44,26 @@ let prefix=document.getElementById("prefix").value || "img"
 let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
 
-files.forEach((file,index)=>{
+let progressBox=document.getElementById("progressBox")
+let progressText=document.getElementById("progressText")
+let progressFill=document.getElementById("progressFill")
 
-let reader=new FileReader()
+progressBox.style.display="flex"
 
-reader.onload=function(e){
+for(let i=0;i<files.length;i++){
 
-let img=new Image()
+progressText.innerText="Processing "+(i+1)+" / "+files.length
 
-img.onload=function(){
+let percent=((i+1)/files.length)*100
+progressFill.style.width=percent+"%"
 
-let scale=Math.min(maxSize/img.width,maxSize/img.height)
+let file = files[i]
+
+let dataURL = await readFile(file)
+
+let img = await loadImage(dataURL)
+
+let scale = Math.min(maxSize/img.width,maxSize/img.height)
 
 if(scale>1) scale=1
 
@@ -66,14 +77,11 @@ canvas.height=newHeight
 let ctx=canvas.getContext("2d")
 ctx.drawImage(img,0,0,newWidth,newHeight)
 
-canvas.toBlob(function(blob){
+let blob = await canvasToBlob(canvas,format)
 
-let name=prefix+"_"+String(index+1).padStart(3,"0")+"."+format
+let name = prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 
-processed.push({
-name:name,
-blob:blob
-})
+processed.push({name,blob})
 
 let box=document.createElement("div")
 box.className="imageBox"
@@ -94,16 +102,38 @@ box.appendChild(btn)
 
 gallery.appendChild(box)
 
-},"image/"+format,0.6)
+}
+
+progressBox.style.display="none"
+
+alert("All images processed")
 
 }
 
-img.src=e.target.result
+function readFile(file){
 
-}
-
+return new Promise(resolve=>{
+let reader=new FileReader()
+reader.onload=e=>resolve(e.target.result)
 reader.readAsDataURL(file)
+})
 
+}
+
+function loadImage(src){
+
+return new Promise(resolve=>{
+let img=new Image()
+img.onload=()=>resolve(img)
+img.src=src
+})
+
+}
+
+function canvasToBlob(canvas,format){
+
+return new Promise(resolve=>{
+canvas.toBlob(resolve,"image/"+format,0.6)
 })
 
 }
