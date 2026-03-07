@@ -2,50 +2,50 @@ body{
 font-family:Arial;
 padding:20px;
 background:#f4f4f4;
-color:#222;
-}
-
-.dark{
-background:#111;
-color:#eee;
 }
 
 h2{
 text-align:center;
 }
 
-.drop{
-border:2px dashed #999;
-padding:30px;
-text-align:center;
-margin-bottom:15px;
-}
-
-input,select{
+input,select,button{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:10px;
+font-size:16px;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:12px;
 background:#2196f3;
-border:none;
 color:white;
+border:none;
 border-radius:6px;
-font-size:16px;
 }
 
 #gallery{
 display:flex;
 flex-wrap:wrap;
-gap:6px;
+gap:10px;
 margin-top:20px;
 }
 
-#gallery img{
-width:80px;
+.imageBox{
+width:90px;
+text-align:center;
+}
+
+.imageBox img{
+width:90px;
 border-radius:6px;
+}
+
+.downloadBtn{
+font-size:12px;
+margin-top:4px;
+padding:5px;
+background:#4caf50;
+color:white;
+border:none;
+border-radius:4px;
+width:100%;
 }
