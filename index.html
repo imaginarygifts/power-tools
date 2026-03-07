@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bulk Image Resizer</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bulk Image Tool</title>
+
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
 </head>
 
 <body>
 
 <h2>Bulk Image Resizer</h2>
 
-<input type="file" id="upload" multiple accept="image/*">
+<div class="drop" id="drop">
+Drag & Drop Images
+</div>
+
+<input type="file" id="fileInput" multiple accept="image/*">
 
 <select id="resolution">
-<option value="1280">HD (1280)</option>
-<option value="1920">Full HD (1920)</option>
-<option value="2560">QHD (2560)</option>
-<option value="3840">4K (3840)</option>
+
+<option value="1280">HD</option>
+<option value="1920">Full HD</option>
+<option value="2560">QHD</option>
+<option value="3840">4K</option>
+
 </select>
 
-<input type="text" id="prefix" placeholder="File prefix">
+<select id="format">
 
-<button onclick="processImages()">Resize Images</button>
+<option value="jpeg">JPG</option>
+<option value="webp">WEBP</option>
+<option value="png">PNG</option>
 
-<div id="preview"></div>
+</select>
+
+<input type="text" id="prefix" placeholder="Rename prefix (trip_)">
+
+<label>Compression</label>
+<input type="range" id="quality" min="0.4" max="0.95" step="0.05" value="0.75">
+
+<button onclick="processImages()">Resize & Compress</button>
+
+<button onclick="downloadZip()">Download ZIP</button>
+
+<button onclick="toggleDark()">Toggle Dark Mode</button>
+
+<div id="gallery"></div>
 
 <script src="script.js"></script>
 
