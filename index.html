@@ -20,27 +20,23 @@
 <input type="file" id="fileInput" multiple accept="image/*">
 
 <select id="resolution">
-
 <option value="1280">HD</option>
 <option value="1920">Full HD</option>
 <option value="2560">QHD</option>
 <option value="3840">4K</option>
-
 </select>
 
 <select id="format">
-
 <option value="jpeg">JPG</option>
 <option value="webp">WEBP</option>
 <option value="png">PNG</option>
-
 </select>
 
 <input type="text" id="prefix" placeholder="Rename prefix (trip)">
 
-<button onclick="processImages()">Resize Images</button>
+<button id="resizeBtn">Resize Images</button>
 
-<button onclick="downloadZip()">Download ZIP</button>
+<button id="zipBtn">Download ZIP</button>
 
 <div id="gallery"></div>
 
