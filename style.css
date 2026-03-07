@@ -1,33 +1,51 @@
 body{
 font-family:Arial;
 padding:20px;
-background:#f5f5f5;
+background:#f4f4f4;
+color:#222;
+}
+
+.dark{
+background:#111;
+color:#eee;
 }
 
 h2{
 text-align:center;
 }
 
-select,input,button{
+.drop{
+border:2px dashed #999;
+padding:30px;
+text-align:center;
+margin-bottom:15px;
+}
+
+input,select{
 width:100%;
-margin-top:10px;
 padding:10px;
-font-size:16px;
+margin-top:10px;
 }
 
 button{
+width:100%;
+padding:12px;
+margin-top:12px;
 background:#2196f3;
-color:white;
 border:none;
+color:white;
 border-radius:6px;
+font-size:16px;
 }
 
-#preview{
+#gallery{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
 margin-top:20px;
 }
 
-#preview img{
-width:100px;
-margin:5px;
+#gallery img{
+width:80px;
 border-radius:6px;
 }
