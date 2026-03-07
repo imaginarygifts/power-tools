@@ -1,16 +1,12 @@
 let files=[]
 let processed=[]
 
-const fileInput=document.getElementById("fileInput")
-const resizeBtn=document.getElementById("resizeBtn")
-const zipBtn=document.getElementById("zipBtn")
-
-fileInput.addEventListener("change",function(e){
+document.getElementById("fileInput").addEventListener("change",function(e){
 files=[...e.target.files]
-preview()
+showPreview()
 })
 
-function preview(){
+function showPreview(){
 
 let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
@@ -30,20 +26,23 @@ gallery.appendChild(box)
 
 }
 
-resizeBtn.addEventListener("click",resizeImages)
-
 function resizeImages(){
+
+if(files.length===0){
+alert("Please select images")
+return
+}
 
 processed=[]
 
 let maxSize=parseInt(document.getElementById("resolution").value)
 let format=document.getElementById("format").value
-let prefix=document.getElementById("prefix").value||"img"
+let prefix=document.getElementById("prefix").value || "img"
 
 let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
 
-files.forEach((file,i)=>{
+files.forEach((file,index)=>{
 
 let reader=new FileReader()
 
@@ -57,21 +56,24 @@ let scale=Math.min(maxSize/img.width,maxSize/img.height)
 
 if(scale>1) scale=1
 
-let w=Math.round(img.width*scale)
-let h=Math.round(img.height*scale)
+let newWidth=Math.round(img.width*scale)
+let newHeight=Math.round(img.height*scale)
 
 let canvas=document.createElement("canvas")
-canvas.width=w
-canvas.height=h
+canvas.width=newWidth
+canvas.height=newHeight
 
 let ctx=canvas.getContext("2d")
-ctx.drawImage(img,0,0,w,h)
+ctx.drawImage(img,0,0,newWidth,newHeight)
 
 canvas.toBlob(function(blob){
 
-let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
+let name=prefix+"_"+String(index+1).padStart(3,"0")+"."+format
 
-processed.push({name,blob})
+processed.push({
+name:name,
+blob:blob
+})
 
 let box=document.createElement("div")
 box.className="imageBox"
@@ -92,7 +94,7 @@ box.appendChild(btn)
 
 gallery.appendChild(box)
 
-},`image/${format}`,0.6)
+},"image/"+format,0.6)
 
 }
 
@@ -106,21 +108,19 @@ reader.readAsDataURL(file)
 
 }
 
-zipBtn.addEventListener("click",downloadZip)
-
 async function downloadZip(){
 
 if(processed.length===0){
-alert("Please resize images first")
+alert("Resize images first")
 return
 }
 
-let prefix=document.getElementById("prefix").value||"images"
+let prefix=document.getElementById("prefix").value || "images"
 
 let zip=new JSZip()
 
-processed.forEach(p=>{
-zip.file(p.name,p.blob)
+processed.forEach(item=>{
+zip.file(item.name,item.blob)
 })
 
 let content=await zip.generateAsync({type:"blob"})
