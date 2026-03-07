@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bulk Image Tool</title>
+<title>Bulk Image Resizer</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,10 +16,6 @@
 <body>
 
 <h2>Bulk Image Resizer</h2>
-
-<div class="drop" id="drop">
-Drag & Drop Images
-</div>
 
 <input type="file" id="fileInput" multiple accept="image/*">
 
@@ -39,16 +36,11 @@ Drag & Drop Images
 
 </select>
 
-<input type="text" id="prefix" placeholder="Rename prefix (trip_)">
+<input type="text" id="prefix" placeholder="Rename prefix (trip)">
 
-<label>Compression</label>
-<input type="range" id="quality" min="0.4" max="0.95" step="0.05" value="0.75">
-
-<button onclick="processImages()">Resize & Compress</button>
+<button onclick="processImages()">Resize Images</button>
 
 <button onclick="downloadZip()">Download ZIP</button>
-
-<button onclick="toggleDark()">Toggle Dark Mode</button>
 
 <div id="gallery"></div>
 
