@@ -1,31 +1,38 @@
 let files=[]
 let processed=[]
 
-document.getElementById("fileInput").addEventListener("change",e=>{
+const fileInput=document.getElementById("fileInput")
+const resizeBtn=document.getElementById("resizeBtn")
+const zipBtn=document.getElementById("zipBtn")
+
+fileInput.addEventListener("change",function(e){
 files=[...e.target.files]
 preview()
 })
 
 function preview(){
 
-let g=document.getElementById("gallery")
-g.innerHTML=""
+let gallery=document.getElementById("gallery")
+gallery.innerHTML=""
 
-files.forEach(f=>{
+files.forEach(file=>{
+
 let box=document.createElement("div")
 box.className="imageBox"
 
 let img=document.createElement("img")
-img.src=URL.createObjectURL(f)
+img.src=URL.createObjectURL(file)
 
 box.appendChild(img)
+gallery.appendChild(box)
 
-g.appendChild(box)
 })
 
 }
 
-async function processImages(){
+resizeBtn.addEventListener("click",resizeImages)
+
+function resizeImages(){
 
 processed=[]
 
@@ -36,11 +43,15 @@ let prefix=document.getElementById("prefix").value||"img"
 let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
 
-for(let i=0;i<files.length;i++){
+files.forEach((file,i)=>{
 
-let file=files[i]
+let reader=new FileReader()
 
-let img=await createImageBitmap(file)
+reader.onload=function(e){
+
+let img=new Image()
+
+img.onload=function(){
 
 let scale=Math.min(maxSize/img.width,maxSize/img.height)
 
@@ -56,9 +67,7 @@ canvas.height=h
 let ctx=canvas.getContext("2d")
 ctx.drawImage(img,0,0,w,h)
 
-let blob=await new Promise(resolve=>{
-canvas.toBlob(resolve,`image/${format}`,0.6)
-})
+canvas.toBlob(function(blob){
 
 let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 
@@ -67,32 +76,42 @@ processed.push({name,blob})
 let box=document.createElement("div")
 box.className="imageBox"
 
-let imgPreview=document.createElement("img")
-imgPreview.src=URL.createObjectURL(blob)
+let preview=document.createElement("img")
+preview.src=URL.createObjectURL(blob)
 
 let btn=document.createElement("button")
 btn.className="downloadBtn"
 btn.innerText="Download"
 
-btn.onclick=()=>{
+btn.onclick=function(){
 saveAs(blob,name)
 }
 
-box.appendChild(imgPreview)
+box.appendChild(preview)
 box.appendChild(btn)
 
 gallery.appendChild(box)
 
-}
-
-alert("Images Ready")
+},`image/${format}`,0.6)
 
 }
+
+img.src=e.target.result
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
+}
+
+zipBtn.addEventListener("click",downloadZip)
 
 async function downloadZip(){
 
 if(processed.length===0){
-alert("Resize images first")
+alert("Please resize images first")
 return
 }
 
