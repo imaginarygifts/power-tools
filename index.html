@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulk Image Tool</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Bulk Image Resizer & Renamer</h2>
+
+<input type="file" id="upload" multiple accept="image/*">
+
+<div class="controls">
+<input type="number" id="width" placeholder="Width (px)">
+<input type="number" id="height" placeholder="Height (px)">
+<input type="text" id="prefix" placeholder="File Prefix">
+</div>
+
+<button onclick="processImages()">Process Images</button>
+
+<div id="preview"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
