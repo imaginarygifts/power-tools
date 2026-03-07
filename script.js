@@ -4,11 +4,10 @@ document.getElementById("upload").addEventListener("change",(e)=>{
 files=[...e.target.files];
 });
 
-async function processImages(){
+function processImages(){
 
-let width=document.getElementById("width").value;
-let height=document.getElementById("height").value;
-let prefix=document.getElementById("prefix").value;
+let maxSize=parseInt(document.getElementById("resolution").value);
+let prefix=document.getElementById("prefix").value || "image_";
 
 let preview=document.getElementById("preview");
 preview.innerHTML="";
@@ -23,12 +22,22 @@ img.src=e.target.result;
 
 img.onload=function(){
 
+let width=img.width;
+let height=img.height;
+
+let scale=Math.min(maxSize/width,maxSize/height);
+
+if(scale>1) scale=1;
+
+let newWidth=Math.round(width*scale);
+let newHeight=Math.round(height*scale);
+
 let canvas=document.createElement("canvas");
-canvas.width=width || img.width;
-canvas.height=height || img.height;
+canvas.width=newWidth;
+canvas.height=newHeight;
 
 let ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0,canvas.width,canvas.height);
+ctx.drawImage(img,0,0,newWidth,newHeight);
 
 canvas.toBlob(function(blob){
 
