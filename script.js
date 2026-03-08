@@ -129,13 +129,20 @@ let relativePath = name
 
 if(file.webkitRelativePath){
 
-let parts = file.webkitRelativePath.split("/")
+let fullPath = file.webkitRelativePath.split("/")
 
-// keep only last folder before file
-let folder = parts[parts.length - 2]
+// remove everything before the selected root folder
+let rootIndex = fullPath.indexOf(fullPath[0])
 
-if(folder){
-relativePath = folder + "/" + name
+let cleanedPath = fullPath.slice(rootIndex)
+
+// remove original filename
+cleanedPath.pop()
+
+let folderPath = cleanedPath.join("/")
+
+if(folderPath.length > 0){
+relativePath = folderPath + "/" + name
 }
 
 }
