@@ -4,23 +4,29 @@ let processed = []
 const imageInput = document.getElementById("imageInput")
 const folderInput = document.getElementById("folderInput")
 
-/* IMAGE PICKER */
+imageInput.addEventListener("change", handleFiles)
+folderInput.addEventListener("change", handleFiles)
 
-imageInput.addEventListener("change", function(e){
+function handleFiles(e){
 
-let allFiles = [...e.target.files]
+let selected = [...e.target.files]
 
-files = allFiles.filter(file => file.type.startsWith("image/"))
+if(selected.length === 0){
+return
+}
 
-let skipped = allFiles.length - files.length
+// keep only images
+files = selected.filter(file => file.type.startsWith("image/"))
 
-if(skipped>0){
-alert(skipped+" non-image files skipped")
+let skipped = selected.length - files.length
+
+if(skipped > 0){
+alert(skipped + " non-image files skipped")
 }
 
 showPreview()
 
-})
+}
 
 /* FOLDER PICKER */
 
