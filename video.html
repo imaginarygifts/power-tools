@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bulk Video Compressor</title>
+
+<link rel="stylesheet" href="video.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+</head>
+
+<body>
+
+<h2>Bulk Video Compressor</h2>
+
+<input type="file" id="videoInput" multiple accept="video/*" hidden>
+<input type="file" id="folderInput" webkitdirectory hidden>
+
+<button class="selectBtn" onclick="document.getElementById('videoInput').click()">
+Select Videos
+</button>
+
+<button class="selectBtn" onclick="document.getElementById('folderInput').click()">
+Select Full Folder
+</button>
+
+<select id="codec">
+<option value="libx264">H264</option>
+<option value="libx265">H265</option>
+</select>
+
+<select id="resolution">
+<option value="720">720p</option>
+<option value="1080">1080p</option>
+</select>
+
+<select id="crf">
+<option value="23">High Quality</option>
+<option value="28">Balanced</option>
+<option value="32">Small Size</option>
+</select>
+
+<button onclick="compressVideos()">Compress Videos</button>
+
+<button id="zipBtn" onclick="downloadZip()" style="display:none">
+Download ZIP
+</button>
+
+<div id="gallery"></div>
+
+<!-- Upload popup -->
+
+<div id="uploadBox" class="popup">
+<div class="popupCard">
+Uploading videos...
+</div>
+</div>
+
+<!-- Processing popup -->
+
+<div id="progressBox" class="popup">
+<div class="popupCard">
+<div id="progressText">Processing...</div>
+
+<div class="progressBar">
+<div id="progressFill"></div>
+</div>
+
+</div>
+</div>
+
+<script src="video.js"></script>
+
+</body>
+</html>
