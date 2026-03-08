@@ -129,19 +129,17 @@ let relativePath = name
 
 if(file.webkitRelativePath){
 
-let folders = file.webkitRelativePath.split("/")
+let parts = file.webkitRelativePath.split("/")
 
-// remove original file name
-folders.pop()
+// keep only last folder before file
+let folder = parts[parts.length - 2]
 
-// rebuild folder structure
-let folderPath = folders.join("/")
-
-if(folderPath.length > 0){
-relativePath = folderPath + "/" + name
+if(folder){
+relativePath = folder + "/" + name
 }
 
 }
+
 
 processed.push({
 name:name,
