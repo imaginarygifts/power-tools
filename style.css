@@ -8,18 +8,25 @@ h2{
 text-align:center;
 }
 
-input,select,button{
+select,input,button{
 width:100%;
 padding:12px;
 margin-top:10px;
 font-size:16px;
 }
 
+.selectBtn{
+background:#4caf50;
+color:white;
+border:none;
+border-radius:8px;
+}
+
 button{
 background:#2196f3;
 color:white;
 border:none;
-border-radius:6px;
+border-radius:8px;
 }
 
 #gallery{
@@ -42,15 +49,17 @@ border-radius:6px;
 .downloadBtn{
 margin-top:4px;
 font-size:12px;
-padding:5px;
+padding:6px;
 background:#4caf50;
 color:white;
 border:none;
-border-radius:4px;
+border-radius:6px;
 width:100%;
 }
 
-#progressBox{
+/* POPUPS */
+
+.popup{
 position:fixed;
 top:0;
 left:0;
@@ -63,12 +72,12 @@ justify-content:center;
 z-index:999;
 }
 
-.progressCard{
+.popupCard{
 background:white;
 padding:20px;
-border-radius:8px;
-width:250px;
+border-radius:10px;
 text-align:center;
+width:260px;
 }
 
 .progressBar{
@@ -84,20 +93,4 @@ overflow:hidden;
 width:0%;
 height:100%;
 background:#2196f3;
-}
-
-.selectBtn{
-width:100%;
-padding:14px;
-margin-top:10px;
-background:#4caf50;
-color:white;
-border:none;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-}
-
-.selectBtn:active{
-background:#43a047;
 }
