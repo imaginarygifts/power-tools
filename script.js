@@ -1,31 +1,53 @@
 let files = []
 let processed = []
 
-const fileInput = document.getElementById("fileInput")
+const imageInput = document.getElementById("imageInput")
+const folderInput = document.getElementById("folderInput")
 
-fileInput.addEventListener("change", function(e){
+/* IMAGE PICKER */
+
+imageInput.addEventListener("change", function(e){
 
 let allFiles = [...e.target.files]
 
-// keep only image files
 files = allFiles.filter(file => file.type.startsWith("image/"))
 
 let skipped = allFiles.length - files.length
 
-if(skipped > 0){
-alert(skipped + " non-image files skipped")
+if(skipped>0){
+alert(skipped+" non-image files skipped")
 }
 
 showPreview()
 
 })
 
+/* FOLDER PICKER */
+
+folderInput.addEventListener("change", function(e){
+
+let allFiles=[...e.target.files]
+
+files = allFiles.filter(file => file.type.startsWith("image/"))
+
+let skipped = allFiles.length - files.length
+
+if(skipped>0){
+alert(skipped+" non-image files skipped")
+}
+
+showPreview()
+
+})
+
+/* SHOW PREVIEW */
+
 function showPreview(){
 
-let gallery = document.getElementById("gallery")
+let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
 
-files.forEach(file => {
+files.forEach(file=>{
 
 let box=document.createElement("div")
 box.className="imageBox"
@@ -40,10 +62,12 @@ gallery.appendChild(box)
 
 }
 
+/* RESIZE PROCESS */
+
 async function resizeImages(){
 
 if(files.length===0){
-alert("Please select images")
+alert("Please select images or folder")
 return
 }
 
@@ -69,13 +93,13 @@ progressText.innerText="Processing "+(i+1)+" / "+files.length
 let percent=((i+1)/files.length)*100
 progressFill.style.width=percent+"%"
 
-let file = files[i]
+let file=files[i]
 
-let dataURL = await readFile(file)
+let dataURL=await readFile(file)
 
-let img = await loadImage(dataURL)
+let img=await loadImage(dataURL)
 
-let scale = Math.min(maxSize/img.width,maxSize/img.height)
+let scale=Math.min(maxSize/img.width,maxSize/img.height)
 
 if(scale>1) scale=1
 
@@ -89,11 +113,31 @@ canvas.height=newHeight
 let ctx=canvas.getContext("2d")
 ctx.drawImage(img,0,0,newWidth,newHeight)
 
-let blob = await canvasToBlob(canvas,format)
+let blob=await canvasToBlob(canvas,format)
 
-let name = prefix+"_"+String(i+1).padStart(3,"0")+"."+format
+let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 
-processed.push({name,blob})
+/* preserve folder structure */
+
+let relativePath=file.webkitRelativePath || name
+
+if(file.webkitRelativePath){
+
+let parts=relativePath.split("/")
+parts[parts.length-1]=name
+relativePath=parts.join("/")
+
+}else{
+
+relativePath=name
+
+}
+
+processed.push({
+name:name,
+blob:blob,
+path:relativePath
+})
 
 let box=document.createElement("div")
 box.className="imageBox"
@@ -122,6 +166,8 @@ alert("All images processed")
 
 }
 
+/* FILE READER */
+
 function readFile(file){
 
 return new Promise(resolve=>{
@@ -131,6 +177,8 @@ reader.readAsDataURL(file)
 })
 
 }
+
+/* IMAGE LOADER */
 
 function loadImage(src){
 
@@ -142,6 +190,8 @@ img.src=src
 
 }
 
+/* CANVAS BLOB */
+
 function canvasToBlob(canvas,format){
 
 return new Promise(resolve=>{
@@ -149,6 +199,8 @@ canvas.toBlob(resolve,"image/"+format,0.6)
 })
 
 }
+
+/* ZIP DOWNLOAD */
 
 async function downloadZip(){
 
@@ -162,7 +214,7 @@ let prefix=document.getElementById("prefix").value || "images"
 let zip=new JSZip()
 
 processed.forEach(item=>{
-zip.file(item.name,item.blob)
+zip.file(item.path,item.blob)
 })
 
 let content=await zip.generateAsync({type:"blob"})
