@@ -17,7 +17,6 @@
 <h2>Bulk Image Resizer</h2>
 
 <input type="file" id="imageInput" multiple accept="image/*" hidden>
-
 <input type="file" id="folderInput" webkitdirectory hidden>
 
 <button class="selectBtn" onclick="document.getElementById('imageInput').click()">
@@ -44,13 +43,28 @@ Select Full Folder
 <input type="text" id="prefix" placeholder="Rename prefix (trip)">
 
 <button onclick="resizeImages()">Resize Images</button>
-<button onclick="downloadZip()">Download ZIP</button>
+
+<button id="zipBtn" onclick="downloadZip()" style="display:none">
+Download ZIP
+</button>
 
 <div id="gallery"></div>
 
-<div id="progressBox">
 
-<div class="progressCard">
+<!-- UPLOADING POPUP -->
+
+<div id="uploadBox" class="popup">
+<div class="popupCard">
+<div id="uploadText">Uploading images...</div>
+</div>
+</div>
+
+
+<!-- PROCESSING POPUP -->
+
+<div id="progressBox" class="popup">
+
+<div class="popupCard">
 
 <div id="progressText">Processing...</div>
 
