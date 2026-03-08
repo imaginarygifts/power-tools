@@ -28,24 +28,6 @@ showPreview()
 
 }
 
-/* FOLDER PICKER */
-
-folderInput.addEventListener("change", function(e){
-
-let allFiles=[...e.target.files]
-
-files = allFiles.filter(file => file.type.startsWith("image/"))
-
-let skipped = allFiles.length - files.length
-
-if(skipped>0){
-alert(skipped+" non-image files skipped")
-}
-
-showPreview()
-
-})
-
 /* SHOW PREVIEW */
 
 function showPreview(){
@@ -123,23 +105,33 @@ let blob=await canvasToBlob(canvas,format)
 
 let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 
-/* preserve folder structure */
+/* CLEAN FOLDER PATH */
 
-let relativePath = name
-let folderPath = ""
+let savePath = name
 
 if(file.webkitRelativePath){
 
 let parts = file.webkitRelativePath.split("/")
 
-// remove original filename
+// remove filename
 parts.pop()
 
-folderPath = parts.join("/")
+// remove android tree path
+let startIndex = parts.findIndex(p => p.toLowerCase() !== "tree" && !p.includes("primary"))
 
+if(startIndex === -1){
+startIndex = 0
 }
 
-let savePath = folderPath ? folderPath + "/" + name : name
+let cleanFolders = parts.slice(startIndex)
+
+let folderPath = cleanFolders.join("/")
+
+if(folderPath){
+savePath = folderPath + "/" + name
+}
+
+}
 
 processed.push({
 name:name,
