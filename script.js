@@ -126,32 +126,25 @@ let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 /* preserve folder structure */
 
 let relativePath = name
+let folderPath = ""
 
 if(file.webkitRelativePath){
 
-let fullPath = file.webkitRelativePath.split("/")
-
-// remove everything before the selected root folder
-let rootIndex = fullPath.indexOf(fullPath[0])
-
-let cleanedPath = fullPath.slice(rootIndex)
+let parts = file.webkitRelativePath.split("/")
 
 // remove original filename
-cleanedPath.pop()
+parts.pop()
 
-let folderPath = cleanedPath.join("/")
-
-if(folderPath.length > 0){
-relativePath = folderPath + "/" + name
-}
+folderPath = parts.join("/")
 
 }
 
+let savePath = folderPath ? folderPath + "/" + name : name
 
 processed.push({
 name:name,
 blob:blob,
-path:relativePath
+path:savePath
 })
 
 let box=document.createElement("div")
