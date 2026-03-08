@@ -4,8 +4,20 @@ let processed = []
 const fileInput = document.getElementById("fileInput")
 
 fileInput.addEventListener("change", function(e){
-files = [...e.target.files]
+
+let allFiles = [...e.target.files]
+
+// keep only image files
+files = allFiles.filter(file => file.type.startsWith("image/"))
+
+let skipped = allFiles.length - files.length
+
+if(skipped > 0){
+alert(skipped + " non-image files skipped")
+}
+
 showPreview()
+
 })
 
 function showPreview(){
