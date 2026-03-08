@@ -16,9 +16,17 @@
 
 <h2>Bulk Image Resizer</h2>
 
-<input type="file" id="imageInput" multiple accept="image/*">
+<input type="file" id="imageInput" multiple accept="image/*" hidden>
 
-<input type="file" id="folderInput" webkitdirectory>
+<input type="file" id="folderInput" webkitdirectory hidden>
+
+<button class="selectBtn" onclick="document.getElementById('imageInput').click()">
+Select Images
+</button>
+
+<button class="selectBtn" onclick="document.getElementById('folderInput').click()">
+Select Full Folder
+</button>
 
 <select id="resolution">
 <option value="1280">HD</option>
