@@ -1,34 +1,37 @@
-let files = []
-let processed = []
+let files=[]
+let processed=[]
 
-const imageInput = document.getElementById("imageInput")
-const folderInput = document.getElementById("folderInput")
+const imageInput=document.getElementById("imageInput")
+const folderInput=document.getElementById("folderInput")
+const zipBtn=document.getElementById("zipBtn")
 
-imageInput.addEventListener("change", handleFiles)
-folderInput.addEventListener("change", handleFiles)
+imageInput.addEventListener("change",handleFiles)
+folderInput.addEventListener("change",handleFiles)
 
 function handleFiles(e){
 
-let selected = [...e.target.files]
+let uploadBox=document.getElementById("uploadBox")
+uploadBox.style.display="flex"
 
-if(selected.length === 0){
-return
-}
+setTimeout(()=>{
 
-// keep only images
-files = selected.filter(file => file.type.startsWith("image/"))
+let selected=[...e.target.files]
 
-let skipped = selected.length - files.length
+files=selected.filter(file=>file.type.startsWith("image/"))
 
-if(skipped > 0){
-alert(skipped + " non-image files skipped")
+let skipped=selected.length-files.length
+
+if(skipped>0){
+alert(skipped+" non-image files skipped")
 }
 
 showPreview()
 
-}
+uploadBox.style.display="none"
 
-/* SHOW PREVIEW */
+},300)
+
+}
 
 function showPreview(){
 
@@ -50,8 +53,6 @@ gallery.appendChild(box)
 
 }
 
-/* RESIZE PROCESS */
-
 async function resizeImages(){
 
 if(files.length===0){
@@ -60,10 +61,11 @@ return
 }
 
 processed=[]
+zipBtn.style.display="none"
 
 let maxSize=parseInt(document.getElementById("resolution").value)
 let format=document.getElementById("format").value
-let prefix=document.getElementById("prefix").value || "img"
+let prefix=document.getElementById("prefix").value||"images"
 
 let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
@@ -105,38 +107,9 @@ let blob=await canvasToBlob(canvas,format)
 
 let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 
-/* CLEAN FOLDER PATH */
-
-let savePath = name
-
-if(file.webkitRelativePath){
-
-let parts = file.webkitRelativePath.split("/")
-
-// remove filename
-parts.pop()
-
-// remove android tree path
-let startIndex = parts.findIndex(p => p.toLowerCase() !== "tree" && !p.includes("primary"))
-
-if(startIndex === -1){
-startIndex = 0
-}
-
-let cleanFolders = parts.slice(startIndex)
-
-let folderPath = cleanFolders.join("/")
-
-if(folderPath){
-savePath = folderPath + "/" + name
-}
-
-}
-
 processed.push({
 name:name,
-blob:blob,
-path:savePath
+blob:blob
 })
 
 let box=document.createElement("div")
@@ -162,11 +135,11 @@ gallery.appendChild(box)
 
 progressBox.style.display="none"
 
+zipBtn.style.display="block"
+
 alert("All images processed")
 
 }
-
-/* FILE READER */
 
 function readFile(file){
 
@@ -178,8 +151,6 @@ reader.readAsDataURL(file)
 
 }
 
-/* IMAGE LOADER */
-
 function loadImage(src){
 
 return new Promise(resolve=>{
@@ -190,8 +161,6 @@ img.src=src
 
 }
 
-/* CANVAS BLOB */
-
 function canvasToBlob(canvas,format){
 
 return new Promise(resolve=>{
@@ -200,8 +169,6 @@ canvas.toBlob(resolve,"image/"+format,0.6)
 
 }
 
-/* ZIP DOWNLOAD */
-
 async function downloadZip(){
 
 if(processed.length===0){
@@ -209,12 +176,12 @@ alert("Resize images first")
 return
 }
 
-let prefix=document.getElementById("prefix").value || "images"
+let prefix=document.getElementById("prefix").value||"images"
 
 let zip=new JSZip()
 
 processed.forEach(item=>{
-zip.file(item.path,item.blob)
+zip.file(prefix+"/"+item.name,item.blob)
 })
 
 let content=await zip.generateAsync({type:"blob"})
