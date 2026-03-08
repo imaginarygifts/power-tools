@@ -125,17 +125,21 @@ let name=prefix+"_"+String(i+1).padStart(3,"0")+"."+format
 
 /* preserve folder structure */
 
-let relativePath=file.webkitRelativePath || name
+let relativePath = name
 
 if(file.webkitRelativePath){
 
-let parts=relativePath.split("/")
-parts[parts.length-1]=name
-relativePath=parts.join("/")
+let folders = file.webkitRelativePath.split("/")
 
-}else{
+// remove original file name
+folders.pop()
 
-relativePath=name
+// rebuild folder structure
+let folderPath = folders.join("/")
+
+if(folderPath.length > 0){
+relativePath = folderPath + "/" + name
+}
 
 }
 
