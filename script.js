@@ -3,7 +3,13 @@ let processed=[]
 
 const imageInput=document.getElementById("imageInput")
 const folderInput=document.getElementById("folderInput")
-const zipBtn=document.getElementById("zipBtn")
+
+progressBox.style.display="none"
+
+zipBtn.style.display="block"
+zipBtn.style.visibility="visible"
+
+alert("All images processed")
 
 imageInput.addEventListener("change",handleFiles)
 folderInput.addEventListener("change",handleFiles)
@@ -29,7 +35,7 @@ showPreview()
 
 uploadBox.style.display="none"
 
-},300)
+},200)
 
 }
 
