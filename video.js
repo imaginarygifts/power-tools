@@ -2,8 +2,7 @@ let files=[]
 let processed=[]
 
 const { createFFmpeg, fetchFile } = FFmpeg
-
-const ffmpeg = createFFmpeg({ log:true })
+const ffmpeg=createFFmpeg({log:true})
 
 const videoInput=document.getElementById("videoInput")
 const folderInput=document.getElementById("folderInput")
@@ -19,13 +18,18 @@ uploadBox.style.display="flex"
 
 setTimeout(()=>{
 
-files=[...e.target.files].filter(f=>f.type.startsWith("video"))
+let selected=[...e.target.files]
+
+// allow mp4 mov webm
+files=selected.filter(file=>
+file.type.startsWith("video")
+)
 
 showPreview()
 
 uploadBox.style.display="none"
 
-},200)
+},300)
 
 }
 
@@ -36,15 +40,11 @@ gallery.innerHTML=""
 
 files.forEach(file=>{
 
-let box=document.createElement("div")
-
 let video=document.createElement("video")
 video.src=URL.createObjectURL(file)
 video.controls=true
 
-box.appendChild(video)
-
-gallery.appendChild(box)
+gallery.appendChild(video)
 
 })
 
@@ -53,7 +53,7 @@ gallery.appendChild(box)
 async function compressVideos(){
 
 if(files.length===0){
-alert("Select videos first")
+alert("Please select videos first")
 return
 }
 
@@ -67,10 +67,6 @@ if(!ffmpeg.isLoaded()){
 await ffmpeg.load()
 }
 
-let codec=document.getElementById("codec").value
-let resolution=document.getElementById("resolution").value
-let crf=document.getElementById("crf").value
-
 processed=[]
 
 for(let i=0;i<files.length;i++){
@@ -83,15 +79,15 @@ progressFill.style.width=percent+"%"
 let file=files[i]
 
 let inputName="input"+i
-let outputName="output"+i+".mp4"
+let outputName="video_"+(i+1)+".mp4"
 
 ffmpeg.FS("writeFile",inputName,await fetchFile(file))
 
 await ffmpeg.run(
 "-i",inputName,
-"-vf","scale=-2:"+resolution+",fps=30",
-"-c:v",codec,
-"-crf",crf,
+"-vf","scale=-2:720,fps=30",
+"-c:v","libx264",
+"-crf","28",
 "-preset","medium",
 "-c:a","aac",
 "-b:a","128k",
@@ -103,7 +99,7 @@ const data=ffmpeg.FS("readFile",outputName)
 let blob=new Blob([data.buffer],{type:"video/mp4"})
 
 processed.push({
-name:"video_"+(i+1)+".mp4",
+name:outputName,
 blob:blob
 })
 
