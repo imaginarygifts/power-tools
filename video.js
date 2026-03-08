@@ -40,11 +40,23 @@ gallery.innerHTML=""
 
 files.forEach(file=>{
 
-let video=document.createElement("video")
-video.src=URL.createObjectURL(file)
-video.controls=true
+let box=document.createElement("div")
+box.className="imageBox"
 
-gallery.appendChild(video)
+let video=document.createElement("video")
+
+video.src=URL.createObjectURL(file)
+video.muted=true
+video.controls=false
+video.playsInline=true
+video.preload="metadata"
+
+video.style.width="100%"
+video.style.borderRadius="8px"
+
+box.appendChild(video)
+
+gallery.appendChild(box)
 
 })
 
