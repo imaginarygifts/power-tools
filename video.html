@@ -28,23 +28,9 @@ Select Videos
 Select Full Folder
 </button>
 
-<select id="codec">
-<option value="libx264">H264</option>
-<option value="libx265">H265</option>
-</select>
-
-<select id="resolution">
-<option value="720">720p</option>
-<option value="1080">1080p</option>
-</select>
-
-<select id="crf">
-<option value="23">High Quality</option>
-<option value="28">Balanced</option>
-<option value="32">Small Size</option>
-</select>
-
-<button onclick="compressVideos()">Compress Videos</button>
+<button class="compressBtn" onclick="compressVideos()">
+Compress Videos
+</button>
 
 <button id="zipBtn" onclick="downloadZip()" style="display:none">
 Download ZIP
@@ -52,15 +38,11 @@ Download ZIP
 
 <div id="gallery"></div>
 
-<!-- Upload popup -->
-
 <div id="uploadBox" class="popup">
 <div class="popupCard">
 Uploading videos...
 </div>
 </div>
-
-<!-- Processing popup -->
 
 <div id="progressBox" class="popup">
 <div class="popupCard">
