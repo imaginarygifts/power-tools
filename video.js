@@ -3,7 +3,9 @@ let processed=[]
 
 const { createFFmpeg, fetchFile } = FFmpeg
 
-const ffmpeg=createFFmpeg({
+/* IMPORTANT: correct core path for GitHub pages */
+
+const ffmpeg = createFFmpeg({
 log:true,
 corePath:"https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"
 })
@@ -15,6 +17,9 @@ const zipBtn=document.getElementById("zipBtn")
 videoInput.addEventListener("change",handleFiles)
 folderInput.addEventListener("change",handleFiles)
 
+
+
+/* FILE SELECT */
 
 function handleFiles(e){
 
@@ -50,6 +55,9 @@ uploadBox.style.display="none"
 }
 
 
+
+/* SHOW PREVIEW */
+
 function showPreview(){
 
 let gallery=document.getElementById("gallery")
@@ -68,6 +76,9 @@ video.controls=false
 video.preload="metadata"
 video.playsInline=true
 
+video.style.width="100%"
+video.style.borderRadius="8px"
+
 box.appendChild(video)
 
 gallery.appendChild(box)
@@ -77,10 +88,13 @@ gallery.appendChild(box)
 }
 
 
+
+/* COMPRESS VIDEOS */
+
 async function compressVideos(){
 
 if(files.length===0){
-alert("Select videos first")
+alert("Please select videos first")
 return
 }
 
@@ -90,14 +104,22 @@ let progressFill=document.getElementById("progressFill")
 
 progressBox.style.display="flex"
 
+/* LOAD ENGINE FIRST */
+
 if(!ffmpeg.isLoaded()){
+
+progressText.innerText="Loading video engine..."
+
 await ffmpeg.load()
+
 }
 
 processed=[]
 
 let gallery=document.getElementById("gallery")
 gallery.innerHTML=""
+
+
 
 for(let i=0;i<files.length;i++){
 
@@ -108,8 +130,10 @@ progressFill.style.width=percent+"%"
 
 let file=files[i]
 
-let inputName="input"+i
+let inputName="input"+i+".mp4"
 let outputName="video_"+(i+1)+".mp4"
+
+
 
 ffmpeg.FS("writeFile",inputName,await fetchFile(file))
 
@@ -118,11 +142,13 @@ await ffmpeg.run(
 "-vf","scale=-2:720,fps=30",
 "-c:v","libx264",
 "-crf","28",
-"-preset","medium",
+"-preset","veryfast",
 "-c:a","aac",
 "-b:a","128k",
 outputName
 )
+
+
 
 const data=ffmpeg.FS("readFile",outputName)
 
@@ -133,16 +159,31 @@ name:outputName,
 blob:blob
 })
 
+
+
+let box=document.createElement("div")
+box.className="imageBox"
+
 let video=document.createElement("video")
+
 video.src=URL.createObjectURL(blob)
 video.controls=true
 
-gallery.appendChild(video)
+video.style.width="100%"
+video.style.borderRadius="8px"
+
+box.appendChild(video)
+
+gallery.appendChild(box)
+
+
 
 ffmpeg.FS("unlink",inputName)
 ffmpeg.FS("unlink",outputName)
 
 }
+
+
 
 progressBox.style.display="none"
 
@@ -151,7 +192,15 @@ zipBtn.style.display="block"
 }
 
 
+
+/* DOWNLOAD ZIP */
+
 async function downloadZip(){
+
+if(processed.length===0){
+alert("No videos to download")
+return
+}
 
 let zip=new JSZip()
 
