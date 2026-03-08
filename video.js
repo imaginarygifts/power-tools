@@ -1,168 +1,178 @@
-let files = []
-let processed = []
+// Global State
+let files = [];
+let processed = [];
 
-const { createFFmpeg, fetchFile } = FFmpeg
-const ffmpeg = createFFmpeg({ log: true })
+// Initialize FFmpeg (using version 0.11.x syntax)
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({ 
+    log: true,
+    // progress helps update your UI bar in real-time for a single video
+    progress: ({ ratio }) => {
+        const individualBar = document.getElementById("progressFill");
+        if (individualBar) individualBar.style.width = (ratio * 100) + "%";
+    }
+});
 
-const videoInput = document.getElementById("videoInput")
-const folderInput = document.getElementById("folderInput")
-const zipBtn = document.getElementById("zipBtn")
+// Select Elements
+const videoInput = document.getElementById("videoInput");
+const folderInput = document.getElementById("folderInput");
+const compressBtn = document.getElementById("compressBtn"); // Ensure this ID exists in HTML
+const zipBtn = document.getElementById("zipBtn");
 
-videoInput.addEventListener("change", handleFiles)
-folderInput.addEventListener("change", handleFiles)
+// Event Listeners
+videoInput.addEventListener("change", handleFiles);
+folderInput.addEventListener("change", handleFiles);
+compressBtn.addEventListener("click", compressVideos);
+zipBtn.addEventListener("click", downloadZip);
 
+/**
+ * 1. Handle File Selection
+ */
+function handleFiles(e) {
+    const uploadBox = document.getElementById("uploadBox");
+    if (uploadBox) uploadBox.style.display = "flex";
 
-function handleFiles(e){
+    const selected = [...e.target.files];
+    files = []; // Reset file list on new selection
 
-let uploadBox = document.getElementById("uploadBox")
-uploadBox.style.display = "flex"
+    selected.forEach(file => {
+        const name = file.name.toLowerCase();
+        if (name.endsWith(".mp4") || name.endsWith(".mov") || name.endsWith(".webm")) {
+            files.push(file);
+        }
+    });
 
-let selected = [...e.target.files]
-
-files = []
-
-selected.forEach(file => {
-
-let name = file.name.toLowerCase()
-
-if(
-name.endsWith(".mp4") ||
-name.endsWith(".mov") ||
-name.endsWith(".webm")
-){
-files.push(file)
+    if (uploadBox) uploadBox.style.display = "none";
+    showPreview();
 }
 
-})
+/**
+ * 2. Show Pre-Compression Previews
+ */
+function showPreview() {
+    const gallery = document.getElementById("gallery");
+    gallery.innerHTML = "";
 
-uploadBox.style.display = "none"
+    files.forEach(file => {
+        const box = document.createElement("div");
+        box.className = "video-item";
+        
+        const video = document.createElement("video");
+        video.src = URL.createObjectURL(file);
+        video.muted = true;
+        video.style.width = "100%";
+        video.style.borderRadius = "8px";
+        
+        const label = document.createElement("p");
+        label.innerText = file.name;
+        label.style.fontSize = "12px";
 
-showPreview()
-
+        box.appendChild(video);
+        box.appendChild(label);
+        gallery.appendChild(box);
+    });
 }
 
+/**
+ * 3. The Compression Core
+ */
+async function compressVideos() {
+    if (files.length === 0) {
+        alert("Please select videos first");
+        return;
+    }
 
-function showPreview(){
+    const progressBox = document.getElementById("progressBox");
+    const progressText = document.getElementById("progressText");
+    const progressFill = document.getElementById("progressFill");
 
-let gallery = document.getElementById("gallery")
-gallery.innerHTML = ""
+    progressBox.style.display = "flex";
+    compressBtn.disabled = true; // Prevent double clicking
 
-files.forEach(file => {
+    try {
+        // Load FFmpeg Core
+        if (!ffmpeg.isLoaded()) {
+            progressText.innerText = "Loading FFmpeg Engine...";
+            await ffmpeg.load();
+        }
 
-let box = document.createElement("div")
-box.className = "imageBox"
+        processed = [];
+        const gallery = document.getElementById("gallery");
+        gallery.innerHTML = ""; // Clear to show results
 
-let video = document.createElement("video")
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            progressText.innerText = `Processing ${i + 1} of ${files.length}`;
 
-video.src = URL.createObjectURL(file)
-video.muted = true
-video.controls = false
-video.preload = "metadata"
-video.playsInline = true
+            const inputName = `input_${i}`;
+            const outputName = `output_${i}.mp4`;
 
-video.style.width = "100%"
-video.style.borderRadius = "8px"
+            // Write to Virtual File System
+            ffmpeg.FS("writeFile", inputName, await fetchFile(file));
 
-box.appendChild(video)
+            // Run FFmpeg Command
+            // -vf scale=-2:720 (Resizes to 720p while maintaining aspect ratio)
+            // -crf 28 (Good balance between size and quality)
+            await ffmpeg.run(
+                "-i", inputName,
+                "-vf", "scale=-2:720",
+                "-c:v", "libx264",
+                "-crf", "28",
+                "-preset", "veryfast",
+                "-c:a", "aac",
+                "-b:a", "128k",
+                outputName
+            );
 
-gallery.appendChild(box)
+            // Read output and create Blob
+            const data = ffmpeg.FS("readFile", outputName);
+            const blob = new Blob([data.buffer], { type: "video/mp4" });
 
-})
+            processed.push({
+                name: `compressed_${file.name.split('.')[0]}.mp4`,
+                blob: blob
+            });
 
+            // Display result
+            renderProcessedVideo(blob, i);
+
+            // Cleanup memory
+            ffmpeg.FS("unlink", inputName);
+            ffmpeg.FS("unlink", outputName);
+        }
+
+        progressText.innerText = "All videos compressed!";
+        zipBtn.style.display = "block";
+
+    } catch (error) {
+        console.error("FFmpeg Error:", error);
+        alert("An error occurred during compression. Check console for details.");
+    } finally {
+        compressBtn.disabled = false;
+    }
 }
 
-
-async function compressVideos(){
-
-if(files.length === 0){
-alert("Please select videos first")
-return
+function renderProcessedVideo(blob, index) {
+    const gallery = document.getElementById("gallery");
+    const video = document.createElement("video");
+    video.src = URL.createObjectURL(blob);
+    video.controls = true;
+    video.style.width = "100%";
+    video.style.marginBottom = "10px";
+    gallery.appendChild(video);
 }
 
-let progressBox = document.getElementById("progressBox")
-let progressText = document.getElementById("progressText")
-let progressFill = document.getElementById("progressFill")
+/**
+ * 4. Create ZIP and Download
+ */
+async function downloadZip() {
+    if (processed.length === 0) return;
+    
+    const zip = new JSZip();
+    processed.forEach(item => {
+        zip.file(item.name, item.blob);
+    });
 
-progressBox.style.display = "flex"
-
-if(!ffmpeg.isLoaded()){
-await ffmpeg.load()
-}
-
-processed = []
-
-let gallery = document.getElementById("gallery")
-gallery.innerHTML = ""
-
-for(let i = 0; i < files.length; i++){
-
-progressText.innerText = "Processing " + (i+1) + " / " + files.length
-
-let percent = ((i+1) / files.length) * 100
-progressFill.style.width = percent + "%"
-
-let file = files[i]
-
-let inputName = "input" + i
-let outputName = "video_" + (i+1) + ".mp4"
-
-ffmpeg.FS("writeFile", inputName, await fetchFile(file))
-
-await ffmpeg.run(
-"-i", inputName,
-"-vf", "scale=-2:720,fps=30",
-"-c:v", "libx264",
-"-crf", "28",
-"-preset", "medium",
-"-c:a", "aac",
-"-b:a", "128k",
-outputName
-)
-
-const data = ffmpeg.FS("readFile", outputName)
-
-let blob = new Blob([data.buffer], { type: "video/mp4" })
-
-processed.push({
-name: outputName,
-blob: blob
-})
-
-let video = document.createElement("video")
-video.src = URL.createObjectURL(blob)
-video.controls = true
-video.style.width = "100%"
-video.style.borderRadius = "8px"
-
-gallery.appendChild(video)
-
-ffmpeg.FS("unlink", inputName)
-ffmpeg.FS("unlink", outputName)
-
-}
-
-progressBox.style.display = "none"
-
-zipBtn.style.display = "block"
-
-}
-
-
-async function downloadZip(){
-
-if(processed.length === 0){
-alert("No videos to download")
-return
-}
-
-let zip = new JSZip()
-
-processed.forEach(item => {
-zip.file(item.name, item.blob)
-})
-
-let content = await zip.generateAsync({ type: "blob" })
-
-saveAs(content, "compressed_videos.zip")
-
+    const content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, "compressed_videos.zip");
 }
