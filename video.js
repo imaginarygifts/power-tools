@@ -17,26 +17,27 @@ function handleFiles(e){
 let uploadBox = document.getElementById("uploadBox")
 uploadBox.style.display = "flex"
 
-setTimeout(()=>{
-
 let selected = [...e.target.files]
 
-files = selected.filter(file=>{
+files = []
+
+selected.forEach(file => {
+
 let name = file.name.toLowerCase()
 
-return (
-file.type.startsWith("video") ||
+if(
 name.endsWith(".mp4") ||
 name.endsWith(".mov") ||
 name.endsWith(".webm")
-)
-})
+){
+files.push(file)
+}
 
-showPreview()
+})
 
 uploadBox.style.display = "none"
 
-},200)
+showPreview()
 
 }
 
@@ -46,7 +47,7 @@ function showPreview(){
 let gallery = document.getElementById("gallery")
 gallery.innerHTML = ""
 
-files.forEach(file=>{
+files.forEach(file => {
 
 let box = document.createElement("div")
 box.className = "imageBox"
@@ -56,19 +57,19 @@ let video = document.createElement("video")
 video.src = URL.createObjectURL(file)
 video.muted = true
 video.controls = false
-video.playsInline = true
 video.preload = "metadata"
+video.playsInline = true
 
 video.style.width = "100%"
 video.style.borderRadius = "8px"
 
 box.appendChild(video)
+
 gallery.appendChild(box)
 
 })
 
 }
-
 
 
 async function compressVideos(){
@@ -93,17 +94,17 @@ processed = []
 let gallery = document.getElementById("gallery")
 gallery.innerHTML = ""
 
-for(let i=0;i<files.length;i++){
+for(let i = 0; i < files.length; i++){
 
 progressText.innerText = "Processing " + (i+1) + " / " + files.length
 
-let percent = ((i+1)/files.length) * 100
+let percent = ((i+1) / files.length) * 100
 progressFill.style.width = percent + "%"
 
 let file = files[i]
 
-let inputName = "input"+i
-let outputName = "video_"+(i+1)+".mp4"
+let inputName = "input" + i
+let outputName = "video_" + (i+1) + ".mp4"
 
 ffmpeg.FS("writeFile", inputName, await fetchFile(file))
 
@@ -120,15 +121,12 @@ outputName
 
 const data = ffmpeg.FS("readFile", outputName)
 
-let blob = new Blob([data.buffer], { type:"video/mp4" })
+let blob = new Blob([data.buffer], { type: "video/mp4" })
 
 processed.push({
 name: outputName,
 blob: blob
 })
-
-let box = document.createElement("div")
-box.className = "imageBox"
 
 let video = document.createElement("video")
 video.src = URL.createObjectURL(blob)
@@ -136,8 +134,7 @@ video.controls = true
 video.style.width = "100%"
 video.style.borderRadius = "8px"
 
-box.appendChild(video)
-gallery.appendChild(box)
+gallery.appendChild(video)
 
 ffmpeg.FS("unlink", inputName)
 ffmpeg.FS("unlink", outputName)
@@ -151,7 +148,6 @@ zipBtn.style.display = "block"
 }
 
 
-
 async function downloadZip(){
 
 if(processed.length === 0){
@@ -161,11 +157,11 @@ return
 
 let zip = new JSZip()
 
-processed.forEach(item=>{
+processed.forEach(item => {
 zip.file(item.name, item.blob)
 })
 
-let content = await zip.generateAsync({ type:"blob" })
+let content = await zip.generateAsync({ type: "blob" })
 
 saveAs(content, "compressed_videos.zip")
 
