@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -9,6 +11,7 @@
 >
 
 <title>Bulk Video Resizer</title>
+
 
 <style>
 
@@ -20,8 +23,14 @@ html,
 body {
     margin: 0;
     padding: 0;
+
     background: #f5f5f5;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     color: #111;
 }
 
@@ -29,73 +38,122 @@ body {
     min-height: 100vh;
 }
 
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
 .container {
+
     width: 100%;
+
     max-width: 760px;
-    margin: auto;
-    padding: 25px 18px 60px;
+
+    margin: 0 auto;
+
+    padding:
+        25px
+        18px
+        60px;
 }
 
+
+/* =====================================================
+   TITLE
+===================================================== */
+
 h1 {
+
     text-align: center;
+
     font-size: 34px;
-    margin: 10px 0 45px;
+
+    margin:
+        10px
+        0
+        45px;
+
     font-weight: 700;
 }
 
-/* =========================
+
+/* =====================================================
    BUTTONS
-========================= */
+===================================================== */
 
 button {
+
     border: none;
+
     cursor: pointer;
+
     font-family: inherit;
-    -webkit-tap-highlight-color: transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
 }
 
 .main-btn {
+
     width: 100%;
+
     height: 80px;
+
     border-radius: 16px;
+
     background: #2196f3;
+
     color: white;
+
     font-size: 28px;
+
     margin-bottom: 18px;
 }
 
 .main-btn:active {
+
     transform: scale(.99);
 }
 
 .main-btn:disabled {
+
     opacity: .55;
+
     cursor: not-allowed;
 }
 
 .generate-btn {
+
     background: #4caf50;
 }
 
 .zip-btn {
+
     background: #4caf50;
 }
 
-/* =========================
+
+/* =====================================================
    SELECT / INPUT
-========================= */
+===================================================== */
 
 select,
 input[type="text"] {
+
     width: 100%;
+
     height: 86px;
 
-    border: 1px solid #888;
+    border:
+        1px solid #888;
+
     border-radius: 0;
 
     background: white;
 
-    padding: 0 28px;
+    padding:
+        0
+        28px;
 
     font-size: 28px;
 
@@ -108,27 +166,39 @@ input[type="text"] {
 
 select:focus,
 input[type="text"]:focus {
-    border-color: #2196f3;
+
+    border-color:
+        #2196f3;
 }
 
 input::placeholder {
+
     color: #777;
 }
 
+
+/* =====================================================
+   HIDDEN FILE INPUT
+===================================================== */
+
 .hidden-input {
+
     display: none;
 }
 
-/* =========================
+
+/* =====================================================
    SELECTION BOX
-========================= */
+===================================================== */
 
 .selection-box {
+
     display: none;
 
     background: white;
 
-    border: 1px solid #ddd;
+    border:
+        1px solid #ddd;
 
     border-radius: 10px;
 
@@ -138,14 +208,18 @@ input::placeholder {
 }
 
 .selection-title {
+
     font-size: 20px;
+
     font-weight: bold;
 
     margin-bottom: 8px;
 }
 
 .selection-info {
+
     font-size: 17px;
+
     color: #555;
 
     line-height: 1.5;
@@ -153,16 +227,19 @@ input::placeholder {
     word-break: break-word;
 }
 
-/* =========================
-   PROGRESS
-========================= */
+
+/* =====================================================
+   PROGRESS AREA
+===================================================== */
 
 .progress-area {
+
     display: none;
 
     background: white;
 
-    border: 1px solid #ddd;
+    border:
+        1px solid #ddd;
 
     border-radius: 10px;
 
@@ -172,13 +249,18 @@ input::placeholder {
 }
 
 .progress-title {
+
     font-size: 20px;
+
     font-weight: bold;
 
     margin-bottom: 15px;
+
+    word-break: break-word;
 }
 
 .progress-bar-bg {
+
     width: 100%;
 
     height: 22px;
@@ -191,16 +273,19 @@ input::placeholder {
 }
 
 .progress-bar {
+
     width: 0%;
 
     height: 100%;
 
     background: #4caf50;
 
-    transition: width .15s linear;
+    transition:
+        width .15s linear;
 }
 
 .progress-text {
+
     text-align: center;
 
     font-size: 17px;
@@ -210,11 +295,13 @@ input::placeholder {
     margin-top: 10px;
 }
 
-/* =========================
+
+/* =====================================================
    STATUS
-========================= */
+===================================================== */
 
 .status {
+
     text-align: center;
 
     font-size: 18px;
@@ -227,18 +314,22 @@ input::placeholder {
 }
 
 .status.success {
+
     color: #2e7d32;
 }
 
 .status.error {
+
     color: #c62828;
 }
 
-/* =========================
+
+/* =====================================================
    RESULTS
-========================= */
+===================================================== */
 
 .results {
+
     display: grid;
 
     grid-template-columns:
@@ -250,10 +341,12 @@ input::placeholder {
 }
 
 .video-card {
+
     min-width: 0;
 }
 
 .video-preview {
+
     width: 100%;
 
     aspect-ratio: 1 / 1;
@@ -268,6 +361,7 @@ input::placeholder {
 }
 
 .video-name {
+
     margin-top: 8px;
 
     font-size: 14px;
@@ -282,14 +376,18 @@ input::placeholder {
 }
 
 .video-info {
+
     margin-top: 4px;
 
     font-size: 13px;
 
     color: #777;
+
+    line-height: 1.4;
 }
 
 .download-btn {
+
     width: 100%;
 
     height: 48px;
@@ -306,26 +404,33 @@ input::placeholder {
 }
 
 .download-btn:active {
+
     transform: scale(.98);
 }
 
-/* =========================
+
+/* =====================================================
    LOADING
-========================= */
+===================================================== */
 
 .loading-spinner {
+
     display: inline-block;
 
     width: 19px;
+
     height: 19px;
 
-    border: 3px solid rgba(255,255,255,.45);
+    border:
+        3px solid
+        rgba(255,255,255,.45);
 
     border-top-color: white;
 
     border-radius: 50%;
 
-    animation: spin .8s linear infinite;
+    animation:
+        spin .8s linear infinite;
 
     vertical-align: middle;
 
@@ -340,40 +445,49 @@ input::placeholder {
 
 }
 
-/* =========================
+
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media(max-width:600px) {
 
     .container {
+
         padding-left: 18px;
+
         padding-right: 18px;
     }
 
     h1 {
+
         font-size: 34px;
     }
 
     .main-btn {
+
         font-size: 28px;
     }
 
     select,
     input[type="text"] {
+
         font-size: 28px;
     }
 
     .results {
+
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
     }
 
 }
 
+
 @media(max-width:380px) {
 
     .results {
+
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
@@ -381,6 +495,7 @@ input::placeholder {
 }
 
 </style>
+
 </head>
 
 
@@ -389,10 +504,15 @@ input::placeholder {
 
 <div class="container">
 
-    <h1>Bulk Video Resizer</h1>
+
+    <h1>
+        Bulk Video Resizer
+    </h1>
 
 
-    <!-- SELECT VIDEOS -->
+    <!-- =================================================
+         SELECT VIDEOS
+    ================================================== -->
 
     <button
         class="main-btn"
@@ -429,7 +549,9 @@ input::placeholder {
     >
 
 
-    <!-- SELECT FOLDER -->
+    <!-- =================================================
+         SELECT FOLDER
+    ================================================== -->
 
     <button
         class="main-btn"
@@ -450,7 +572,9 @@ input::placeholder {
     >
 
 
-    <!-- SELECTED INFO -->
+    <!-- =================================================
+         SELECTED VIDEOS
+    ================================================== -->
 
     <div
         class="selection-box"
@@ -458,113 +582,182 @@ input::placeholder {
     >
 
         <div class="selection-title">
+
             Selected Videos
+
         </div>
+
 
         <div
             class="selection-info"
             id="selectionInfo"
         >
+
             No videos selected
+
         </div>
 
     </div>
 
 
-    <!-- RESOLUTION -->
+    <!-- =================================================
+         RESOLUTION
+    ================================================== -->
 
     <select id="resolutionSelect">
 
         <option value="original">
+
             Original Resolution
+
         </option>
 
-        <option value="3840:2160">
-            4K - 3840 × 2160
+
+        <option value="3840">
+
+            4K - Max 3840
+
         </option>
 
-        <option value="2560:1440">
-            2K - 2560 × 1440
+
+        <option value="2560">
+
+            2K - Max 2560
+
         </option>
+
 
         <option
-            value="1920:1080"
+            value="1920"
             selected
         >
-            Full HD - 1920 × 1080
+
+            Full HD - Max 1920
+
         </option>
 
-        <option value="1280:720">
-            HD - 1280 × 720
+
+        <option value="1280">
+
+            HD - Max 1280
+
         </option>
 
-        <option value="854:480">
-            SD - 854 × 480
+
+        <option value="854">
+
+            SD - Max 854
+
         </option>
 
-        <option value="640:360">
-            360p - 640 × 360
+
+        <option value="640">
+
+            360p - Max 640
+
         </option>
 
     </select>
 
 
-    <!-- BITRATE -->
+    <!-- =================================================
+         BITRATE
+    ================================================== -->
 
     <select id="bitrateSelect">
 
         <option value="500k">
+
             500 Kbps
+
         </option>
+
 
         <option value="800k">
+
             800 Kbps
+
         </option>
+
 
         <option value="1m">
+
             1 Mbps
+
         </option>
+
 
         <option value="2m">
+
             2 Mbps
+
         </option>
+
 
         <option value="3m">
+
             3 Mbps
+
         </option>
 
-        <option value="5m" selected>
+
+        <option
+            value="5m"
+            selected
+        >
+
             5 Mbps
+
         </option>
+
 
         <option value="8m">
+
             8 Mbps
+
         </option>
+
 
         <option value="10m">
+
             10 Mbps
+
         </option>
+
 
         <option value="15m">
+
             15 Mbps
+
         </option>
+
 
         <option value="20m">
+
             20 Mbps
+
         </option>
+
 
         <option value="25m">
+
             25 Mbps
+
         </option>
 
+
         <option value="30m">
+
             30 Mbps
+
         </option>
 
     </select>
 
 
-    <!-- FPS -->
+    <!-- =================================================
+         FPS
+    ================================================== -->
 
     <select id="fpsSelect">
 
@@ -572,33 +765,52 @@ input::placeholder {
             value="original"
             selected
         >
+
             Original FPS
+
         </option>
+
 
         <option value="24">
+
             24 FPS
+
         </option>
+
 
         <option value="25">
+
             25 FPS
+
         </option>
+
 
         <option value="30">
+
             30 FPS
+
         </option>
+
 
         <option value="50">
+
             50 FPS
+
         </option>
 
+
         <option value="60">
+
             60 FPS
+
         </option>
 
     </select>
 
 
-    <!-- PREFIX -->
+    <!-- =================================================
+         RENAME PREFIX
+    ================================================== -->
 
     <input
         id="prefixInput"
@@ -607,28 +819,38 @@ input::placeholder {
     >
 
 
-    <!-- GENERATE -->
+    <!-- =================================================
+         RESIZE
+    ================================================== -->
 
     <button
         class="main-btn generate-btn"
         id="generateBtn"
     >
+
         Resize Videos
+
     </button>
 
 
-    <!-- ZIP -->
+    <!-- =================================================
+         ZIP
+    ================================================== -->
 
     <button
         class="main-btn zip-btn"
         id="zipBtn"
         disabled
     >
+
         Download ZIP
+
     </button>
 
 
-    <!-- PROGRESS -->
+    <!-- =================================================
+         PROGRESS
+    ================================================== -->
 
     <div
         class="progress-area"
@@ -639,7 +861,9 @@ input::placeholder {
             class="progress-title"
             id="progressTitle"
         >
+
             Preparing...
+
         </div>
 
 
@@ -657,13 +881,17 @@ input::placeholder {
             class="progress-text"
             id="progressText"
         >
+
             0%
+
         </div>
 
     </div>
 
 
-    <!-- STATUS -->
+    <!-- =================================================
+         STATUS
+    ================================================== -->
 
     <div
         class="status"
@@ -671,18 +899,23 @@ input::placeholder {
     ></div>
 
 
-    <!-- RESULTS -->
+    <!-- =================================================
+         RESULT VIDEOS
+    ================================================== -->
 
     <div
         class="results"
         id="results"
     ></div>
 
+
 </div>
 
 
 
-<!-- JSZIP -->
+<!-- =====================================================
+     JSZIP
+====================================================== -->
 
 <script
 src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js">
@@ -690,114 +923,139 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js">
 
 
 
+<!-- =====================================================
+     FFMPEG
+====================================================== -->
+
 <script type="module">
 
-/*
-===========================================================
- FFmpeg
-===========================================================
-*/
 
 import {
+
     FFmpeg
-} from "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js";
+
+}
+from
+"https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js";
+
 
 import {
+
     fetchFile,
+
     toBlobURL
-} from "https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js";
+
+}
+from
+"https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js";
 
 
-/*
-===========================================================
- ELEMENTS
-===========================================================
-*/
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const selectVideosBtn =
     document.getElementById(
         "selectVideosBtn"
     );
 
+
 const selectFolderBtn =
     document.getElementById(
         "selectFolderBtn"
     );
+
 
 const videoInput =
     document.getElementById(
         "videoInput"
     );
 
+
 const folderInput =
     document.getElementById(
         "folderInput"
     );
+
 
 const resolutionSelect =
     document.getElementById(
         "resolutionSelect"
     );
 
+
 const bitrateSelect =
     document.getElementById(
         "bitrateSelect"
     );
+
 
 const fpsSelect =
     document.getElementById(
         "fpsSelect"
     );
 
+
 const prefixInput =
     document.getElementById(
         "prefixInput"
     );
+
 
 const generateBtn =
     document.getElementById(
         "generateBtn"
     );
 
+
 const zipBtn =
     document.getElementById(
         "zipBtn"
     );
+
 
 const selectionBox =
     document.getElementById(
         "selectionBox"
     );
 
+
 const selectionInfo =
     document.getElementById(
         "selectionInfo"
     );
+
 
 const progressArea =
     document.getElementById(
         "progressArea"
     );
 
+
 const progressTitle =
     document.getElementById(
         "progressTitle"
     );
+
 
 const progressBar =
     document.getElementById(
         "progressBar"
     );
 
+
 const progressText =
     document.getElementById(
         "progressText"
     );
 
+
 const status =
     document.getElementById(
         "status"
     );
+
 
 const results =
     document.getElementById(
@@ -805,11 +1063,10 @@ const results =
     );
 
 
-/*
-===========================================================
- VARIABLES
-===========================================================
-*/
+
+/* =====================================================
+   VARIABLES
+===================================================== */
 
 let selectedVideos = [];
 
@@ -822,11 +1079,9 @@ let ffmpegLoaded = false;
 let converting = false;
 
 
-/*
-===========================================================
- SUPPORTED EXTENSIONS
-===========================================================
-*/
+/* =====================================================
+   SUPPORTED VIDEO TYPES
+===================================================== */
 
 const supportedExtensions = [
 
@@ -850,11 +1105,10 @@ const supportedExtensions = [
 ];
 
 
-/*
-===========================================================
- SELECT VIDEOS
-===========================================================
-*/
+
+/* =====================================================
+   SELECT VIDEOS
+===================================================== */
 
 selectVideosBtn.addEventListener(
     "click",
@@ -882,11 +1136,10 @@ videoInput.addEventListener(
 );
 
 
-/*
-===========================================================
- SELECT FOLDER
-===========================================================
-*/
+
+/* =====================================================
+   SELECT FOLDER
+===================================================== */
 
 selectFolderBtn.addEventListener(
     "click",
@@ -914,11 +1167,10 @@ folderInput.addEventListener(
 );
 
 
-/*
-===========================================================
- ADD FILES
-===========================================================
-*/
+
+/* =====================================================
+   ADD FILES
+===================================================== */
 
 function addFiles(files) {
 
@@ -940,16 +1192,22 @@ function addFiles(files) {
     }
 
 
-    for (const file of videos) {
+    for (
+        const file of videos
+    ) {
 
         const duplicate =
             selectedVideos.some(
                 oldFile =>
 
-                oldFile.name === file.name &&
-                oldFile.size === file.size &&
-                oldFile.lastModified ===
-                    file.lastModified
+                    oldFile.name ===
+                        file.name &&
+
+                    oldFile.size ===
+                        file.size &&
+
+                    oldFile.lastModified ===
+                        file.lastModified
             );
 
 
@@ -969,16 +1227,16 @@ function addFiles(files) {
 }
 
 
-/*
-===========================================================
- CHECK VIDEO
-===========================================================
-*/
+
+/* =====================================================
+   VIDEO CHECK
+===================================================== */
 
 function isSupportedVideo(file) {
 
     const name =
         file.name.toLowerCase();
+
 
     const extension =
         name.includes(".")
@@ -1003,11 +1261,10 @@ function isSupportedVideo(file) {
 }
 
 
-/*
-===========================================================
- UPDATE SELECTION
-===========================================================
-*/
+
+/* =====================================================
+   UPDATE SELECTION
+===================================================== */
 
 function updateSelection() {
 
@@ -1017,7 +1274,10 @@ function updateSelection() {
 
     const total =
         selectedVideos.reduce(
-            (sum, file) =>
+            (
+                sum,
+                file
+            ) =>
                 sum + file.size,
             0
         );
@@ -1027,7 +1287,8 @@ function updateSelection() {
 
         `<strong>
             ${selectedVideos.length}
-        </strong> video(s) selected
+        </strong>
+        video(s) selected
         <br>
         Total size:
         <strong>
@@ -1051,45 +1312,33 @@ function updateSelection() {
 }
 
 
-/*
-===========================================================
- CREATE SAME-ORIGIN COMPATIBLE FFmpeg WORKER
-===========================================================
 
-This solves:
-
-Failed to construct 'Worker':
-Script from CDN cannot be accessed from origin
-
-The normal FFmpeg class worker imports:
-    ./const.js
-    ./errors.js
-
-A Blob worker cannot resolve those relative imports
-from the CDN, so we replace them with Blob URLs.
-===========================================================
-*/
+/* =====================================================
+   CREATE FFMPEG CLASS WORKER
+===================================================== */
 
 async function createFFmpegClassWorker() {
 
     const workerURL =
         "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js";
 
+
     const constURL =
         "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/const.js";
+
 
     const errorsURL =
         "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/errors.js";
 
 
-    /*
-       Download worker dependencies
-    */
-
     const [
+
         workerResponse,
+
         constResponse,
+
         errorsResponse
+
     ] = await Promise.all([
 
         fetch(workerURL),
@@ -1102,9 +1351,13 @@ async function createFFmpegClassWorker() {
 
 
     if (
+
         !workerResponse.ok ||
+
         !constResponse.ok ||
+
         !errorsResponse.ok
+
     ) {
 
         throw new Error(
@@ -1117,16 +1370,14 @@ async function createFFmpegClassWorker() {
     let workerCode =
         await workerResponse.text();
 
+
     const constCode =
         await constResponse.text();
+
 
     const errorsCode =
         await errorsResponse.text();
 
-
-    /*
-       Create Blob URLs for dependencies
-    */
 
     const constBlob =
         new Blob(
@@ -1160,10 +1411,6 @@ async function createFFmpegClassWorker() {
         );
 
 
-    /*
-       Replace relative imports
-    */
-
     workerCode =
         workerCode.replace(
             /from\s+["']\.\/const\.js["']/g,
@@ -1177,10 +1424,6 @@ async function createFFmpegClassWorker() {
             `from "${errorsBlobURL}"`
         );
 
-
-    /*
-       Create worker Blob
-    */
 
     const workerBlob =
         new Blob(
@@ -1199,22 +1442,27 @@ async function createFFmpegClassWorker() {
 
 
     return {
-        url: workerBlobURL,
+
+        url:
+            workerBlobURL,
 
         dependencies: [
+
             constBlobURL,
+
             errorsBlobURL
+
         ]
+
     };
 
 }
 
 
-/*
-===========================================================
- LOAD FFMPEG
-===========================================================
-*/
+
+/* =====================================================
+   LOAD FFMPEG
+===================================================== */
 
 async function loadFFmpeg() {
 
@@ -1230,17 +1478,9 @@ async function loadFFmpeg() {
     );
 
 
-    /*
-       Create FFmpeg
-    */
-
     ffmpeg =
         new FFmpeg();
 
-
-    /*
-       Progress listener
-    */
 
     ffmpeg.on(
         "progress",
@@ -1271,10 +1511,6 @@ async function loadFFmpeg() {
     );
 
 
-    /*
-       Log errors
-    */
-
     ffmpeg.on(
         "log",
         ({
@@ -1290,29 +1526,13 @@ async function loadFFmpeg() {
     );
 
 
-    /*
-       FFmpeg core
-    */
-
     const baseURL =
         "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm";
 
 
-    /*
-       IMPORTANT:
-       Create a Blob-based class worker.
-
-       This is the fix for your
-       powertool.shopcom.in CORS error.
-    */
-
     const worker =
         await createFFmpegClassWorker();
 
-
-    /*
-       Create Blob URLs for core
-    */
 
     const coreURL =
         await toBlobURL(
@@ -1327,10 +1547,6 @@ async function loadFFmpeg() {
             "application/wasm"
         );
 
-
-    /*
-       Load FFmpeg
-    */
 
     await ffmpeg.load({
 
@@ -1353,18 +1569,17 @@ async function loadFFmpeg() {
 
 
     showStatus(
-        "FFmpeg ready. You can start converting.",
+        "FFmpeg ready.",
         "success"
     );
 
 }
 
 
-/*
-===========================================================
- LOAD STATUS
-===========================================================
-*/
+
+/* =====================================================
+   LOADING UI
+===================================================== */
 
 function showLoading(message) {
 
@@ -1386,15 +1601,393 @@ function showLoading(message) {
 }
 
 
-/*
-===========================================================
- GENERATE
-===========================================================
-*/
+
+/* =====================================================
+   GET VIDEO DIMENSIONS
+=====================================================
+
+   This is the important part.
+
+   We inspect the actual video dimensions BEFORE
+   conversion.
+
+   Examples:
+
+   Landscape:
+       1920 × 1080
+       3840 × 2160
+
+   Portrait:
+       1080 × 1920
+       2160 × 3840
+
+   Square:
+       1080 × 1080
+
+   The selected resolution will then automatically
+   follow that orientation.
+===================================================== */
+
+async function getVideoDimensions(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const video =
+                document.createElement(
+                    "video"
+                );
+
+
+            const objectURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            let finished =
+                false;
+
+
+            function cleanup() {
+
+                URL.revokeObjectURL(
+                    objectURL
+                );
+
+
+                video.removeAttribute(
+                    "src"
+                );
+
+
+                video.load();
+
+            }
+
+
+            function success() {
+
+                if (finished) {
+
+                    return;
+
+                }
+
+
+                finished = true;
+
+
+                const width =
+                    video.videoWidth;
+
+
+                const height =
+                    video.videoHeight;
+
+
+                cleanup();
+
+
+                if (
+                    width > 0 &&
+                    height > 0
+                ) {
+
+                    resolve({
+
+                        width,
+
+                        height
+
+                    });
+
+                }
+                else {
+
+                    reject(
+                        new Error(
+                            "Could not read video dimensions."
+                        )
+                    );
+
+                }
+
+            }
+
+
+            function failure() {
+
+                if (finished) {
+
+                    return;
+
+                }
+
+
+                finished = true;
+
+
+                cleanup();
+
+
+                reject(
+                    new Error(
+                        "Could not detect video orientation."
+                    )
+                );
+
+            }
+
+
+            video.preload =
+                "metadata";
+
+
+            video.muted =
+                true;
+
+
+            video.playsInline =
+                true;
+
+
+            video.onloadedmetadata =
+                success;
+
+
+            video.onerror =
+                failure;
+
+
+            video.src =
+                objectURL;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   CALCULATE OUTPUT DIMENSIONS
+=====================================================
+
+   IMPORTANT:
+
+   We DO NOT force everything to 1920 × 1080.
+
+   Instead:
+
+   Landscape video:
+       max 1920 wide
+       proportional height
+
+   Portrait video:
+       max 1920 high
+       proportional width
+
+   Square:
+       max 1920 × 1920
+
+   This preserves the original aspect ratio.
+===================================================== */
+
+function calculateOutputSize(
+    sourceWidth,
+    sourceHeight,
+    maxDimension
+) {
+
+
+    if (
+        !maxDimension ||
+        maxDimension === "original"
+    ) {
+
+        return {
+
+            width:
+                sourceWidth,
+
+            height:
+                sourceHeight
+
+        };
+
+    }
+
+
+    const max =
+        Number(
+            maxDimension
+        );
+
+
+    if (
+        !Number.isFinite(max) ||
+        max <= 0
+    ) {
+
+        return {
+
+            width:
+                sourceWidth,
+
+            height:
+                sourceHeight
+
+        };
+
+    }
+
+
+    /*
+       Landscape
+    */
+
+    if (
+        sourceWidth >
+        sourceHeight
+    ) {
+
+        const scale =
+            Math.min(
+                1,
+                max / sourceWidth
+            );
+
+
+        return {
+
+            width:
+                makeEven(
+                    sourceWidth *
+                    scale
+                ),
+
+            height:
+                makeEven(
+                    sourceHeight *
+                    scale
+                )
+
+        };
+
+    }
+
+
+    /*
+       Portrait
+    */
+
+    if (
+        sourceHeight >
+        sourceWidth
+    ) {
+
+        const scale =
+            Math.min(
+                1,
+                max / sourceHeight
+            );
+
+
+        return {
+
+            width:
+                makeEven(
+                    sourceWidth *
+                    scale
+                ),
+
+            height:
+                makeEven(
+                    sourceHeight *
+                    scale
+                )
+
+        };
+
+    }
+
+
+    /*
+       Square
+    */
+
+    const scale =
+        Math.min(
+            1,
+            max / sourceWidth
+        );
+
+
+    return {
+
+        width:
+            makeEven(
+                sourceWidth *
+                scale
+            ),
+
+        height:
+            makeEven(
+                sourceHeight *
+                scale
+            )
+
+    };
+
+}
+
+
+
+/* =====================================================
+   EVEN DIMENSION
+===================================================== */
+
+function makeEven(value) {
+
+    let number =
+        Math.round(
+            Number(value)
+        );
+
+
+    if (
+        number < 2
+    ) {
+
+        number = 2;
+
+    }
+
+
+    if (
+        number % 2 !== 0
+    ) {
+
+        number -= 1;
+
+    }
+
+
+    return number;
+
+}
+
+
+
+/* =====================================================
+   GENERATE / RESIZE
+===================================================== */
 
 generateBtn.addEventListener(
     "click",
     async () => {
+
 
         if (converting) {
 
@@ -1403,7 +1996,9 @@ generateBtn.addEventListener(
         }
 
 
-        if (!selectedVideos.length) {
+        if (
+            !selectedVideos.length
+        ) {
 
             showStatus(
                 "Please select videos first.",
@@ -1430,11 +2025,14 @@ generateBtn.addEventListener(
         generateBtn.disabled =
             true;
 
+
         zipBtn.disabled =
             true;
 
+
         selectVideosBtn.disabled =
             true;
+
 
         selectFolderBtn.disabled =
             true;
@@ -1443,6 +2041,7 @@ generateBtn.addEventListener(
         try {
 
             await loadFFmpeg();
+
 
             await convertAll();
 
@@ -1470,8 +2069,10 @@ generateBtn.addEventListener(
         generateBtn.disabled =
             false;
 
+
         selectVideosBtn.disabled =
             false;
+
 
         selectFolderBtn.disabled =
             false;
@@ -1480,11 +2081,10 @@ generateBtn.addEventListener(
 );
 
 
-/*
-===========================================================
- CONVERT ALL
-===========================================================
-*/
+
+/* =====================================================
+   CONVERT ALL
+===================================================== */
 
 async function convertAll() {
 
@@ -1506,12 +2106,13 @@ async function convertAll() {
         i++
     ) {
 
+
         const file =
             selectedVideos[i];
 
 
         progressTitle.textContent =
-            `Converting ${i + 1} of ${total}: ${file.name}`;
+            `Detecting orientation ${i + 1} of ${total}: ${file.name}`;
 
 
         progressBar.style.width =
@@ -1519,10 +2120,11 @@ async function convertAll() {
 
 
         progressText.textContent =
-            "Starting...";
+            "Reading video...";
 
 
         try {
+
 
             const converted =
                 await convertVideo(
@@ -1546,16 +2148,13 @@ async function convertAll() {
         }
         catch (error) {
 
+
             console.error(
                 "Conversion failed:",
                 file.name,
                 error
             );
 
-
-            /*
-               Continue with remaining files
-            */
 
             showStatus(
                 `Skipped: ${file.name}`,
@@ -1583,6 +2182,7 @@ async function convertAll() {
         successCount > 0
     ) {
 
+
         zipBtn.disabled =
             false;
 
@@ -1594,6 +2194,7 @@ async function convertAll() {
 
     }
     else {
+
 
         showStatus(
             "No videos could be converted.",
@@ -1616,16 +2217,104 @@ async function convertAll() {
 }
 
 
-/*
-===========================================================
- CONVERT ONE VIDEO
-===========================================================
-*/
+
+/* =====================================================
+   CONVERT ONE VIDEO
+===================================================== */
 
 async function convertVideo(file) {
 
+
     /*
-       Get original extension
+       First detect actual video orientation.
+    */
+
+    const dimensions =
+        await getVideoDimensions(
+            file
+        );
+
+
+    const sourceWidth =
+        dimensions.width;
+
+
+    const sourceHeight =
+        dimensions.height;
+
+
+    /*
+       Calculate output dimensions.
+
+       Example:
+
+       Source:
+           1080 × 1920
+
+       Full HD max:
+           1920
+
+       Output:
+           1080 × 1920
+
+       Source:
+           1920 × 1080
+
+       Full HD max:
+           1920
+
+       Output:
+           1920 × 1080
+    */
+
+    const outputSize =
+        calculateOutputSize(
+            sourceWidth,
+            sourceHeight,
+            resolutionSelect.value
+        );
+
+
+    console.log(
+        "Video:",
+        file.name
+    );
+
+
+    console.log(
+        "Source:",
+        sourceWidth,
+        "x",
+        sourceHeight
+    );
+
+
+    console.log(
+        "Output:",
+        outputSize.width,
+        "x",
+        outputSize.height
+    );
+
+
+    /*
+       Show orientation in progress
+    */
+
+    const orientation =
+        sourceWidth === sourceHeight
+            ? "Square"
+            : sourceWidth > sourceHeight
+                ? "Landscape"
+                : "Portrait";
+
+
+    progressTitle.textContent =
+        `Converting ${file.name} • ${orientation} • ${outputSize.width}×${outputSize.height}`;
+
+
+    /*
+       Input extension
     */
 
     const extension =
@@ -1635,7 +2324,7 @@ async function convertVideo(file) {
 
 
     /*
-       Create unique FFmpeg input filename
+       Unique FFmpeg input
     */
 
     const inputName =
@@ -1650,7 +2339,7 @@ async function convertVideo(file) {
 
 
     /*
-       Output filename
+       Base filename
     */
 
     const baseName =
@@ -1660,6 +2349,10 @@ async function convertVideo(file) {
             )
         );
 
+
+    /*
+       Prefix
+    */
 
     const prefix =
         sanitizeFilename(
@@ -1687,6 +2380,10 @@ async function convertVideo(file) {
 
     }
 
+
+    /*
+       FFmpeg output
+    */
 
     const outputName =
         "output_" +
@@ -1721,10 +2418,7 @@ async function convertVideo(file) {
 
 
     /*
-       Video mapping
-
-       Ignore unknown streams and use
-       the first video/audio stream.
+       Video stream
     */
 
     args.push(
@@ -1733,6 +2427,10 @@ async function convertVideo(file) {
     );
 
 
+    /*
+       Audio stream if present
+    */
+
     args.push(
         "-map",
         "0:a:0?"
@@ -1740,36 +2438,58 @@ async function convertVideo(file) {
 
 
     /*
-       RESOLUTION
+       =================================================
+       ORIENTATION-PRESERVING SCALE
+       =================================================
+
+       We do NOT use:
+
+       scale=1920:1080
+       pad=1920:1080
+
+       because that forces every video into landscape.
+
+       Instead we directly scale to the calculated
+       proportional dimensions.
     */
 
-    const resolution =
+    const selectedResolution =
         resolutionSelect.value;
 
 
     if (
-        resolution !==
+        selectedResolution !==
         "original"
     ) {
 
-        const [
-            width,
-            height
-        ] =
-            resolution.split(":");
-
 
         /*
-           Preserve aspect ratio.
+           Only resize when source is larger
+           than selected maximum.
 
-           The output fits inside the selected
-           resolution and is padded if needed.
+           Smaller videos are NOT enlarged.
         */
 
-        args.push(
-            "-vf",
-            `scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2`
-        );
+        if (
+
+            outputSize.width !==
+                sourceWidth ||
+
+            outputSize.height !==
+                sourceHeight
+
+        ) {
+
+
+            args.push(
+
+                "-vf",
+
+                `scale=${outputSize.width}:${outputSize.height}:flags=lanczos`
+
+            );
+
+        }
 
     }
 
@@ -1783,8 +2503,7 @@ async function convertVideo(file) {
 
 
     if (
-        fps !==
-        "original"
+        fps !== "original"
     ) {
 
         args.push(
@@ -1796,63 +2515,38 @@ async function convertVideo(file) {
 
 
     /*
-       VIDEO CODEC
-
-       H.264 is used because it provides
-       broad MP4 compatibility.
+       H.264
     */
 
     args.push(
+
         "-c:v",
-        "libx264"
-    );
+        "libx264",
 
-
-    /*
-       Encoding speed
-    */
-
-    args.push(
         "-preset",
-        "veryfast"
-    );
+        "veryfast",
 
-
-    /*
-       Bitrate
-    */
-
-    args.push(
         "-b:v",
-        bitrateSelect.value
-    );
+        bitrateSelect.value,
 
-
-    /*
-       H.264 compatibility
-    */
-
-    args.push(
         "-pix_fmt",
         "yuv420p"
+
     );
 
 
     /*
-       Audio
-
-       Convert every input audio stream to AAC.
+       AAC audio
     */
 
     args.push(
+
         "-c:a",
-        "aac"
-    );
+        "aac",
 
-
-    args.push(
         "-b:a",
         "128k"
+
     );
 
 
@@ -1861,19 +2555,22 @@ async function convertVideo(file) {
     */
 
     args.push(
+
         "-movflags",
         "+faststart"
+
     );
 
 
     /*
-       Prevent encoder failure on unusual
-       timestamps
+       Timestamp handling
     */
 
     args.push(
+
         "-avoid_negative_ts",
         "make_zero"
+
     );
 
 
@@ -1882,8 +2579,10 @@ async function convertVideo(file) {
     */
 
     args.push(
+
         "-y",
         outputName
+
     );
 
 
@@ -1919,10 +2618,7 @@ async function convertVideo(file) {
 
 
     /*
-       Create Blob
-
-       Copy into a normal ArrayBuffer so
-       the Blob is safe across browsers.
+       Safe copy
     */
 
     const copy =
@@ -1935,6 +2631,10 @@ async function convertVideo(file) {
         data
     );
 
+
+    /*
+       MP4 Blob
+    */
 
     const blob =
         new Blob(
@@ -1993,20 +2693,26 @@ async function convertVideo(file) {
             blob.size,
 
         originalName:
-            file.name
+            file.name,
+
+        width:
+            outputSize.width,
+
+        height:
+            outputSize.height
 
     };
 
 }
 
 
-/*
-===========================================================
- CREATE RESULT CARD
-===========================================================
-*/
+
+/* =====================================================
+   CREATE VIDEO CARD
+===================================================== */
 
 function createCard(video) {
+
 
     const card =
         document.createElement(
@@ -2049,7 +2755,7 @@ function createCard(video) {
 
 
     /*
-       Name
+       Filename
     */
 
     const name =
@@ -2071,7 +2777,7 @@ function createCard(video) {
 
 
     /*
-       Size
+       Info
     */
 
     const info =
@@ -2085,13 +2791,11 @@ function createCard(video) {
 
 
     info.textContent =
-        formatBytes(
-            video.size
-        );
+        `${video.width}×${video.height} • ${formatBytes(video.size)}`;
 
 
     /*
-       Download
+       Download button
     */
 
     const download =
@@ -2121,6 +2825,10 @@ function createCard(video) {
     );
 
 
+    /*
+       Append
+    */
+
     card.appendChild(
         videoElement
     );
@@ -2148,15 +2856,15 @@ function createCard(video) {
 }
 
 
-/*
-===========================================================
- ZIP DOWNLOAD
-===========================================================
-*/
+
+/* =====================================================
+   DOWNLOAD ZIP
+===================================================== */
 
 zipBtn.addEventListener(
     "click",
     async () => {
+
 
         if (
             !convertedVideos.length
@@ -2170,11 +2878,14 @@ zipBtn.addEventListener(
         zipBtn.disabled =
             true;
 
+
         generateBtn.disabled =
             true;
 
+
         selectVideosBtn.disabled =
             true;
+
 
         selectFolderBtn.disabled =
             true;
@@ -2198,6 +2909,7 @@ zipBtn.addEventListener(
 
         try {
 
+
             const zip =
                 new JSZip();
 
@@ -2212,11 +2924,16 @@ zipBtn.addEventListener(
                 convertedVideos.length;
 
 
+            /*
+               Add files
+            */
+
             for (
                 let i = 0;
                 i < total;
                 i++
             ) {
+
 
                 const video =
                     convertedVideos[i];
@@ -2230,8 +2947,10 @@ zipBtn.addEventListener(
 
                 const percent =
                     Math.round(
-                        ((i + 1) /
-                            total) *
+                        (
+                            (i + 1) /
+                            total
+                        ) *
                         40
                     );
 
@@ -2250,9 +2969,15 @@ zipBtn.addEventListener(
                 "Compressing ZIP...";
 
 
+            /*
+               Generate ZIP
+            */
+
             const zipBlob =
                 await zip.generateAsync(
+
                     {
+
                         type:
                             "blob",
 
@@ -2261,12 +2986,16 @@ zipBtn.addEventListener(
 
                         compressionOptions:
                         {
+
                             level:
                                 3
+
                         }
+
                     },
 
                     metadata => {
+
 
                         const percent =
                             40 +
@@ -2284,8 +3013,13 @@ zipBtn.addEventListener(
                             percent + "%";
 
                     }
+
                 );
 
+
+            /*
+               Download
+            */
 
             downloadBlob(
                 zipBlob,
@@ -2313,6 +3047,7 @@ zipBtn.addEventListener(
 
         }
         catch (error) {
+
 
             console.error(
                 error
@@ -2342,11 +3077,14 @@ zipBtn.addEventListener(
         zipBtn.disabled =
             false;
 
+
         generateBtn.disabled =
             false;
 
+
         selectVideosBtn.disabled =
             false;
+
 
         selectFolderBtn.disabled =
             false;
@@ -2355,16 +3093,16 @@ zipBtn.addEventListener(
 );
 
 
-/*
-===========================================================
- DOWNLOAD
-===========================================================
-*/
+
+/* =====================================================
+   DOWNLOAD HELPER
+===================================================== */
 
 function downloadBlob(
     blob,
     filename
 ) {
+
 
     const url =
         URL.createObjectURL(
@@ -2415,16 +3153,16 @@ function downloadBlob(
 }
 
 
-/*
-===========================================================
- STATUS
-===========================================================
-*/
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 function showStatus(
     message,
     type = ""
 ) {
+
 
     status.textContent =
         message;
@@ -2437,15 +3175,15 @@ function showStatus(
 }
 
 
-/*
-===========================================================
- EXTENSION
-===========================================================
-*/
+
+/* =====================================================
+   FILE EXTENSION
+===================================================== */
 
 function getExtension(
     filename
 ) {
+
 
     const parts =
         filename.split(".");
@@ -2467,11 +3205,10 @@ function getExtension(
 }
 
 
-/*
-===========================================================
- REMOVE EXTENSION
-===========================================================
-*/
+
+/* =====================================================
+   REMOVE EXTENSION
+===================================================== */
 
 function removeExtension(
     filename
@@ -2485,15 +3222,15 @@ function removeExtension(
 }
 
 
-/*
-===========================================================
- SAFE FILENAME
-===========================================================
-*/
+
+/* =====================================================
+   SANITIZE FILENAME
+===================================================== */
 
 function sanitizeFilename(
     filename
 ) {
+
 
     return filename
 
@@ -2525,15 +3262,15 @@ function sanitizeFilename(
 }
 
 
-/*
-===========================================================
- BYTES
-===========================================================
-*/
+
+/* =====================================================
+   FORMAT BYTES
+===================================================== */
 
 function formatBytes(
     bytes
 ) {
+
 
     if (
         !bytes
@@ -2545,11 +3282,13 @@ function formatBytes(
 
 
     const units = [
+
         "Bytes",
         "KB",
         "MB",
         "GB",
         "TB"
+
     ];
 
 
@@ -2561,7 +3300,9 @@ function formatBytes(
 
 
     return (
+
         parseFloat(
+
             (
                 bytes /
                 Math.pow(
@@ -2569,23 +3310,29 @@ function formatBytes(
                     index
                 )
             ).toFixed(2)
-        ) +
+
+        )
+
+        +
+
         " " +
+
         units[index]
+
     );
 
 }
 
 
-/*
-===========================================================
- ESCAPE HTML
-===========================================================
-*/
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(
     text
 ) {
+
 
     const div =
         document.createElement(
@@ -2602,15 +3349,15 @@ function escapeHTML(
 }
 
 
-/*
-===========================================================
- ERROR MESSAGE
-===========================================================
-*/
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
 
 function getErrorMessage(
     error
 ) {
+
 
     if (
         error &&
@@ -2629,17 +3376,19 @@ function getErrorMessage(
 }
 
 
-/*
-===========================================================
- INITIAL
-===========================================================
-*/
+
+/* =====================================================
+   INITIAL STATUS
+===================================================== */
 
 showStatus(
     "Select videos to begin."
 );
 
+
 </script>
 
+
 </body>
+
 </html>
