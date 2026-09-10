@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0, user-scalable=no">
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
 <title>QR Code Generator</title>
 
 <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
 
 <style>
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -23,8 +27,10 @@ html {
 body {
     margin: 0;
     padding: 0;
+
     background: #f5f7fb;
     color: #111827;
+
     font-family:
         Inter,
         -apple-system,
@@ -38,151 +44,250 @@ body {
 .app {
     width: 100%;
     max-width: 1100px;
+
     margin: auto;
+
     padding: 18px;
 }
 
-/* =========================
+
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 .header {
     background: #ffffff;
+
     border-radius: 20px;
+
     padding: 18px 20px;
+
     margin-bottom: 16px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.06);
 }
 
 .header h1 {
     margin: 0;
+
     font-size: 24px;
     font-weight: 800;
 }
 
 .header p {
     margin: 6px 0 0;
+
     color: #6b7280;
+
     font-size: 14px;
 }
 
-/* =========================
-   LIVE PREVIEW
-========================= */
+
+/* =========================================================
+   STICKY LIVE PREVIEW
+========================================================= */
 
 .preview-card {
+
     position: sticky;
-    top: 10px;
-    z-index: 20;
+
+    top: 8px;
+
+    z-index: 50;
 
     background: #ffffff;
-    border-radius: 22px;
-    padding: 18px;
-    margin-bottom: 16px;
 
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    border-radius: 18px;
+
+    padding: 12px;
+
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 7px 25px rgba(0,0,0,.09);
 }
 
+
+/*
+   Smaller title
+*/
+
 .preview-title {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
-    margin-bottom: 12px;
+
+    margin-bottom: 8px;
+
+    padding: 0 3px;
 }
 
 .preview-title strong {
-    font-size: 17px;
+
+    font-size: 15px;
+
+    font-weight: 800;
 }
 
+
 .live-badge {
-    font-size: 11px;
-    font-weight: 700;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
     color: #16a34a;
+
     background: #dcfce7;
-    padding: 6px 9px;
+
+    padding: 5px 8px;
+
     border-radius: 999px;
 }
 
+
+/*
+   SMALLER PREVIEW BOX
+*/
+
 .preview-box {
-    min-height: 260px;
+
+    height: 205px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     background: #f8fafc;
-    border: 1px solid #e5e7eb;
-    border-radius: 18px;
 
-    padding: 20px;
+    border: 1px solid #e5e7eb;
+
+    border-radius: 15px;
+
+    padding: 10px;
 
     overflow: hidden;
 }
 
+
 #qrPreview {
+
+    width: 180px;
+
+    height: 180px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
-    max-width: 100%;
+
+    overflow: hidden;
 }
+
+
+/*
+   Force generated QR to stay small
+*/
 
 #qrPreview canvas,
 #qrPreview img {
-    max-width: 100%;
-    height: auto;
+
+    width: 180px !important;
+
+    height: 180px !important;
+
+    max-width: 180px !important;
+
+    max-height: 180px !important;
+
+    display: block;
 }
+
 
 .preview-placeholder {
+
     color: #9ca3af;
+
     text-align: center;
-    font-size: 14px;
+
+    font-size: 12px;
+
+    padding: 20px;
 }
 
-/* =========================
+
+/* =========================================================
    SECTIONS
-========================= */
+========================================================= */
 
 .section {
+
     background: #ffffff;
+
     border-radius: 20px;
+
     padding: 20px;
+
     margin-bottom: 16px;
 
-    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.05);
 }
 
+
 .section-title {
+
     display: flex;
+
     align-items: center;
+
     gap: 8px;
 
     font-size: 19px;
+
     font-weight: 800;
 
     margin-bottom: 14px;
 }
 
+
 .section-title span {
+
     font-size: 21px;
 }
 
-/* =========================
+
+/* =========================================================
    INPUT
-========================= */
+========================================================= */
 
 label {
+
     display: block;
+
     font-size: 14px;
+
     font-weight: 700;
+
     margin-bottom: 7px;
 }
+
 
 textarea,
 input[type="text"],
 select {
+
     width: 100%;
 
     border: 1px solid #d9dee8;
+
     background: #ffffff;
 
     border-radius: 13px;
@@ -190,6 +295,7 @@ select {
     padding: 13px 14px;
 
     font-size: 15px;
+
     color: #111827;
 
     outline: none;
@@ -197,40 +303,58 @@ select {
     transition: .2s;
 }
 
+
 textarea {
+
     min-height: 90px;
+
     resize: vertical;
 }
+
 
 textarea:focus,
 input[type="text"]:focus,
 select:focus {
+
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.10);
 }
 
-/* =========================
-   TWO COLUMNS
-========================= */
+
+/* =========================================================
+   TWO COLUMN
+========================================================= */
 
 .two-column {
+
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 14px;
 }
 
-/* =========================
-   STYLE BUTTONS
-========================= */
+
+/* =========================================================
+   QR STYLE
+========================================================= */
 
 .style-grid {
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns: repeat(3,1fr);
+
     gap: 10px;
 }
 
+
 .style-btn {
+
     border: 1.5px solid #dce1e9;
+
     background: #ffffff;
 
     border-radius: 14px;
@@ -240,37 +364,54 @@ select:focus {
     cursor: pointer;
 
     font-size: 13px;
+
     font-weight: 700;
 
     transition: .18s;
 }
 
+
 .style-btn:active {
+
     transform: scale(.97);
 }
 
+
 .style-btn.active {
+
     border-color: #2563eb;
+
     background: #eff6ff;
-    box-shadow: 0 0 0 1px #2563eb;
+
+    box-shadow:
+        0 0 0 1px #2563eb;
 }
 
-/* =========================
+
+/* =========================================================
    COLOR
-========================= */
+========================================================= */
 
 .color-row {
+
     display: flex;
+
     gap: 12px;
+
     align-items: center;
 }
 
+
 .color-picker-wrap {
+
     width: 72px;
+
     min-width: 72px;
+
     height: 58px;
 
     border: 1px solid #d9dee8;
+
     border-radius: 13px;
 
     padding: 6px;
@@ -278,38 +419,53 @@ select:focus {
     background: #ffffff;
 }
 
+
 .color-picker-wrap input[type="color"] {
+
     width: 100%;
+
     height: 100%;
 
     border: 0;
+
     padding: 0;
 
     background: transparent;
+
     cursor: pointer;
 }
 
-/* =========================
+
+/* =========================================================
    LOGO GRID
-========================= */
+========================================================= */
 
 .logo-grid {
+
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns: repeat(4,1fr);
+
     gap: 10px;
 }
 
+
 .logo-card {
+
     min-height: 106px;
 
     border: 1.5px solid #dce1e9;
+
     background: #ffffff;
 
     border-radius: 15px;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
 
     gap: 7px;
@@ -321,54 +477,102 @@ select:focus {
     transition: .18s;
 }
 
+
 .logo-card:active {
+
     transform: scale(.97);
 }
 
+
 .logo-card.active {
+
     border-color: #111827;
-    box-shadow: 0 0 0 1px #111827;
+
+    box-shadow:
+        0 0 0 1px #111827;
+
     background: #f8fafc;
 }
 
+
 .logo-icon {
-    width: 47px;
-    height: 47px;
+
+    width: 46px;
+
+    height: 46px;
 
     object-fit: contain;
 
     display: block;
 }
 
-.logo-none {
-    width: 47px;
-    height: 47px;
 
-    display: flex;
+.logo-fallback {
+
+    width: 46px;
+
+    height: 46px;
+
+    display: none;
+
     align-items: center;
+
     justify-content: center;
 
-    font-size: 34px;
-    line-height: 1;
-}
+    border-radius: 50%;
 
-.logo-name {
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11px;
+
+    font-weight: 900;
+
+    background: #111827;
+
+    color: white;
+
     text-align: center;
 }
 
-/* =========================
+
+.logo-none {
+
+    width: 46px;
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 33px;
+}
+
+
+.logo-name {
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+/* =========================================================
    CUSTOM UPLOAD
-========================= */
+========================================================= */
 
 .custom-upload {
+
     margin-top: 18px;
+
     margin-bottom: 22px;
 
     min-height: 110px;
 
     border: 2px dashed #d5dce8;
+
     border-radius: 18px;
 
     background: #fafcff;
@@ -376,7 +580,9 @@ select:focus {
     padding: 22px 20px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     cursor: pointer;
@@ -384,32 +590,47 @@ select:focus {
     transition: .2s;
 }
 
+
 .custom-upload:hover {
+
     border-color: #2563eb;
+
     background: #f5f9ff;
 }
 
+
 .custom-upload:active {
+
     transform: scale(.99);
 }
 
+
 .upload-inner {
+
     display: flex;
+
     align-items: center;
+
     gap: 15px;
 
     width: 100%;
 }
 
+
 .upload-icon {
+
     width: 48px;
+
     height: 48px;
 
     border: 2px solid #1e3a5f;
+
     border-radius: 9px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     font-size: 25px;
@@ -417,41 +638,61 @@ select:focus {
     flex-shrink: 0;
 }
 
+
 .upload-title {
+
     font-weight: 800;
+
     font-size: 16px;
 }
 
+
 .upload-subtitle {
+
     margin-top: 4px;
+
     font-size: 13px;
+
     color: #6b7280;
 }
 
+
 #customLogoInput {
+
     display: none;
 }
 
-/* =========================
+
+/* =========================================================
    SLIDER
-========================= */
+========================================================= */
 
 .slider-row {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
 }
 
+
 .slider-wrap {
+
     flex: 1;
 }
 
+
 input[type="range"] {
+
     width: 100%;
+
     accent-color: #2563eb;
 }
 
+
 .slider-value {
+
     min-width: 62px;
 
     text-align: center;
@@ -459,6 +700,7 @@ input[type="range"] {
     padding: 9px 10px;
 
     border: 1px solid #e0e5ed;
+
     background: #f8fafc;
 
     border-radius: 10px;
@@ -466,7 +708,9 @@ input[type="range"] {
     font-weight: 800;
 }
 
+
 .helper {
+
     margin-top: 7px;
 
     color: #6b7280;
@@ -474,18 +718,25 @@ input[type="range"] {
     font-size: 12px;
 }
 
-/* =========================
+
+/* =========================================================
    QUALITY
-========================= */
+========================================================= */
 
 .quality-grid {
+
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+
+    grid-template-columns: repeat(5,1fr);
+
     gap: 8px;
 }
 
+
 .quality-btn {
+
     border: 1.5px solid #dce1e9;
+
     background: #ffffff;
 
     border-radius: 12px;
@@ -493,22 +744,29 @@ input[type="range"] {
     padding: 11px 5px;
 
     font-size: 12px;
+
     font-weight: 700;
 
     cursor: pointer;
 }
 
+
 .quality-btn.active {
+
     border-color: #2563eb;
+
     background: #eff6ff;
+
     color: #1d4ed8;
 }
 
-/* =========================
+
+/* =========================================================
    BOTTOM GENERATE
-========================= */
+========================================================= */
 
 .bottom-action {
+
     background: #ffffff;
 
     border-radius: 20px;
@@ -516,17 +774,22 @@ input[type="range"] {
     padding: 18px;
 
     margin-top: 4px;
+
     margin-bottom: 30px;
 
-    box-shadow: 0 5px 25px rgba(0,0,0,.06);
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.06);
 }
 
+
 .generate-btn {
+
     width: 100%;
 
     min-height: 62px;
 
     border: none;
+
     border-radius: 16px;
 
     background: #1677f2;
@@ -534,144 +797,272 @@ input[type="range"] {
     color: #ffffff;
 
     font-size: 18px;
+
     font-weight: 800;
 
     cursor: pointer;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     gap: 12px;
 
-    box-shadow: 0 8px 20px rgba(22,119,242,.22);
+    box-shadow:
+        0 8px 20px rgba(22,119,242,.22);
 
     transition: .18s;
 }
 
+
 .generate-btn:hover {
+
     background: #1269d8;
 }
 
+
 .generate-btn:active {
+
     transform: scale(.985);
 }
 
+
 .generate-icon {
+
     font-size: 25px;
 }
 
-/* =========================
-   MOBILE
-========================= */
 
-@media (max-width: 700px) {
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:700px) {
 
     .app {
+
         padding: 10px;
     }
 
+
     .header {
+
         padding: 16px;
     }
 
+
     .header h1 {
+
         font-size: 21px;
     }
 
+
+    /*
+       SMALL STICKY PREVIEW
+    */
+
     .preview-card {
+
         top: 5px;
+
+        padding: 10px;
+
+        border-radius: 16px;
     }
 
-    .section {
-        padding: 16px;
-        border-radius: 17px;
-    }
 
-    .two-column {
-        grid-template-columns: 1fr;
-    }
+    .preview-box {
 
-    .logo-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-    }
+        height: 190px;
 
-    .logo-card {
-        min-height: 96px;
         padding: 7px;
     }
 
+
+    #qrPreview {
+
+        width: 165px;
+
+        height: 165px;
+    }
+
+
+    #qrPreview canvas,
+    #qrPreview img {
+
+        width: 165px !important;
+
+        height: 165px !important;
+
+        max-width: 165px !important;
+
+        max-height: 165px !important;
+    }
+
+
+    .section {
+
+        padding: 16px;
+
+        border-radius: 17px;
+    }
+
+
+    .two-column {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .logo-grid {
+
+        grid-template-columns: repeat(4,1fr);
+
+        gap: 8px;
+    }
+
+
+    .logo-card {
+
+        min-height: 96px;
+
+        padding: 7px;
+    }
+
+
     .logo-icon,
+    .logo-fallback,
     .logo-none {
+
         width: 40px;
+
         height: 40px;
     }
 
+
     .logo-none {
+
         font-size: 29px;
     }
 
+
     .logo-name {
+
         font-size: 11px;
     }
 
+
     .style-grid {
-        grid-template-columns: repeat(3, 1fr);
+
+        grid-template-columns: repeat(3,1fr);
     }
+
 
     .quality-grid {
-        grid-template-columns: repeat(3, 1fr);
+
+        grid-template-columns: repeat(3,1fr);
     }
 
-    .preview-box {
-        min-height: 230px;
-    }
 }
 
-@media (max-width: 390px) {
+
+@media (max-width:390px) {
 
     .logo-grid {
+
         gap: 6px;
     }
 
+
     .logo-card {
+
         min-height: 90px;
     }
 
+
     .logo-name {
+
         font-size: 10px;
     }
+
+
+    #qrPreview {
+
+        width: 155px;
+
+        height: 155px;
+    }
+
+
+    #qrPreview canvas,
+    #qrPreview img {
+
+        width: 155px !important;
+
+        height: 155px !important;
+
+        max-width: 155px !important;
+
+        max-height: 155px !important;
+    }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>QR Code Generator</h1>
-        <p>Create and customize your QR code with live preview.</p>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <h1>
+        QR Code Generator
+    </h1>
+
+    <p>
+        Create and customize your QR code with live preview.
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     LIVE PREVIEW
+===================================================== -->
+
+<div class="preview-card">
+
+    <div class="preview-title">
+
+        <strong>
+            Live QR Preview
+        </strong>
+
+        <span class="live-badge">
+            ● LIVE
+        </span>
+
     </div>
 
 
-    <!-- LIVE PREVIEW -->
-    <div class="preview-card">
+    <div class="preview-box">
 
-        <div class="preview-title">
-            <strong>Live QR Preview</strong>
-            <span class="live-badge">● LIVE</span>
-        </div>
+        <div id="qrPreview">
 
-        <div class="preview-box">
+            <div class="preview-placeholder">
 
-            <div id="qrPreview">
-
-                <div class="preview-placeholder">
-                    Enter a link or text below to generate your QR preview.
-                </div>
+                Enter a link or text below to generate your QR preview.
 
             </div>
 
@@ -679,645 +1070,84 @@ input[type="range"] {
 
     </div>
 
+</div>
 
-    <!-- CONTENT -->
-    <div class="section">
 
-        <div class="section-title">
-            <span>🔗</span>
-            QR Content
-        </div>
 
-        <label for="qrText">
-            Link / Text
-        </label>
+<!-- =====================================================
+     QR CONTENT
+===================================================== -->
 
-        <textarea
-            id="qrText"
-            placeholder="Enter website link, UPI link, text, phone number, etc."
-        ></textarea>
+<div class="section">
+
+    <div class="section-title">
+
+        <span>🔗</span>
+
+        QR Content
 
     </div>
 
 
-    <!-- QR STYLE -->
-    <div class="section">
+    <label for="qrText">
+        Link / Text
+    </label>
 
-        <div class="section-title">
-            <span>🎨</span>
-            QR Style
-        </div>
 
-        <div class="style-grid">
+    <textarea
+        id="qrText"
+        placeholder="Enter website link, UPI link, text, phone number, etc."
+    ></textarea>
 
-            <button class="style-btn active"
-                    data-style="square">
-                Square
-            </button>
+</div>
 
-            <button class="style-btn"
-                    data-style="dots">
-                Dots
-            </button>
 
-            <button class="style-btn"
-                    data-style="rounded">
-                Rounded
-            </button>
 
-            <button class="style-btn"
-                    data-style="extra-rounded">
-                Extra Rounded
-            </button>
+<!-- =====================================================
+     QR STYLE
+===================================================== -->
 
-            <button class="style-btn"
-                    data-style="classy">
-                Classy
-            </button>
+<div class="section">
 
-            <button class="style-btn"
-                    data-style="classy-rounded">
-                Classy Round
-            </button>
+    <div class="section-title">
 
-        </div>
+        <span>🎨</span>
+
+        QR Style
 
     </div>
 
 
-    <!-- CORNER -->
-    <div class="section">
+    <!-- ONLY THREE OPTIONS -->
 
-        <div class="section-title">
-            <span>◼</span>
-            Corner Style
-        </div>
-
-        <select id="cornerStyle">
-
-            <option value="square">
-                Square
-            </option>
-
-            <option value="dot">
-                Dot
-            </option>
-
-            <option value="extra-rounded">
-                Extra Rounded
-            </option>
-
-        </select>
-
-    </div>
-
-
-    <!-- COLORS -->
-    <div class="section">
-
-        <div class="section-title">
-            <span>🎨</span>
-            Colors
-        </div>
-
-        <div class="two-column">
-
-            <div>
-
-                <label>
-                    QR Color
-                </label>
-
-                <div class="color-row">
-
-                    <div class="color-picker-wrap">
-                        <input
-                            type="color"
-                            id="qrColorPicker"
-                            value="#000000"
-                        >
-                    </div>
-
-                    <input
-                        type="text"
-                        id="qrColorText"
-                        value="#000000"
-                        maxlength="7"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    Background Color
-                </label>
-
-                <div class="color-row">
-
-                    <div class="color-picker-wrap">
-                        <input
-                            type="color"
-                            id="bgColorPicker"
-                            value="#ffffff"
-                        >
-                    </div>
-
-                    <input
-                        type="text"
-                        id="bgColorText"
-                        value="#ffffff"
-                        maxlength="7"
-                    >
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- LOGO -->
-    <div class="section">
-
-        <div class="section-title">
-            <span>🖼️</span>
-            Logo
-        </div>
-
-
-        <div class="logo-grid" id="logoGrid">
-
-
-            <!-- NONE -->
-            <button
-                class="logo-card active"
-                data-logo="none"
-                type="button"
-            >
-
-                <div class="logo-none">
-                    ∅
-                </div>
-
-                <div class="logo-name">
-                    None
-                </div>
-
-            </button>
-
-
-            <!-- INSTAGRAM -->
-            <button
-                class="logo-card"
-                data-logo="instagram"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/instagram"
-                    alt="Instagram"
-                >
-
-                <div class="logo-name">
-                    Instagram
-                </div>
-
-            </button>
-
-
-            <!-- GOOGLE -->
-            <button
-                class="logo-card"
-                data-logo="google"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/google"
-                    alt="Google"
-                >
-
-                <div class="logo-name">
-                    Google
-                </div>
-
-            </button>
-
-
-            <!-- GPAY -->
-            <button
-                class="logo-card"
-                data-logo="gpay"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/googlepay"
-                    alt="GPay"
-                >
-
-                <div class="logo-name">
-                    GPay
-                </div>
-
-            </button>
-
-
-            <!-- PHONEPE -->
-            <button
-                class="logo-card"
-                data-logo="phonepe"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/phonepe"
-                    alt="PhonePe"
-                >
-
-                <div class="logo-name">
-                    PhonePe
-                </div>
-
-            </button>
-
-
-            <!-- PAYTM -->
-            <button
-                class="logo-card"
-                data-logo="paytm"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/paytm"
-                    alt="Paytm"
-                >
-
-                <div class="logo-name">
-                    Paytm
-                </div>
-
-            </button>
-
-
-            <!-- WHATSAPP -->
-            <button
-                class="logo-card"
-                data-logo="whatsapp"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/whatsapp"
-                    alt="WhatsApp"
-                >
-
-                <div class="logo-name">
-                    WhatsApp
-                </div>
-
-            </button>
-
-
-            <!-- FACEBOOK -->
-            <button
-                class="logo-card"
-                data-logo="facebook"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/facebook"
-                    alt="Facebook"
-                >
-
-                <div class="logo-name">
-                    Facebook
-                </div>
-
-            </button>
-
-
-            <!-- YOUTUBE -->
-            <button
-                class="logo-card"
-                data-logo="youtube"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/youtube"
-                    alt="YouTube"
-                >
-
-                <div class="logo-name">
-                    YouTube
-                </div>
-
-            </button>
-
-
-            <!-- MAPS -->
-            <button
-                class="logo-card"
-                data-logo="maps"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/googlemaps"
-                    alt="Maps"
-                >
-
-                <div class="logo-name">
-                    Maps
-                </div>
-
-            </button>
-
-
-            <!-- LINKEDIN -->
-            <button
-                class="logo-card"
-                data-logo="linkedin"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/linkedin"
-                    alt="LinkedIn"
-                >
-
-                <div class="logo-name">
-                    LinkedIn
-                </div>
-
-            </button>
-
-
-            <!-- TELEGRAM -->
-            <button
-                class="logo-card"
-                data-logo="telegram"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/telegram"
-                    alt="Telegram"
-                >
-
-                <div class="logo-name">
-                    Telegram
-                </div>
-
-            </button>
-
-
-            <!-- X -->
-            <button
-                class="logo-card"
-                data-logo="x"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/x"
-                    alt="X"
-                >
-
-                <div class="logo-name">
-                    X
-                </div>
-
-            </button>
-
-
-            <!-- SPOTIFY -->
-            <button
-                class="logo-card"
-                data-logo="spotify"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/spotify"
-                    alt="Spotify"
-                >
-
-                <div class="logo-name">
-                    Spotify
-                </div>
-
-            </button>
-
-
-            <!-- UPI -->
-            <button
-                class="logo-card"
-                data-logo="upi"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/upi"
-                    alt="UPI"
-                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/2/23/UPI-Logo-vector.svg'"
-                >
-
-                <div class="logo-name">
-                    UPI
-                </div>
-
-            </button>
-
-
-            <!-- BHIM UPI -->
-            <button
-                class="logo-card"
-                data-logo="bhimupi"
-                type="button"
-            >
-
-                <img
-                    class="logo-icon"
-                    src="https://cdn.simpleicons.org/bhim"
-                    alt="BHIM UPI"
-                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/3/39/BHIM_logo.svg'"
-                >
-
-                <div class="logo-name">
-                    BHIM UPI
-                </div>
-
-            </button>
-
-        </div>
-
-
-        <!-- CUSTOM LOGO -->
-        <label
-            class="custom-upload"
-            for="customLogoInput"
-        >
-
-            <div class="upload-inner">
-
-                <div class="upload-icon">
-                    🖼️
-                </div>
-
-                <div>
-
-                    <div class="upload-title">
-                        Upload Custom Logo
-                    </div>
-
-                    <div class="upload-subtitle">
-                        Choose an image (PNG, JPG, SVG)
-                    </div>
-
-                </div>
-
-            </div>
-
-        </label>
-
-        <input
-            type="file"
-            id="customLogoInput"
-            accept="image/png,image/jpeg,image/jpg,image/svg+xml"
-        >
-
-
-        <!-- LOGO SIZE -->
-        <div class="section-title">
-            <span>🔍</span>
-            Logo Size
-        </div>
-
-        <div class="slider-row">
-
-            <div class="slider-wrap">
-
-                <input
-                    type="range"
-                    id="logoSize"
-                    min="10"
-                    max="45"
-                    value="33"
-                >
-
-            </div>
-
-            <div
-                class="slider-value"
-                id="logoSizeValue"
-            >
-                33%
-            </div>
-
-        </div>
-
-        <div class="helper">
-            Controls only the center logo size.
-        </div>
-
-    </div>
-
-
-    <!-- QUALITY -->
-    <div class="section">
-
-        <div class="section-title">
-            <span>📐</span>
-            Download Quality
-        </div>
-
-        <div class="quality-grid">
-
-            <button
-                class="quality-btn active"
-                data-quality="standard"
-                type="button"
-            >
-                Standard
-            </button>
-
-            <button
-                class="quality-btn"
-                data-quality="hd"
-                type="button"
-            >
-                HD
-            </button>
-
-            <button
-                class="quality-btn"
-                data-quality="fhd"
-                type="button"
-            >
-                FHD
-            </button>
-
-            <button
-                class="quality-btn"
-                data-quality="qhd"
-                type="button"
-            >
-                QHD
-            </button>
-
-            <button
-                class="quality-btn"
-                data-quality="uhd"
-                type="button"
-            >
-                UHD
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- BOTTOM GENERATE BUTTON -->
-    <div class="bottom-action">
+    <div class="style-grid">
 
         <button
-            id="generateBtn"
-            class="generate-btn"
-            type="button"
-        >
+            class="style-btn active"
+            data-style="square"
+            type="button">
 
-            <span class="generate-icon">
-                ▦
-            </span>
+            Square
 
-            <span>
-                Generate QR Code
-            </span>
+        </button>
+
+
+        <button
+            class="style-btn"
+            data-style="dots"
+            type="button">
+
+            Dots
+
+        </button>
+
+
+        <button
+            class="style-btn"
+            data-style="rounded"
+            type="button">
+
+            Round
 
         </button>
 
@@ -1326,10 +1156,659 @@ input[type="range"] {
 </div>
 
 
+
+<!-- =====================================================
+     CORNER STYLE
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+
+        <span>◼</span>
+
+        Corner Style
+
+    </div>
+
+
+    <select id="cornerStyle">
+
+        <option value="square">
+            Square
+        </option>
+
+        <option value="dot">
+            Dot
+        </option>
+
+        <option value="extra-rounded">
+            Extra Rounded
+        </option>
+
+    </select>
+
+</div>
+
+
+
+<!-- =====================================================
+     COLORS
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+
+        <span>🎨</span>
+
+        Colors
+
+    </div>
+
+
+    <div class="two-column">
+
+
+        <!-- QR COLOR -->
+
+        <div>
+
+            <label>
+                QR Color
+            </label>
+
+
+            <div class="color-row">
+
+                <div class="color-picker-wrap">
+
+                    <input
+                        type="color"
+                        id="qrColorPicker"
+                        value="#000000">
+
+                </div>
+
+
+                <input
+                    type="text"
+                    id="qrColorText"
+                    value="#000000"
+                    maxlength="7">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BACKGROUND -->
+
+        <div>
+
+            <label>
+                Background Color
+            </label>
+
+
+            <div class="color-row">
+
+                <div class="color-picker-wrap">
+
+                    <input
+                        type="color"
+                        id="bgColorPicker"
+                        value="#ffffff">
+
+                </div>
+
+
+                <input
+                    type="text"
+                    id="bgColorText"
+                    value="#ffffff"
+                    maxlength="7">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     LOGO
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+
+        <span>🖼️</span>
+
+        Logo
+
+    </div>
+
+
+    <div class="logo-grid" id="logoGrid">
+
+
+        <!-- NONE -->
+
+        <button
+            class="logo-card active"
+            data-logo="none"
+            type="button">
+
+            <div class="logo-none">
+                ∅
+            </div>
+
+            <div class="logo-name">
+                None
+            </div>
+
+        </button>
+
+
+
+        <!-- INSTAGRAM -->
+
+        <button
+            class="logo-card"
+            data-logo="instagram"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/instagram.svg"
+                alt="Instagram">
+
+            <div class="logo-name">
+                Instagram
+            </div>
+
+        </button>
+
+
+
+        <!-- GOOGLE -->
+
+        <button
+            class="logo-card"
+            data-logo="google"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/google.svg"
+                alt="Google">
+
+            <div class="logo-name">
+                Google
+            </div>
+
+        </button>
+
+
+
+        <!-- GPAY -->
+
+        <button
+            class="logo-card"
+            data-logo="gpay"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/googlepay.svg"
+                alt="GPay">
+
+            <div class="logo-name">
+                GPay
+            </div>
+
+        </button>
+
+
+
+        <!-- PHONEPE -->
+
+        <button
+            class="logo-card"
+            data-logo="phonepe"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/phonepe.svg"
+                alt="PhonePe">
+
+            <div class="logo-name">
+                PhonePe
+            </div>
+
+        </button>
+
+
+
+        <!-- PAYTM -->
+
+        <button
+            class="logo-card"
+            data-logo="paytm"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/paytm.svg"
+                alt="Paytm">
+
+            <div class="logo-name">
+                Paytm
+            </div>
+
+        </button>
+
+
+
+        <!-- WHATSAPP -->
+
+        <button
+            class="logo-card"
+            data-logo="whatsapp"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/whatsapp.svg"
+                alt="WhatsApp">
+
+            <div class="logo-name">
+                WhatsApp
+            </div>
+
+        </button>
+
+
+
+        <!-- FACEBOOK -->
+
+        <button
+            class="logo-card"
+            data-logo="facebook"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/facebook.svg"
+                alt="Facebook">
+
+            <div class="logo-name">
+                Facebook
+            </div>
+
+        </button>
+
+
+
+        <!-- YOUTUBE -->
+
+        <button
+            class="logo-card"
+            data-logo="youtube"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/youtube.svg"
+                alt="YouTube">
+
+            <div class="logo-name">
+                YouTube
+            </div>
+
+        </button>
+
+
+
+        <!-- GOOGLE MAPS -->
+
+        <button
+            class="logo-card"
+            data-logo="maps"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/googlemaps.svg"
+                alt="Maps">
+
+            <div class="logo-name">
+                Maps
+            </div>
+
+        </button>
+
+
+
+        <!-- LINKEDIN -->
+
+        <button
+            class="logo-card"
+            data-logo="linkedin"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/linkedin.svg"
+                alt="LinkedIn">
+
+            <div class="logo-name">
+                LinkedIn
+            </div>
+
+        </button>
+
+
+
+        <!-- TELEGRAM -->
+
+        <button
+            class="logo-card"
+            data-logo="telegram"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/telegram.svg"
+                alt="Telegram">
+
+            <div class="logo-name">
+                Telegram
+            </div>
+
+        </button>
+
+
+
+        <!-- X -->
+
+        <button
+            class="logo-card"
+            data-logo="x"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/x.svg"
+                alt="X">
+
+            <div class="logo-name">
+                X
+            </div>
+
+        </button>
+
+
+
+        <!-- SPOTIFY -->
+
+        <button
+            class="logo-card"
+            data-logo="spotify"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/spotify.svg"
+                alt="Spotify">
+
+            <div class="logo-name">
+                Spotify
+            </div>
+
+        </button>
+
+
+
+        <!-- UPI -->
+
+        <button
+            class="logo-card"
+            data-logo="upi"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' rx='10' fill='white'/%3E%3Cpath d='M15 17h10l-6 18h10L18 48H8l7-18H5z' fill='%23e83e8c'/%3E%3Ctext x='37' y='39' font-family='Arial,sans-serif' font-size='25' font-weight='900' fill='%23111111'%3EUPI%3C/text%3E%3C/svg%3E"
+                alt="UPI">
+
+            <div class="logo-name">
+                UPI
+            </div>
+
+        </button>
+
+
+
+        <!-- BHIM UPI -->
+
+        <button
+            class="logo-card"
+            data-logo="bhimupi"
+            type="button">
+
+            <img
+                class="logo-icon"
+                src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e85b25'/%3E%3Cpath d='M35 25h30v8H44v12h18c8 0 13 5 13 14s-5 15-14 15H35zM44 53v13h16c4 0 6-2 6-6s-2-7-6-7z' fill='white'/%3E%3Ctext x='50' y='90' text-anchor='middle' font-family='Arial' font-size='10' font-weight='bold' fill='white'%3EBHIM%3C/text%3E%3C/svg%3E"
+                alt="BHIM UPI">
+
+            <div class="logo-name">
+                BHIM UPI
+            </div>
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+         CUSTOM LOGO
+    ================================================= -->
+
+    <label
+        class="custom-upload"
+        for="customLogoInput">
+
+        <div class="upload-inner">
+
+            <div class="upload-icon">
+                🖼️
+            </div>
+
+            <div>
+
+                <div class="upload-title">
+                    Upload Custom Logo
+                </div>
+
+                <div class="upload-subtitle">
+                    Choose an image (PNG, JPG, SVG)
+                </div>
+
+            </div>
+
+        </div>
+
+    </label>
+
+
+    <input
+        type="file"
+        id="customLogoInput"
+        accept="image/png,image/jpeg,image/jpg,image/svg+xml">
+
+
+
+    <!-- =================================================
+         LOGO SIZE
+    ================================================= -->
+
+    <div class="section-title">
+
+        <span>🔍</span>
+
+        Logo Size
+
+    </div>
+
+
+    <div class="slider-row">
+
+        <div class="slider-wrap">
+
+            <input
+                type="range"
+                id="logoSize"
+                min="10"
+                max="45"
+                value="33">
+
+        </div>
+
+
+        <div
+            class="slider-value"
+            id="logoSizeValue">
+
+            33%
+
+        </div>
+
+    </div>
+
+
+    <div class="helper">
+
+        Controls only the center logo size.
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUALITY
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+
+        <span>📐</span>
+
+        Download Quality
+
+    </div>
+
+
+    <div class="quality-grid">
+
+        <button
+            class="quality-btn active"
+            data-quality="standard"
+            type="button">
+
+            Standard
+
+        </button>
+
+
+        <button
+            class="quality-btn"
+            data-quality="hd"
+            type="button">
+
+            HD
+
+        </button>
+
+
+        <button
+            class="quality-btn"
+            data-quality="fhd"
+            type="button">
+
+            FHD
+
+        </button>
+
+
+        <button
+            class="quality-btn"
+            data-quality="qhd"
+            type="button">
+
+            QHD
+
+        </button>
+
+
+        <button
+            class="quality-btn"
+            data-quality="uhd"
+            type="button">
+
+            UHD
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     BOTTOM GENERATE
+===================================================== -->
+
+<div class="bottom-action">
+
+    <button
+        id="generateBtn"
+        class="generate-btn"
+        type="button">
+
+        <span class="generate-icon">
+            ▦
+        </span>
+
+        <span>
+            Generate QR Code
+        </span>
+
+    </button>
+
+</div>
+
+
+</div>
+
+
+
 <script>
 
 /* =========================================================
-   QR CODE GENERATOR
+   QR GENERATOR
 ========================================================= */
 
 let qr = null;
@@ -1344,7 +1823,7 @@ let currentQuality = "standard";
 
 
 /* =========================================================
-   QUALITY SETTINGS
+   DOWNLOAD SIZES
 ========================================================= */
 
 const qualitySizes = {
@@ -1363,66 +1842,151 @@ const qualitySizes = {
 
 
 /* =========================================================
-   BUILT-IN LOGOS
+   LOGOS
 ========================================================= */
 
 const logos = {
 
     instagram:
-        "https://cdn.simpleicons.org/instagram",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/instagram.svg",
 
     google:
-        "https://cdn.simpleicons.org/google",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/google.svg",
 
     gpay:
-        "https://cdn.simpleicons.org/googlepay",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/googlepay.svg",
 
     phonepe:
-        "https://cdn.simpleicons.org/phonepe",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/phonepe.svg",
 
     paytm:
-        "https://cdn.simpleicons.org/paytm",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/paytm.svg",
 
     whatsapp:
-        "https://cdn.simpleicons.org/whatsapp",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/whatsapp.svg",
 
     facebook:
-        "https://cdn.simpleicons.org/facebook",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/facebook.svg",
 
     youtube:
-        "https://cdn.simpleicons.org/youtube",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/youtube.svg",
 
     maps:
-        "https://cdn.simpleicons.org/googlemaps",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/googlemaps.svg",
 
     linkedin:
-        "https://cdn.simpleicons.org/linkedin",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/linkedin.svg",
 
     telegram:
-        "https://cdn.simpleicons.org/telegram",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/telegram.svg",
 
     x:
-        "https://cdn.simpleicons.org/x",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/x.svg",
 
     spotify:
-        "https://cdn.simpleicons.org/spotify",
+        "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/spotify.svg",
+
+
+    /* UPI built-in SVG */
 
     upi:
-        "https://cdn.simpleicons.org/upi",
+        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' rx='10' fill='white'/%3E%3Cpath d='M15 17h10l-6 18h10L18 48H8l7-18H5z' fill='%23e83e8c'/%3E%3Ctext x='37' y='39' font-family='Arial,sans-serif' font-size='25' font-weight='900' fill='%23111111'%3EUPI%3C/text%3E%3C/svg%3E",
+
+
+    /* BHIM built-in SVG */
 
     bhimupi:
-        "https://cdn.simpleicons.org/bhim"
+        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e85b25'/%3E%3Cpath d='M35 25h30v8H44v12h18c8 0 13 5 13 14s-5 15-14 15H35zM44 53v13h16c4 0 6-2 6-6s-2-7-6-7z' fill='white'/%3E%3Ctext x='50' y='90' text-anchor='middle' font-family='Arial' font-size='10' font-weight='bold' fill='white'%3EBHIM%3C/text%3E%3C/svg%3E"
 
 };
 
 
 /* =========================================================
-   GET COLOR
+   HEX VALIDATION
 ========================================================= */
 
 function validHex(value) {
 
     return /^#[0-9A-Fa-f]{6}$/.test(value);
+
+}
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+function getQRColor() {
+
+    const value =
+        document
+            .getElementById("qrColorText")
+            .value
+            .trim();
+
+    return validHex(value)
+        ? value
+        : "#000000";
+}
+
+
+function getBGColor() {
+
+    const value =
+        document
+            .getElementById("bgColorText")
+            .value
+            .trim();
+
+    return validHex(value)
+        ? value
+        : "#ffffff";
+}
+
+
+/* =========================================================
+   LOGO SIZE
+========================================================= */
+
+function getLogoSize() {
+
+    const value =
+        Number(
+            document
+                .getElementById("logoSize")
+                .value
+        );
+
+    return value / 100;
+
+}
+
+
+/* =========================================================
+   CURRENT LOGO
+========================================================= */
+
+function getCurrentLogo() {
+
+    if (customLogo) {
+
+        return customLogo;
+
+    }
+
+
+    if (
+        currentLogo &&
+        currentLogo !== "none" &&
+        logos[currentLogo]
+    ) {
+
+        return logos[currentLogo];
+
+    }
+
+
+    return undefined;
 
 }
 
@@ -1436,91 +2000,93 @@ function createQR() {
     const container =
         document.getElementById("qrPreview");
 
+
     container.innerHTML = "";
 
 
-    qr = new QRCodeStyling({
+    qr =
+        new QRCodeStyling({
 
-        width: 700,
+            width: 165,
 
-        height: 700,
+            height: 165,
 
-        type: "canvas",
+            type: "canvas",
 
-        data: "",
+            data: "https://example.com",
 
-        margin: 20,
-
-
-        /* IMPORTANT:
-           ERROR CORRECTION IS ALWAYS HIGH
-        */
-
-        qrOptions: {
-
-            errorCorrectionLevel: "H"
-
-        },
+            margin: 12,
 
 
-        dotsOptions: {
+            /*
+               ALWAYS HIGH ERROR CORRECTION
+            */
 
-            type: currentStyle,
+            qrOptions: {
 
-            color:
-                getQRColor()
+                errorCorrectionLevel: "H"
 
-        },
-
-
-        backgroundOptions: {
-
-            color:
-                getBGColor()
-
-        },
+            },
 
 
-        cornersSquareOptions: {
+            dotsOptions: {
 
-            type:
-                document.getElementById("cornerStyle").value,
+                type: currentStyle,
 
-            color:
-                getQRColor()
+                color: getQRColor()
 
-        },
+            },
 
 
-        cornersDotOptions: {
+            backgroundOptions: {
 
-            type:
-                document.getElementById("cornerStyle").value === "dot"
-                    ? "dot"
-                    : "square",
+                color: getBGColor()
 
-            color:
-                getQRColor()
-
-        },
+            },
 
 
-        image: getCurrentLogo(),
+            cornersSquareOptions: {
 
-        imageOptions: {
+                type:
+                    document
+                        .getElementById("cornerStyle")
+                        .value,
 
-            hideBackgroundDots: true,
+                color: getQRColor()
 
-            imageSize:
-                getLogoSize(),
+            },
 
-            margin: 6,
 
-            crossOrigin: "anonymous"
+            cornersDotOptions: {
 
-        }
+                type:
+                    document
+                        .getElementById("cornerStyle")
+                        .value === "dot"
+                        ? "dot"
+                        : "square",
 
-    });
+                color: getQRColor()
+
+            },
+
+
+            image: getCurrentLogo(),
+
+
+            imageOptions: {
+
+                hideBackgroundDots: true,
+
+                imageSize: getLogoSize(),
+
+                margin: 5,
+
+                crossOrigin: "anonymous"
+
+            }
+
+        });
 
 
     qr.append(container);
@@ -1532,98 +2098,10 @@ function createQR() {
 
 
 /* =========================================================
-   GET CURRENT LOGO
-========================================================= */
-
-function getCurrentLogo() {
-
-    if (customLogo) {
-
-        return customLogo;
-
-    }
-
-    if (
-        currentLogo &&
-        logos[currentLogo]
-    ) {
-
-        return logos[currentLogo];
-
-    }
-
-    return undefined;
-
-}
-
-
-/* =========================================================
-   LOGO SIZE
-========================================================= */
-
-function getLogoSize() {
-
-    const value =
-        Number(
-            document.getElementById("logoSize").value
-        );
-
-    /*
-       qr-code-styling imageSize is a ratio.
-
-       33% slider = 0.33
-    */
-
-    return value / 100;
-
-}
-
-
-/* =========================================================
-   COLORS
-========================================================= */
-
-function getQRColor() {
-
-    const value =
-        document.getElementById("qrColorText").value.trim();
-
-    if (validHex(value)) {
-
-        return value;
-
-    }
-
-    return "#000000";
-
-}
-
-
-function getBGColor() {
-
-    const value =
-        document.getElementById("bgColorText").value.trim();
-
-    if (validHex(value)) {
-
-        return value;
-
-    }
-
-    return "#ffffff";
-
-}
-
-
-/* =========================================================
    UPDATE QR
 ========================================================= */
 
 function updateQR() {
-
-    const text =
-        document.getElementById("qrText").value.trim();
-
 
     if (!qr) {
 
@@ -1634,8 +2112,17 @@ function updateQR() {
     }
 
 
+    const text =
+        document
+            .getElementById("qrText")
+            .value
+            .trim();
+
+
     const corner =
-        document.getElementById("cornerStyle").value;
+        document
+            .getElementById("cornerStyle")
+            .value;
 
 
     qr.update({
@@ -1646,30 +2133,25 @@ function updateQR() {
 
         dotsOptions: {
 
-            type:
-                currentStyle,
+            type: currentStyle,
 
-            color:
-                getQRColor()
+            color: getQRColor()
 
         },
 
 
         backgroundOptions: {
 
-            color:
-                getBGColor()
+            color: getBGColor()
 
         },
 
 
         cornersSquareOptions: {
 
-            type:
-                corner,
+            type: corner,
 
-            color:
-                getQRColor()
+            color: getQRColor()
 
         },
 
@@ -1681,8 +2163,7 @@ function updateQR() {
                     ? "dot"
                     : "square",
 
-            color:
-                getQRColor()
+            color: getQRColor()
 
         },
 
@@ -1698,16 +2179,19 @@ function updateQR() {
             imageSize:
                 getLogoSize(),
 
-            margin: 6,
+            margin: 5,
 
-            crossOrigin: "anonymous"
+            crossOrigin:
+                "anonymous"
 
         },
 
 
-        qrOptions: {
+        /*
+           NEVER CHANGE THIS
+        */
 
-            /* ALWAYS HIGH */
+        qrOptions: {
 
             errorCorrectionLevel: "H"
 
@@ -1719,7 +2203,7 @@ function updateQR() {
 
 
 /* =========================================================
-   TEXT INPUT
+   QR TEXT
 ========================================================= */
 
 document
@@ -1731,7 +2215,7 @@ document
 
 
 /* =========================================================
-   STYLE BUTTONS
+   QR STYLE
 ========================================================= */
 
 document
@@ -1748,10 +2232,13 @@ document
                         btn.classList.remove("active")
                     );
 
+
                 button.classList.add("active");
+
 
                 currentStyle =
                     button.dataset.style;
+
 
                 updateQR();
 
@@ -1884,6 +2371,7 @@ document
                         item.classList.remove("active")
                     );
 
+
                 card.classList.add("active");
 
 
@@ -1893,11 +2381,6 @@ document
 
                 customLogo = null;
 
-
-                /*
-                   Selecting built-in logo removes
-                   previously uploaded custom logo.
-                */
 
                 updateQR();
 
@@ -1919,6 +2402,7 @@ document
 
             const file =
                 event.target.files[0];
+
 
             if (!file) {
 
@@ -1975,6 +2459,7 @@ document
                 .textContent =
                     event.target.value + "%";
 
+
             updateQR();
 
         }
@@ -1999,7 +2484,9 @@ document
                         btn.classList.remove("active")
                     );
 
+
                 button.classList.add("active");
+
 
                 currentQuality =
                     button.dataset.quality;
@@ -2033,31 +2520,26 @@ document
                     "Please enter a link or text first."
                 );
 
+
                 document
                     .getElementById("qrText")
                     .focus();
+
 
                 return;
 
             }
 
 
-            if (!qr) {
-
-                createQR();
-
-            }
-
-
             const size =
-                qualitySizes[currentQuality];
+                qualitySizes[
+                    currentQuality
+                ];
 
 
             /*
-               Create a separate high-resolution
-               QR for downloading.
-
-               Preview remains lightweight.
+               Separate high-resolution
+               download QR.
             */
 
             const downloadQR =
@@ -2080,7 +2562,8 @@ document
 
                     qrOptions: {
 
-                        errorCorrectionLevel: "H"
+                        errorCorrectionLevel:
+                            "H"
 
                     },
 
@@ -2142,7 +2625,8 @@ document
 
                     imageOptions: {
 
-                        hideBackgroundDots: true,
+                        hideBackgroundDots:
+                            true,
 
                         imageSize:
                             getLogoSize(),
@@ -2157,16 +2641,11 @@ document
                 });
 
 
-            const fileName =
-                "QR-Code-" +
-                currentQuality.toUpperCase() +
-                ".png";
-
-
             await downloadQR.download({
 
                 name:
-                    fileName.replace(".png", ""),
+                    "QR-Code-" +
+                    currentQuality.toUpperCase(),
 
                 extension:
                     "png"
