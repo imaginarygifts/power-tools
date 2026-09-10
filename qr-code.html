@@ -1,911 +1,837 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>Smart QR Code Generator</title>
+<title>QR Code Generator</title>
 
 <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
 
 <style>
-
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f3f5f8;
-    color: #171717;
+    padding: 0;
+    background: #f5f7fb;
+    color: #111827;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
 }
 
-.container {
+.app {
     width: 100%;
     max-width: 1100px;
     margin: auto;
-    padding: 15px;
+    padding: 18px;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .header {
-    text-align: center;
-    padding: 15px 0 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
 }
 
 .header h1 {
-    margin: 0 0 7px;
-    font-size: 30px;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
 }
 
 .header p {
-    margin: 0;
-    color: #777;
+    margin: 6px 0 0;
+    color: #6b7280;
+    font-size: 14px;
 }
 
+/* =========================
+   LIVE PREVIEW
+========================= */
 
-/* MAIN */
+.preview-card {
+    position: sticky;
+    top: 10px;
+    z-index: 20;
 
-.main-card {
-    background: white;
-    border-radius: 20px;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 18px;
+    margin-bottom: 16px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.preview-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.preview-title strong {
+    font-size: 17px;
+}
+
+.live-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #16a34a;
+    background: #dcfce7;
+    padding: 6px 9px;
+    border-radius: 999px;
+}
+
+.preview-box {
+    min-height: 260px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+
+    padding: 20px;
+
     overflow: hidden;
-    box-shadow: 0 8px 35px rgba(0,0,0,.08);
 }
 
-.main-grid {
-    display: grid;
-    grid-template-columns: 1fr 420px;
+#qrPreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
 }
 
-
-/* SETTINGS */
-
-.settings {
-    padding: 25px;
+#qrPreview canvas,
+#qrPreview img {
+    max-width: 100%;
+    height: auto;
 }
+
+.preview-placeholder {
+    color: #9ca3af;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* =========================
+   SECTIONS
+========================= */
 
 .section {
-    margin-bottom: 22px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
 }
 
 .section-title {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    margin-bottom: 14px;
 }
 
-input[type="url"],
+.section-title span {
+    font-size: 21px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+textarea,
 input[type="text"],
 select {
     width: 100%;
-    padding: 13px;
-    border: 1px solid #dcdcdc;
-    border-radius: 10px;
-    font-size: 16px;
+
+    border: 1px solid #d9dee8;
+    background: #ffffff;
+
+    border-radius: 13px;
+
+    padding: 13px 14px;
+
+    font-size: 15px;
+    color: #111827;
+
     outline: none;
-    background: white;
+
+    transition: .2s;
 }
 
-input:focus,
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+textarea:focus,
+input[type="text"]:focus,
 select:focus {
-    border-color: #555;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.10);
 }
 
+/* =========================
+   TWO COLUMNS
+========================= */
 
-/* STYLE BUTTONS */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* =========================
+   STYLE BUTTONS
+========================= */
 
 .style-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.style-btn {
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 10px;
-    padding: 11px 5px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.style-btn.active {
-    border: 2px solid #111;
-    background: #f4f4f4;
-}
-
-
-/* COLOR */
-
-.color-row {
-    display: flex;
     gap: 10px;
 }
 
-input[type="color"] {
-    width: 55px;
-    height: 45px;
-    padding: 3px;
-    border: 1px solid #ddd;
-    border-radius: 9px;
+.style-btn {
+    border: 1.5px solid #dce1e9;
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    min-height: 60px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: .18s;
+}
+
+.style-btn:active {
+    transform: scale(.97);
+}
+
+.style-btn.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 0 0 1px #2563eb;
+}
+
+/* =========================
+   COLOR
+========================= */
+
+.color-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.color-picker-wrap {
+    width: 72px;
+    min-width: 72px;
+    height: 58px;
+
+    border: 1px solid #d9dee8;
+    border-radius: 13px;
+
+    padding: 6px;
+
+    background: #ffffff;
+}
+
+.color-picker-wrap input[type="color"] {
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+    padding: 0;
+
+    background: transparent;
     cursor: pointer;
 }
 
+/* =========================
+   LOGO GRID
+========================= */
 
-/* RANGE */
+.logo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
 
-.range-line {
+.logo-card {
+    min-height: 106px;
+
+    border: 1.5px solid #dce1e9;
+    background: #ffffff;
+
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px;
+
+    cursor: pointer;
+
+    transition: .18s;
+}
+
+.logo-card:active {
+    transform: scale(.97);
+}
+
+.logo-card.active {
+    border-color: #111827;
+    box-shadow: 0 0 0 1px #111827;
+    background: #f8fafc;
+}
+
+.logo-icon {
+    width: 47px;
+    height: 47px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.logo-none {
+    width: 47px;
+    height: 47px;
+
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+
+    font-size: 34px;
+    line-height: 1;
+}
+
+.logo-name {
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* =========================
+   CUSTOM UPLOAD
+========================= */
+
+.custom-upload {
+    margin-top: 18px;
+    margin-bottom: 22px;
+
+    min-height: 110px;
+
+    border: 2px dashed #d5dce8;
+    border-radius: 18px;
+
+    background: #fafcff;
+
+    padding: 22px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.custom-upload:hover {
+    border-color: #2563eb;
+    background: #f5f9ff;
+}
+
+.custom-upload:active {
+    transform: scale(.99);
+}
+
+.upload-inner {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    width: 100%;
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+
+    border: 2px solid #1e3a5f;
+    border-radius: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+
+    flex-shrink: 0;
+}
+
+.upload-title {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.upload-subtitle {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+#customLogoInput {
+    display: none;
+}
+
+/* =========================
+   SLIDER
+========================= */
+
+.slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.slider-wrap {
+    flex: 1;
 }
 
 input[type="range"] {
     width: 100%;
+    accent-color: #2563eb;
 }
 
-.range-value {
-    min-width: 55px;
-    text-align: right;
-    font-weight: bold;
+.slider-value {
+    min-width: 62px;
+
+    text-align: center;
+
+    padding: 9px 10px;
+
+    border: 1px solid #e0e5ed;
+    background: #f8fafc;
+
+    border-radius: 10px;
+
+    font-weight: 800;
 }
 
+.helper {
+    margin-top: 7px;
 
-/* LOGOS */
+    color: #6b7280;
 
-.logo-grid {
+    font-size: 12px;
+}
+
+/* =========================
+   QUALITY
+========================= */
+
+.quality-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
 }
 
-.logo-option {
-    height: 65px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: white;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-    font-size: 10px;
-}
+.quality-btn {
+    border: 1.5px solid #dce1e9;
+    background: #ffffff;
 
-.logo-option img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-}
+    border-radius: 12px;
 
-.logo-option.active {
-    border: 2px solid #111;
-    background: #f5f5f5;
-}
+    padding: 11px 5px;
 
-.no-logo {
-    font-size: 22px;
-}
-
-
-/* UPLOAD */
-
-.upload-box {
-    margin-top: 10px;
-    border: 2px dashed #ddd;
-    border-radius: 10px;
-    padding: 13px;
-    text-align: center;
-    cursor: pointer;
-    color: #555;
-}
-
-.upload-box input {
-    display: none;
-}
-
-
-/* PREVIEW */
-
-.preview {
-    background: #fafafa;
-    border-left: 1px solid #eee;
-    min-height: 650px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-}
-
-.preview-title {
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.qr-box {
-    background: white;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#qrPreview {
-    width: 300px;
-    height: 300px;
-}
-
-#qrPreview canvas,
-#qrPreview svg {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-
-/* DOWNLOAD */
-
-.download-section {
-    width: 100%;
-    max-width: 330px;
-    margin-top: 20px;
-}
-
-.download-section label {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-.download-btn {
-    width: 100%;
-    padding: 15px;
-    background: #111;
-    color: white;
-    border: 0;
-    border-radius: 11px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.download-btn:hover {
-    background: #333;
-}
-
-.info {
     font-size: 12px;
-    color: #777;
-    margin-top: 7px;
+    font-weight: 700;
+
+    cursor: pointer;
 }
 
-
-/* MOBILE */
-
-@media(max-width:800px) {
-
-    .main-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .preview {
-        order: -1;
-        border-left: 0;
-        border-bottom: 1px solid #eee;
-        min-height: 390px;
-    }
-
-    .settings {
-        padding: 18px;
-    }
-
+.quality-btn.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
 }
 
-@media(max-width:450px) {
+/* =========================
+   BOTTOM GENERATE
+========================= */
 
-    .container {
-        padding: 8px;
+.bottom-action {
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    padding: 18px;
+
+    margin-top: 4px;
+    margin-bottom: 30px;
+
+    box-shadow: 0 5px 25px rgba(0,0,0,.06);
+}
+
+.generate-btn {
+    width: 100%;
+
+    min-height: 62px;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #1677f2;
+
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    box-shadow: 0 8px 20px rgba(22,119,242,.22);
+
+    transition: .18s;
+}
+
+.generate-btn:hover {
+    background: #1269d8;
+}
+
+.generate-btn:active {
+    transform: scale(.985);
+}
+
+.generate-icon {
+    font-size: 25px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .app {
+        padding: 10px;
+    }
+
+    .header {
+        padding: 16px;
     }
 
     .header h1 {
-        font-size: 25px;
+        font-size: 21px;
     }
 
-    .preview {
-        min-height: 360px;
-        padding: 15px;
+    .preview-card {
+        top: 5px;
     }
 
-    #qrPreview {
-        width: 280px;
-        height: 280px;
+    .section {
+        padding: 16px;
+        border-radius: 17px;
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
     }
 
     .logo-grid {
         grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .logo-card {
+        min-height: 96px;
+        padding: 7px;
+    }
+
+    .logo-icon,
+    .logo-none {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo-none {
+        font-size: 29px;
+    }
+
+    .logo-name {
+        font-size: 11px;
     }
 
     .style-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
+    .quality-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .preview-box {
+        min-height: 230px;
+    }
 }
 
+@media (max-width: 390px) {
+
+    .logo-grid {
+        gap: 6px;
+    }
+
+    .logo-card {
+        min-height: 90px;
+    }
+
+    .logo-name {
+        font-size: 10px;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
+<div class="app">
 
-<div class="container">
-
+    <!-- HEADER -->
     <div class="header">
-
         <h1>QR Code Generator</h1>
+        <p>Create and customize your QR code with live preview.</p>
+    </div>
 
-        <p>
-            Create beautiful custom QR codes instantly
-        </p>
+
+    <!-- LIVE PREVIEW -->
+    <div class="preview-card">
+
+        <div class="preview-title">
+            <strong>Live QR Preview</strong>
+            <span class="live-badge">● LIVE</span>
+        </div>
+
+        <div class="preview-box">
+
+            <div id="qrPreview">
+
+                <div class="preview-placeholder">
+                    Enter a link or text below to generate your QR preview.
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 
-    <div class="main-card">
+    <!-- CONTENT -->
+    <div class="section">
 
-        <div class="main-grid">
+        <div class="section-title">
+            <span>🔗</span>
+            QR Content
+        </div>
+
+        <label for="qrText">
+            Link / Text
+        </label>
+
+        <textarea
+            id="qrText"
+            placeholder="Enter website link, UPI link, text, phone number, etc."
+        ></textarea>
+
+    </div>
 
 
-            <!-- SETTINGS -->
+    <!-- QR STYLE -->
+    <div class="section">
 
-            <div class="settings">
+        <div class="section-title">
+            <span>🎨</span>
+            QR Style
+        </div>
+
+        <div class="style-grid">
+
+            <button class="style-btn active"
+                    data-style="square">
+                Square
+            </button>
+
+            <button class="style-btn"
+                    data-style="dots">
+                Dots
+            </button>
+
+            <button class="style-btn"
+                    data-style="rounded">
+                Rounded
+            </button>
+
+            <button class="style-btn"
+                    data-style="extra-rounded">
+                Extra Rounded
+            </button>
+
+            <button class="style-btn"
+                    data-style="classy">
+                Classy
+            </button>
+
+            <button class="style-btn"
+                    data-style="classy-rounded">
+                Classy Round
+            </button>
+
+        </div>
+
+    </div>
 
 
-                <!-- LINK -->
+    <!-- CORNER -->
+    <div class="section">
 
-                <div class="section">
+        <div class="section-title">
+            <span>◼</span>
+            Corner Style
+        </div>
 
-                    <div class="section-title">
-                        🔗 Website / Link
+        <select id="cornerStyle">
+
+            <option value="square">
+                Square
+            </option>
+
+            <option value="dot">
+                Dot
+            </option>
+
+            <option value="extra-rounded">
+                Extra Rounded
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- COLORS -->
+    <div class="section">
+
+        <div class="section-title">
+            <span>🎨</span>
+            Colors
+        </div>
+
+        <div class="two-column">
+
+            <div>
+
+                <label>
+                    QR Color
+                </label>
+
+                <div class="color-row">
+
+                    <div class="color-picker-wrap">
+                        <input
+                            type="color"
+                            id="qrColorPicker"
+                            value="#000000"
+                        >
                     </div>
 
                     <input
-                        type="url"
-                        id="qrText"
-                        placeholder="https://example.com"
+                        type="text"
+                        id="qrColorText"
+                        value="#000000"
+                        maxlength="7"
                     >
 
                 </div>
-
-
-
-                <!-- QR STYLE -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        ✨ QR Code Style
-                    </div>
-
-                    <div class="style-grid">
-
-                        <button
-                            class="style-btn active"
-                            data-style="square"
-                        >
-                            Square
-                        </button>
-
-                        <button
-                            class="style-btn"
-                            data-style="dots"
-                        >
-                            Dots
-                        </button>
-
-                        <button
-                            class="style-btn"
-                            data-style="rounded"
-                        >
-                            Rounded
-                        </button>
-
-                        <button
-                            class="style-btn"
-                            data-style="extra-rounded"
-                        >
-                            Soft
-                        </button>
-
-                        <button
-                            class="style-btn"
-                            data-style="classy"
-                        >
-                            Classy
-                        </button>
-
-                        <button
-                            class="style-btn"
-                            data-style="classy-rounded"
-                        >
-                            Classy Round
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- CORNERS -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        ◈ Corner Style
-                    </div>
-
-                    <select id="cornerStyle">
-
-                        <option value="square">
-                            Square
-                        </option>
-
-                        <option value="dot">
-                            Dot
-                        </option>
-
-                        <option value="extra-rounded">
-                            Rounded
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-
-                <!-- QR COLOR -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        🎨 QR Color
-                    </div>
-
-                    <div class="color-row">
-
-                        <input
-                            type="color"
-                            id="qrColor"
-                            value="#000000"
-                        >
-
-                        <input
-                            type="text"
-                            id="qrColorText"
-                            value="#000000"
-                        >
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- BACKGROUND -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        ⬜ Background Color
-                    </div>
-
-                    <div class="color-row">
-
-                        <input
-                            type="color"
-                            id="bgColor"
-                            value="#ffffff"
-                        >
-
-                        <input
-                            type="text"
-                            id="bgColorText"
-                            value="#ffffff"
-                        >
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- LOGO -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        🖼️ Logo
-                    </div>
-
-                    <div class="logo-grid">
-
-
-                        <!-- NONE -->
-
-                        <button
-                            class="logo-option active"
-                            data-logo=""
-                        >
-
-                            <span class="no-logo">
-                                ∅
-                            </span>
-
-                            None
-
-                        </button>
-
-
-                        <!-- INSTAGRAM -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/instagram.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/instagram.svg">
-
-                            Instagram
-
-                        </button>
-
-
-                        <!-- GOOGLE -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/google.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/google.svg">
-
-                            Google
-
-                        </button>
-
-
-                        <!-- GPAY -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlepay.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlepay.svg">
-
-                            GPay
-
-                        </button>
-
-
-                        <!-- PHONEPE -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/phonepe.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/phonepe.svg">
-
-                            PhonePe
-
-                        </button>
-
-
-                        <!-- PAYTM -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/paytm.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/paytm.svg">
-
-                            Paytm
-
-                        </button>
-
-
-                        <!-- WHATSAPP -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/whatsapp.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/whatsapp.svg">
-
-                            WhatsApp
-
-                        </button>
-
-
-                        <!-- FACEBOOK -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/facebook.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/facebook.svg">
-
-                            Facebook
-
-                        </button>
-
-
-                        <!-- YOUTUBE -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/youtube.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/youtube.svg">
-
-                            YouTube
-
-                        </button>
-
-
-                        <!-- MAPS -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlemaps.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlemaps.svg">
-
-                            Maps
-
-                        </button>
-
-
-                        <!-- LINKEDIN -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/linkedin.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/linkedin.svg">
-
-                            LinkedIn
-
-                        </button>
-
-
-                        <!-- TELEGRAM -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/telegram.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/telegram.svg">
-
-                            Telegram
-
-                        </button>
-
-
-                        <!-- X -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/x.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/x.svg">
-
-                            X
-
-                        </button>
-
-
-                        <!-- SPOTIFY -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/spotify.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/spotify.svg">
-
-                            Spotify
-
-                        </button>
-
-
-                        <!-- UPI -->
-
-                        <button
-                            class="logo-option"
-                            data-logo="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/upi.svg"
-                        >
-
-                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/upi.svg">
-
-                            UPI
-
-                        </button>
-
-                    </div>
-
-
-                    <!-- CUSTOM LOGO -->
-
-                    <label class="upload-box">
-
-                        📁 Upload Custom Logo
-
-                        <input
-                            type="file"
-                            id="logoInput"
-                            accept="image/png,image/jpeg,image/webp"
-                        >
-
-                    </label>
-
-                </div>
-
-
-
-                <!-- LOGO SIZE -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        🔍 Logo Size
-                    </div>
-
-                    <div class="range-line">
-
-                        <input
-                            type="range"
-                            id="logoSize"
-                            min="10"
-                            max="40"
-                            value="25"
-                        >
-
-                        <span
-                            class="range-value"
-                            id="logoSizeValue"
-                        >
-                            25%
-                        </span>
-
-                    </div>
-
-                    <div class="info">
-                        Controls only the center logo size.
-                    </div>
-
-                </div>
-
-
-
-                <!-- ERROR CORRECTION -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        🛡 Error Correction
-                    </div>
-
-                    <select id="errorCorrection">
-
-                        <option value="L">
-                            Low
-                        </option>
-
-                        <option value="M" selected>
-                            Medium
-                        </option>
-
-                        <option value="Q">
-                            High
-                        </option>
-
-                        <option value="H">
-                            Maximum
-                        </option>
-
-                    </select>
-
-                    <div class="info">
-                        High or Maximum is recommended when using a logo.
-                    </div>
-
-                </div>
-
 
             </div>
 
 
+            <div>
 
-            <!-- PREVIEW -->
+                <label>
+                    Background Color
+                </label>
 
-            <div class="preview">
+                <div class="color-row">
 
-                <div class="preview-title">
-                    Live Preview
-                </div>
+                    <div class="color-picker-wrap">
+                        <input
+                            type="color"
+                            id="bgColorPicker"
+                            value="#ffffff"
+                        >
+                    </div>
 
-
-                <div class="qr-box">
-
-                    <div id="qrPreview"></div>
-
-                </div>
-
-
-                <!-- DOWNLOAD -->
-
-                <div class="download-section">
-
-                    <label>
-                        Download Quality
-                    </label>
-
-                    <select id="downloadQuality">
-
-                        <option value="500">
-                            Standard — 500 × 500
-                        </option>
-
-                        <option value="1000" selected>
-                            HD — 1000 × 1000
-                        </option>
-
-                        <option value="1920">
-                            FHD — 1920 × 1920
-                        </option>
-
-                        <option value="2560">
-                            QHD — 2560 × 2560
-                        </option>
-
-                        <option value="3840">
-                            UHD — 3840 × 3840
-                        </option>
-
-                    </select>
-
-
-                    <button
-                        class="download-btn"
-                        id="downloadBtn"
+                    <input
+                        type="text"
+                        id="bgColorText"
+                        value="#ffffff"
+                        maxlength="7"
                     >
-                        ⬇ Download PNG
-                    </button>
 
                 </div>
 
@@ -915,156 +841,791 @@ input[type="range"] {
 
     </div>
 
-</div>
 
+    <!-- LOGO -->
+    <div class="section">
+
+        <div class="section-title">
+            <span>🖼️</span>
+            Logo
+        </div>
+
+
+        <div class="logo-grid" id="logoGrid">
+
+
+            <!-- NONE -->
+            <button
+                class="logo-card active"
+                data-logo="none"
+                type="button"
+            >
+
+                <div class="logo-none">
+                    ∅
+                </div>
+
+                <div class="logo-name">
+                    None
+                </div>
+
+            </button>
+
+
+            <!-- INSTAGRAM -->
+            <button
+                class="logo-card"
+                data-logo="instagram"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/instagram"
+                    alt="Instagram"
+                >
+
+                <div class="logo-name">
+                    Instagram
+                </div>
+
+            </button>
+
+
+            <!-- GOOGLE -->
+            <button
+                class="logo-card"
+                data-logo="google"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/google"
+                    alt="Google"
+                >
+
+                <div class="logo-name">
+                    Google
+                </div>
+
+            </button>
+
+
+            <!-- GPAY -->
+            <button
+                class="logo-card"
+                data-logo="gpay"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/googlepay"
+                    alt="GPay"
+                >
+
+                <div class="logo-name">
+                    GPay
+                </div>
+
+            </button>
+
+
+            <!-- PHONEPE -->
+            <button
+                class="logo-card"
+                data-logo="phonepe"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/phonepe"
+                    alt="PhonePe"
+                >
+
+                <div class="logo-name">
+                    PhonePe
+                </div>
+
+            </button>
+
+
+            <!-- PAYTM -->
+            <button
+                class="logo-card"
+                data-logo="paytm"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/paytm"
+                    alt="Paytm"
+                >
+
+                <div class="logo-name">
+                    Paytm
+                </div>
+
+            </button>
+
+
+            <!-- WHATSAPP -->
+            <button
+                class="logo-card"
+                data-logo="whatsapp"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/whatsapp"
+                    alt="WhatsApp"
+                >
+
+                <div class="logo-name">
+                    WhatsApp
+                </div>
+
+            </button>
+
+
+            <!-- FACEBOOK -->
+            <button
+                class="logo-card"
+                data-logo="facebook"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/facebook"
+                    alt="Facebook"
+                >
+
+                <div class="logo-name">
+                    Facebook
+                </div>
+
+            </button>
+
+
+            <!-- YOUTUBE -->
+            <button
+                class="logo-card"
+                data-logo="youtube"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/youtube"
+                    alt="YouTube"
+                >
+
+                <div class="logo-name">
+                    YouTube
+                </div>
+
+            </button>
+
+
+            <!-- MAPS -->
+            <button
+                class="logo-card"
+                data-logo="maps"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/googlemaps"
+                    alt="Maps"
+                >
+
+                <div class="logo-name">
+                    Maps
+                </div>
+
+            </button>
+
+
+            <!-- LINKEDIN -->
+            <button
+                class="logo-card"
+                data-logo="linkedin"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/linkedin"
+                    alt="LinkedIn"
+                >
+
+                <div class="logo-name">
+                    LinkedIn
+                </div>
+
+            </button>
+
+
+            <!-- TELEGRAM -->
+            <button
+                class="logo-card"
+                data-logo="telegram"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/telegram"
+                    alt="Telegram"
+                >
+
+                <div class="logo-name">
+                    Telegram
+                </div>
+
+            </button>
+
+
+            <!-- X -->
+            <button
+                class="logo-card"
+                data-logo="x"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/x"
+                    alt="X"
+                >
+
+                <div class="logo-name">
+                    X
+                </div>
+
+            </button>
+
+
+            <!-- SPOTIFY -->
+            <button
+                class="logo-card"
+                data-logo="spotify"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/spotify"
+                    alt="Spotify"
+                >
+
+                <div class="logo-name">
+                    Spotify
+                </div>
+
+            </button>
+
+
+            <!-- UPI -->
+            <button
+                class="logo-card"
+                data-logo="upi"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/upi"
+                    alt="UPI"
+                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/2/23/UPI-Logo-vector.svg'"
+                >
+
+                <div class="logo-name">
+                    UPI
+                </div>
+
+            </button>
+
+
+            <!-- BHIM UPI -->
+            <button
+                class="logo-card"
+                data-logo="bhimupi"
+                type="button"
+            >
+
+                <img
+                    class="logo-icon"
+                    src="https://cdn.simpleicons.org/bhim"
+                    alt="BHIM UPI"
+                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/3/39/BHIM_logo.svg'"
+                >
+
+                <div class="logo-name">
+                    BHIM UPI
+                </div>
+
+            </button>
+
+        </div>
+
+
+        <!-- CUSTOM LOGO -->
+        <label
+            class="custom-upload"
+            for="customLogoInput"
+        >
+
+            <div class="upload-inner">
+
+                <div class="upload-icon">
+                    🖼️
+                </div>
+
+                <div>
+
+                    <div class="upload-title">
+                        Upload Custom Logo
+                    </div>
+
+                    <div class="upload-subtitle">
+                        Choose an image (PNG, JPG, SVG)
+                    </div>
+
+                </div>
+
+            </div>
+
+        </label>
+
+        <input
+            type="file"
+            id="customLogoInput"
+            accept="image/png,image/jpeg,image/jpg,image/svg+xml"
+        >
+
+
+        <!-- LOGO SIZE -->
+        <div class="section-title">
+            <span>🔍</span>
+            Logo Size
+        </div>
+
+        <div class="slider-row">
+
+            <div class="slider-wrap">
+
+                <input
+                    type="range"
+                    id="logoSize"
+                    min="10"
+                    max="45"
+                    value="33"
+                >
+
+            </div>
+
+            <div
+                class="slider-value"
+                id="logoSizeValue"
+            >
+                33%
+            </div>
+
+        </div>
+
+        <div class="helper">
+            Controls only the center logo size.
+        </div>
+
+    </div>
+
+
+    <!-- QUALITY -->
+    <div class="section">
+
+        <div class="section-title">
+            <span>📐</span>
+            Download Quality
+        </div>
+
+        <div class="quality-grid">
+
+            <button
+                class="quality-btn active"
+                data-quality="standard"
+                type="button"
+            >
+                Standard
+            </button>
+
+            <button
+                class="quality-btn"
+                data-quality="hd"
+                type="button"
+            >
+                HD
+            </button>
+
+            <button
+                class="quality-btn"
+                data-quality="fhd"
+                type="button"
+            >
+                FHD
+            </button>
+
+            <button
+                class="quality-btn"
+                data-quality="qhd"
+                type="button"
+            >
+                QHD
+            </button>
+
+            <button
+                class="quality-btn"
+                data-quality="uhd"
+                type="button"
+            >
+                UHD
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOTTOM GENERATE BUTTON -->
+    <div class="bottom-action">
+
+        <button
+            id="generateBtn"
+            class="generate-btn"
+            type="button"
+        >
+
+            <span class="generate-icon">
+                ▦
+            </span>
+
+            <span>
+                Generate QR Code
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
 
 
 <script>
 
-/* =====================================
-   QR SETTINGS
-===================================== */
+/* =========================================================
+   QR CODE GENERATOR
+========================================================= */
+
+let qr = null;
 
 let currentStyle = "square";
 
-let currentLogo = "";
+let currentLogo = null;
 
-let uploadedLogo = null;
+let customLogo = null;
 
-let qrCode;
+let currentQuality = "standard";
 
 
-/* =====================================
+/* =========================================================
+   QUALITY SETTINGS
+========================================================= */
+
+const qualitySizes = {
+
+    standard: 800,
+
+    hd: 1280,
+
+    fhd: 1920,
+
+    qhd: 2560,
+
+    uhd: 3840
+
+};
+
+
+/* =========================================================
+   BUILT-IN LOGOS
+========================================================= */
+
+const logos = {
+
+    instagram:
+        "https://cdn.simpleicons.org/instagram",
+
+    google:
+        "https://cdn.simpleicons.org/google",
+
+    gpay:
+        "https://cdn.simpleicons.org/googlepay",
+
+    phonepe:
+        "https://cdn.simpleicons.org/phonepe",
+
+    paytm:
+        "https://cdn.simpleicons.org/paytm",
+
+    whatsapp:
+        "https://cdn.simpleicons.org/whatsapp",
+
+    facebook:
+        "https://cdn.simpleicons.org/facebook",
+
+    youtube:
+        "https://cdn.simpleicons.org/youtube",
+
+    maps:
+        "https://cdn.simpleicons.org/googlemaps",
+
+    linkedin:
+        "https://cdn.simpleicons.org/linkedin",
+
+    telegram:
+        "https://cdn.simpleicons.org/telegram",
+
+    x:
+        "https://cdn.simpleicons.org/x",
+
+    spotify:
+        "https://cdn.simpleicons.org/spotify",
+
+    upi:
+        "https://cdn.simpleicons.org/upi",
+
+    bhimupi:
+        "https://cdn.simpleicons.org/bhim"
+
+};
+
+
+/* =========================================================
+   GET COLOR
+========================================================= */
+
+function validHex(value) {
+
+    return /^#[0-9A-Fa-f]{6}$/.test(value);
+
+}
+
+
+/* =========================================================
    CREATE QR
-===================================== */
+========================================================= */
 
 function createQR() {
 
-    qrCode = new QRCodeStyling({
+    const container =
+        document.getElementById("qrPreview");
 
-        width: 300,
+    container.innerHTML = "";
 
-        height: 300,
+
+    qr = new QRCodeStyling({
+
+        width: 700,
+
+        height: 700,
 
         type: "canvas",
 
-        data: getText(),
+        data: "",
 
-        image: currentLogo || uploadedLogo || undefined,
+        margin: 20,
+
+
+        /* IMPORTANT:
+           ERROR CORRECTION IS ALWAYS HIGH
+        */
 
         qrOptions: {
 
-            errorCorrectionLevel:
-                document.getElementById(
-                    "errorCorrection"
-                ).value
+            errorCorrectionLevel: "H"
 
         },
+
 
         dotsOptions: {
 
-            color:
-                document.getElementById(
-                    "qrColor"
-                ).value,
+            type: currentStyle,
 
-            type: currentStyle
+            color:
+                getQRColor()
 
         },
 
-        cornersSquareOptions: {
-
-            color:
-                document.getElementById(
-                    "qrColor"
-                ).value,
-
-            type:
-                document.getElementById(
-                    "cornerStyle"
-                ).value
-
-        },
-
-        cornersDotOptions: {
-
-            color:
-                document.getElementById(
-                    "qrColor"
-                ).value,
-
-            type:
-                document.getElementById(
-                    "cornerStyle"
-                ).value === "dot"
-                    ? "dot"
-                    : "square"
-
-        },
 
         backgroundOptions: {
 
             color:
-                document.getElementById(
-                    "bgColor"
-                ).value
+                getBGColor()
 
         },
 
+
+        cornersSquareOptions: {
+
+            type:
+                document.getElementById("cornerStyle").value,
+
+            color:
+                getQRColor()
+
+        },
+
+
+        cornersDotOptions: {
+
+            type:
+                document.getElementById("cornerStyle").value === "dot"
+                    ? "dot"
+                    : "square",
+
+            color:
+                getQRColor()
+
+        },
+
+
+        image: getCurrentLogo(),
+
         imageOptions: {
-
-            crossOrigin: "anonymous",
-
-            margin: 8,
 
             hideBackgroundDots: true,
 
             imageSize:
-                parseInt(
-                    document.getElementById(
-                        "logoSize"
-                    ).value
-                ) / 100
+                getLogoSize(),
+
+            margin: 6,
+
+            crossOrigin: "anonymous"
 
         }
 
     });
 
 
-    document
-        .getElementById("qrPreview")
-        .innerHTML = "";
+    qr.append(container);
 
 
-    qrCode.append(
-        document.getElementById("qrPreview")
-    );
+    updateQR();
 
 }
 
 
-/* =====================================
-   GET TEXT
-===================================== */
+/* =========================================================
+   GET CURRENT LOGO
+========================================================= */
 
-function getText() {
+function getCurrentLogo() {
 
-    const input =
-        document.getElementById("qrText");
+    if (customLogo) {
 
-    return input.value.trim()
-        || "https://example.com";
+        return customLogo;
+
+    }
+
+    if (
+        currentLogo &&
+        logos[currentLogo]
+    ) {
+
+        return logos[currentLogo];
+
+    }
+
+    return undefined;
 
 }
 
 
-/* =====================================
-   LIVE UPDATE
-===================================== */
+/* =========================================================
+   LOGO SIZE
+========================================================= */
+
+function getLogoSize() {
+
+    const value =
+        Number(
+            document.getElementById("logoSize").value
+        );
+
+    /*
+       qr-code-styling imageSize is a ratio.
+
+       33% slider = 0.33
+    */
+
+    return value / 100;
+
+}
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+function getQRColor() {
+
+    const value =
+        document.getElementById("qrColorText").value.trim();
+
+    if (validHex(value)) {
+
+        return value;
+
+    }
+
+    return "#000000";
+
+}
+
+
+function getBGColor() {
+
+    const value =
+        document.getElementById("bgColorText").value.trim();
+
+    if (validHex(value)) {
+
+        return value;
+
+    }
+
+    return "#ffffff";
+
+}
+
+
+/* =========================================================
+   UPDATE QR
+========================================================= */
 
 function updateQR() {
 
-    if (!qrCode) {
+    const text =
+        document.getElementById("qrText").value.trim();
+
+
+    if (!qr) {
 
         createQR();
 
@@ -1073,88 +1634,82 @@ function updateQR() {
     }
 
 
-    qrCode.update({
+    const corner =
+        document.getElementById("cornerStyle").value;
 
-        data: getText(),
 
-        image:
-            currentLogo
-            || uploadedLogo
-            || undefined,
+    qr.update({
 
-        qrOptions: {
+        data:
+            text || "https://example.com",
 
-            errorCorrectionLevel:
-                document.getElementById(
-                    "errorCorrection"
-                ).value
-
-        },
 
         dotsOptions: {
 
-            color:
-                document.getElementById(
-                    "qrColor"
-                ).value,
-
-            type: currentStyle
-
-        },
-
-        cornersSquareOptions: {
-
-            color:
-                document.getElementById(
-                    "qrColor"
-                ).value,
-
             type:
-                document.getElementById(
-                    "cornerStyle"
-                ).value
-
-        },
-
-        cornersDotOptions: {
+                currentStyle,
 
             color:
-                document.getElementById(
-                    "qrColor"
-                ).value,
-
-            type:
-                document.getElementById(
-                    "cornerStyle"
-                ).value === "dot"
-                    ? "dot"
-                    : "square"
+                getQRColor()
 
         },
+
 
         backgroundOptions: {
 
             color:
-                document.getElementById(
-                    "bgColor"
-                ).value
+                getBGColor()
 
         },
 
+
+        cornersSquareOptions: {
+
+            type:
+                corner,
+
+            color:
+                getQRColor()
+
+        },
+
+
+        cornersDotOptions: {
+
+            type:
+                corner === "dot"
+                    ? "dot"
+                    : "square",
+
+            color:
+                getQRColor()
+
+        },
+
+
+        image:
+            getCurrentLogo(),
+
+
         imageOptions: {
-
-            crossOrigin: "anonymous",
-
-            margin: 8,
 
             hideBackgroundDots: true,
 
             imageSize:
-                parseInt(
-                    document.getElementById(
-                        "logoSize"
-                    ).value
-                ) / 100
+                getLogoSize(),
+
+            margin: 6,
+
+            crossOrigin: "anonymous"
+
+        },
+
+
+        qrOptions: {
+
+            /* ALWAYS HIGH */
+
+            errorCorrectionLevel: "H"
 
         }
 
@@ -1163,9 +1718,9 @@ function updateQR() {
 }
 
 
-/* =====================================
-   LINK LIVE UPDATE
-===================================== */
+/* =========================================================
+   TEXT INPUT
+========================================================= */
 
 document
     .getElementById("qrText")
@@ -1175,42 +1730,40 @@ document
     );
 
 
-/* =====================================
+/* =========================================================
    STYLE BUTTONS
-===================================== */
+========================================================= */
 
 document
-.querySelectorAll(".style-btn")
-.forEach(button => {
+    .querySelectorAll(".style-btn")
+    .forEach(button => {
 
-    button.addEventListener(
-        "click",
-        function() {
+        button.addEventListener(
+            "click",
+            () => {
 
-            document
-                .querySelectorAll(".style-btn")
-                .forEach(btn =>
-                    btn.classList.remove(
-                        "active"
-                    )
-                );
+                document
+                    .querySelectorAll(".style-btn")
+                    .forEach(btn =>
+                        btn.classList.remove("active")
+                    );
 
-            this.classList.add("active");
+                button.classList.add("active");
 
-            currentStyle =
-                this.dataset.style;
+                currentStyle =
+                    button.dataset.style;
 
-            updateQR();
+                updateQR();
 
-        }
-    );
+            }
+        );
 
-});
+    });
 
 
-/* =====================================
-   CORNER
-===================================== */
+/* =========================================================
+   CORNER STYLE
+========================================================= */
 
 document
     .getElementById("cornerStyle")
@@ -1220,35 +1773,37 @@ document
     );
 
 
-/* =====================================
-   ERROR CORRECTION
-===================================== */
+/* =========================================================
+   COLOR PICKERS
+========================================================= */
 
-document
-    .getElementById("errorCorrection")
-    .addEventListener(
-        "change",
-        updateQR
+const qrColorPicker =
+    document.getElementById(
+        "qrColorPicker"
+    );
+
+const qrColorText =
+    document.getElementById(
+        "qrColorText"
+    );
+
+const bgColorPicker =
+    document.getElementById(
+        "bgColorPicker"
+    );
+
+const bgColorText =
+    document.getElementById(
+        "bgColorText"
     );
 
 
-/* =====================================
-   COLORS
-===================================== */
-
-const qrColor =
-    document.getElementById("qrColor");
-
-const qrColorText =
-    document.getElementById("qrColorText");
-
-
-qrColor.addEventListener(
+qrColorPicker.addEventListener(
     "input",
-    function() {
+    () => {
 
         qrColorText.value =
-            this.value;
+            qrColorPicker.value;
 
         updateQR();
 
@@ -1258,15 +1813,16 @@ qrColor.addEventListener(
 
 qrColorText.addEventListener(
     "input",
-    function() {
+    () => {
 
         if (
-            /^#[0-9A-F]{6}$/i
-            .test(this.value)
+            validHex(
+                qrColorText.value
+            )
         ) {
 
-            qrColor.value =
-                this.value;
+            qrColorPicker.value =
+                qrColorText.value;
 
             updateQR();
 
@@ -1276,20 +1832,12 @@ qrColorText.addEventListener(
 );
 
 
-
-const bgColor =
-    document.getElementById("bgColor");
-
-const bgColorText =
-    document.getElementById("bgColorText");
-
-
-bgColor.addEventListener(
+bgColorPicker.addEventListener(
     "input",
-    function() {
+    () => {
 
         bgColorText.value =
-            this.value;
+            bgColorPicker.value;
 
         updateQR();
 
@@ -1299,15 +1847,16 @@ bgColor.addEventListener(
 
 bgColorText.addEventListener(
     "input",
-    function() {
+    () => {
 
         if (
-            /^#[0-9A-F]{6}$/i
-            .test(this.value)
+            validHex(
+                bgColorText.value
+            )
         ) {
 
-            bgColor.value =
-                this.value;
+            bgColorPicker.value =
+                bgColorText.value;
 
             updateQR();
 
@@ -1317,81 +1866,65 @@ bgColorText.addEventListener(
 );
 
 
-/* =====================================
-   LOGO SIZE
-===================================== */
+/* =========================================================
+   LOGO SELECTION
+========================================================= */
 
 document
-    .getElementById("logoSize")
-    .addEventListener(
-        "input",
-        function() {
+    .querySelectorAll(".logo-card")
+    .forEach(card => {
 
-            document
-                .getElementById(
-                    "logoSizeValue"
-                )
-                .textContent =
-                this.value + "%";
+        card.addEventListener(
+            "click",
+            () => {
 
-            updateQR();
+                document
+                    .querySelectorAll(".logo-card")
+                    .forEach(item =>
+                        item.classList.remove("active")
+                    );
 
-        }
-    );
+                card.classList.add("active");
 
 
-/* =====================================
-   BUILT-IN LOGOS
-===================================== */
-
-document
-.querySelectorAll(".logo-option")
-.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        function() {
-
-            document
-                .querySelectorAll(
-                    ".logo-option"
-                )
-                .forEach(btn =>
-                    btn.classList.remove(
-                        "active"
-                    )
-                );
-
-            this.classList.add("active");
-
-            currentLogo =
-                this.dataset.logo;
-
-            uploadedLogo = null;
-
-            updateQR();
-
-        }
-    );
-
-});
+                currentLogo =
+                    card.dataset.logo;
 
 
-/* =====================================
+                customLogo = null;
+
+
+                /*
+                   Selecting built-in logo removes
+                   previously uploaded custom logo.
+                */
+
+                updateQR();
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
    CUSTOM LOGO
-===================================== */
+========================================================= */
 
 document
-    .getElementById("logoInput")
+    .getElementById("customLogoInput")
     .addEventListener(
         "change",
-        function(event) {
+        event => {
 
             const file =
                 event.target.files[0];
 
-            if (!file)
+            if (!file) {
+
                 return;
+
+            }
 
 
             const reader =
@@ -1401,19 +1934,20 @@ document
             reader.onload =
                 function(e) {
 
-                    uploadedLogo =
+                    customLogo =
                         e.target.result;
 
-                    currentLogo = "";
+
+                    currentLogo =
+                        "custom";
+
 
                     document
-                        .querySelectorAll(
-                            ".logo-option"
-                        )
-                        .forEach(btn =>
-                            btn.classList
-                            .remove("active")
+                        .querySelectorAll(".logo-card")
+                        .forEach(item =>
+                            item.classList.remove("active")
                         );
+
 
                     updateQR();
 
@@ -1426,141 +1960,216 @@ document
     );
 
 
-/* =====================================
-   DOWNLOAD
-===================================== */
+/* =========================================================
+   LOGO SIZE
+========================================================= */
 
 document
-    .getElementById("downloadBtn")
+    .getElementById("logoSize")
+    .addEventListener(
+        "input",
+        event => {
+
+            document
+                .getElementById("logoSizeValue")
+                .textContent =
+                    event.target.value + "%";
+
+            updateQR();
+
+        }
+    );
+
+
+/* =========================================================
+   QUALITY
+========================================================= */
+
+document
+    .querySelectorAll(".quality-btn")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(".quality-btn")
+                    .forEach(btn =>
+                        btn.classList.remove("active")
+                    );
+
+                button.classList.add("active");
+
+                currentQuality =
+                    button.dataset.quality;
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   GENERATE / DOWNLOAD
+========================================================= */
+
+document
+    .getElementById("generateBtn")
     .addEventListener(
         "click",
-        function() {
+        async () => {
 
-            if (!qrCode)
+            const text =
+                document
+                    .getElementById("qrText")
+                    .value
+                    .trim();
+
+
+            if (!text) {
+
+                alert(
+                    "Please enter a link or text first."
+                );
+
+                document
+                    .getElementById("qrText")
+                    .focus();
+
                 return;
 
+            }
 
-            const resolution =
-                parseInt(
-                    document
-                        .getElementById(
-                            "downloadQuality"
-                        )
-                        .value
-                );
+
+            if (!qr) {
+
+                createQR();
+
+            }
+
+
+            const size =
+                qualitySizes[currentQuality];
 
 
             /*
-              Create a new QR at the
-              selected download resolution.
+               Create a separate high-resolution
+               QR for downloading.
+
+               Preview remains lightweight.
             */
 
             const downloadQR =
                 new QRCodeStyling({
 
-                    width: resolution,
+                    width: size,
 
-                    height: resolution,
+                    height: size,
 
                     type: "canvas",
 
-                    data: getText(),
+                    data: text,
 
-                    image:
-                        currentLogo
-                        || uploadedLogo
-                        || undefined,
+                    margin: 30,
+
+
+                    /*
+                       ALWAYS HIGH
+                    */
 
                     qrOptions: {
 
-                        errorCorrectionLevel:
-                            document
-                            .getElementById(
-                                "errorCorrection"
-                            )
-                            .value
+                        errorCorrectionLevel: "H"
 
                     },
+
 
                     dotsOptions: {
 
-                        color:
-                            qrColor.value,
-
                         type:
-                            currentStyle
+                            currentStyle,
+
+                        color:
+                            getQRColor()
 
                     },
 
-                    cornersSquareOptions: {
-
-                        color:
-                            qrColor.value,
-
-                        type:
-                            document
-                            .getElementById(
-                                "cornerStyle"
-                            )
-                            .value
-
-                    },
-
-                    cornersDotOptions: {
-
-                        color:
-                            qrColor.value,
-
-                        type:
-                            document
-                            .getElementById(
-                                "cornerStyle"
-                            )
-                            .value === "dot"
-                                ? "dot"
-                                : "square"
-
-                    },
 
                     backgroundOptions: {
 
                         color:
-                            bgColor.value
+                            getBGColor()
 
                     },
 
+
+                    cornersSquareOptions: {
+
+                        type:
+                            document
+                                .getElementById(
+                                    "cornerStyle"
+                                )
+                                .value,
+
+                        color:
+                            getQRColor()
+
+                    },
+
+
+                    cornersDotOptions: {
+
+                        type:
+                            document
+                                .getElementById(
+                                    "cornerStyle"
+                                )
+                                .value === "dot"
+                                    ? "dot"
+                                    : "square",
+
+                        color:
+                            getQRColor()
+
+                    },
+
+
+                    image:
+                        getCurrentLogo(),
+
+
                     imageOptions: {
 
-                        crossOrigin:
-                            "anonymous",
-
-                        margin:
-                            Math.round(
-                                resolution * .025
-                            ),
-
-                        hideBackgroundDots:
-                            true,
+                        hideBackgroundDots: true,
 
                         imageSize:
-                            parseInt(
-                                document
-                                .getElementById(
-                                    "logoSize"
-                                )
-                                .value
-                            ) / 100
+                            getLogoSize(),
+
+                        margin: 10,
+
+                        crossOrigin:
+                            "anonymous"
 
                     }
 
                 });
 
 
-            downloadQR.download({
+            const fileName =
+                "QR-Code-" +
+                currentQuality.toUpperCase() +
+                ".png";
 
-                name: "qr-code",
 
-                extension: "png"
+            await downloadQR.download({
+
+                name:
+                    fileName.replace(".png", ""),
+
+                extension:
+                    "png"
 
             });
 
@@ -1568,14 +2177,13 @@ document
     );
 
 
-/* =====================================
-   INITIAL QR
-===================================== */
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
 createQR();
 
 </script>
 
 </body>
-
 </html>
