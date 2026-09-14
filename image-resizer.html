@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bulk Image Resizer</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+</head>
+
+<body>
+
+<h2>Bulk Image Resizer</h2>
+
+<input type="file" id="imageInput" multiple accept="image/*" hidden>
+<input type="file" id="folderInput" webkitdirectory hidden>
+
+<button class="selectBtn" onclick="document.getElementById('imageInput').click()">
+Select Images
+</button>
+
+<button class="selectBtn" onclick="document.getElementById('folderInput').click()">
+Select Full Folder
+</button>
+
+<select id="resolution">
+<option value="1280">HD</option>
+<option value="1920">Full HD</option>
+<option value="2560">QHD</option>
+<option value="3840">4K</option>
+</select>
+
+<select id="format">
+<option value="jpeg">JPG</option>
+<option value="webp">WEBP</option>
+<option value="png">PNG</option>
+</select>
+
+<input type="text" id="prefix" placeholder="Rename prefix (trip)">
+
+<button onclick="resizeImages()">Resize Images</button>
+
+<button id="zipBtn" onclick="downloadZip()" style="display:none">
+Download ZIP
+</button>
+
+<div id="gallery"></div>
+
+
+<!-- UPLOADING POPUP -->
+
+<div id="uploadBox" class="popup">
+<div class="popupCard">
+<div id="uploadText">Uploading images...</div>
+</div>
+</div>
+
+
+<!-- PROCESSING POPUP -->
+
+<!-- Upload Popup -->
+<div id="uploadBox" class="popup">
+  <div class="popupCard">
+    <div id="uploadText">Uploading images...</div>
+  </div>
+</div>
+
+<!-- Processing Popup -->
+<div id="progressBox" class="popup">
+  <div class="popupCard">
+    <div id="progressText">Processing...</div>
+    <div class="progressBar">
+      <div id="progressFill"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
