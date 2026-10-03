@@ -1,85 +1,661 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bulk Image Resizer</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="style.css">
+    <title>Power Tools - ShopCom</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
 
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f7f8fc;
+            color: #171923;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            width: 100%;
+            padding: 22px 20px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        .header-inner {
+            width: 100%;
+            max-width: 1150px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #8e6cff
+                );
+
+            color: white;
+            font-size: 22px;
+
+            box-shadow:
+                0 8px 20px rgba(108, 92, 231, 0.25);
+        }
+
+        .logo-text {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: #6c5ce7;
+        }
+
+        .by-shopcom {
+            font-size: 11px;
+            font-weight: 500;
+            color: #8b8f9c;
+            margin-left: 3px;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            max-width: 900px;
+            margin: 45px auto 55px;
+
+            padding: 0 20px;
+
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 6vw, 58px);
+
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+
+            font-weight: 850;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            background:
+                linear-gradient(
+                    90deg,
+                    #6c5ce7,
+                    #9b6cff
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 620px;
+
+            margin: auto;
+
+            color: #777c89;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           TOOLS CONTAINER
+        ========================= */
+
+        .tools-section {
+            width: 100%;
+
+            max-width: 1150px;
+
+            margin: auto;
+
+            padding: 0 20px 60px;
+        }
+
+        .tools-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(155px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+
+        /* =========================
+           TOOL CARD
+        ========================= */
+
+        .tool-card {
+            min-height: 170px;
+
+            padding: 24px 18px;
+
+            background: #ffffff;
+
+            border: 1px solid #eceef4;
+
+            border-radius: 24px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            gap: 15px;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #ded9ff;
+
+            box-shadow:
+                0 18px 40px
+                rgba(33, 30, 66, 0.10);
+        }
+
+
+        /* =========================
+           TOOL ICON
+        ========================= */
+
+        .tool-icon {
+            width: 72px;
+            height: 72px;
+
+            border-radius: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 32px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0edff,
+                    #e8e3ff
+                );
+
+            border: 1px solid #e1dcff;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.08);
+        }
+
+
+        /* =========================
+           TOOL NAME
+        ========================= */
+
+        .tool-name {
+            font-size: 15px;
+
+            font-weight: 700;
+
+            line-height: 1.3;
+        }
+
+        .tool-description {
+            font-size: 12px;
+
+            color: #9296a3;
+
+            margin-top: -8px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+
+            padding: 25px 20px 35px;
+
+            color: #9699a5;
+
+            font-size: 12px;
+        }
+
+        .footer strong {
+            color: #6c5ce7;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 18px 16px;
+            }
+
+            .logo-text {
+                font-size: 18px;
+            }
+
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+
+                border-radius: 11px;
+
+                font-size: 20px;
+            }
+
+            .hero {
+                margin-top: 30px;
+                margin-bottom: 38px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.5px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .tools-section {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .tools-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 12px;
+            }
+
+            .tool-card {
+                min-height: 155px;
+
+                padding: 18px 10px;
+
+                border-radius: 20px;
+            }
+
+            .tool-icon {
+                width: 62px;
+                height: 62px;
+
+                border-radius: 17px;
+
+                font-size: 27px;
+            }
+
+            .tool-name {
+                font-size: 14px;
+            }
+
+            .tool-description {
+                font-size: 11px;
+            }
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<h2>Bulk Image Resizer</h2>
 
-<input type="file" id="imageInput" multiple accept="image/*" hidden>
-<input type="file" id="folderInput" webkitdirectory hidden>
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-<button class="selectBtn" onclick="document.getElementById('imageInput').click()">
-Select Images
-</button>
+    <header class="header">
 
-<button class="selectBtn" onclick="document.getElementById('folderInput').click()">
-Select Full Folder
-</button>
+        <div class="header-inner">
 
-<select id="resolution">
-<option value="1280">HD</option>
-<option value="1920">Full HD</option>
-<option value="2560">QHD</option>
-<option value="3840">4K</option>
-</select>
+            <a href="#" class="logo">
 
-<select id="format">
-<option value="jpeg">JPG</option>
-<option value="webp">WEBP</option>
-<option value="png">PNG</option>
-</select>
+                <div class="logo-icon">
+                    ⚡
+                </div>
 
-<input type="text" id="prefix" placeholder="Rename prefix (trip)">
+                <div class="logo-text">
+                    Power Tools
+                    <span class="by-shopcom">
+                        by ShopCom
+                    </span>
+                </div>
 
-<button onclick="resizeImages()">Resize Images</button>
+            </a>
 
-<button id="zipBtn" onclick="downloadZip()" style="display:none">
-Download ZIP
-</button>
+        </div>
 
-<div id="gallery"></div>
+    </header>
 
 
-<!-- UPLOADING POPUP -->
 
-<div id="uploadBox" class="popup">
-<div class="popupCard">
-<div id="uploadText">Uploading images...</div>
-</div>
-</div>
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+        <h1>
+            Powerful tools.
+            <br>
+            <span>Simple &amp; Free.</span>
+        </h1>
+
+        <p>
+            A collection of simple and powerful online tools
+            for images, videos, files, QR codes and more.
+        </p>
+
+    </section>
 
 
-<!-- PROCESSING POPUP -->
 
-<!-- Upload Popup -->
-<div id="uploadBox" class="popup">
-  <div class="popupCard">
-    <div id="uploadText">Uploading images...</div>
-  </div>
-</div>
+    <!-- =========================
+         TOOLS
+    ========================== -->
 
-<!-- Processing Popup -->
-<div id="progressBox" class="popup">
-  <div class="popupCard">
-    <div id="progressText">Processing...</div>
-    <div class="progressBar">
-      <div id="progressFill"></div>
-    </div>
-  </div>
-</div>
+    <main class="tools-section">
 
-<script src="script.js"></script>
+        <div class="tools-grid">
+
+
+            <!-- IMAGE RESIZER -->
+
+            <a
+                href="image-resizer.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    🖼️
+                </div>
+
+                <div class="tool-name">
+                    Image Resizer
+                </div>
+
+                <div class="tool-description">
+                    Resize images quickly
+                </div>
+
+            </a>
+
+
+
+            <!-- VIDEO RESIZER -->
+
+            <a
+                href="video-resizer.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    🎬
+                </div>
+
+                <div class="tool-name">
+                    Video Resizer
+                </div>
+
+                <div class="tool-description">
+                    Resize your videos
+                </div>
+
+            </a>
+
+
+
+            <!-- QR CODE GENERATOR -->
+
+            <a
+                href="qr-generator.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    ▦
+                </div>
+
+                <div class="tool-name">
+                    QR Code Generator
+                </div>
+
+                <div class="tool-description">
+                    Create QR codes
+                </div>
+
+            </a>
+
+
+
+            <!-- FILE CONVERTER -->
+
+            <a
+                href="file-converter.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    🔄
+                </div>
+
+                <div class="tool-name">
+                    File Converter
+                </div>
+
+                <div class="tool-description">
+                    Convert your files
+                </div>
+
+            </a>
+
+
+
+            <!-- BACKGROUND REMOVER -->
+
+            <a
+                href="background-remover.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    ✂️
+                </div>
+
+                <div class="tool-name">
+                    Background Remover
+                </div>
+
+                <div class="tool-description">
+                    Remove image backgrounds
+                </div>
+
+            </a>
+
+
+
+            <!-- IMAGE ENHANCER -->
+
+            <a
+                href="image-enhancer.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    ✨
+                </div>
+
+                <div class="tool-name">
+                    Image Enhancer
+                </div>
+
+                <div class="tool-description">
+                    Improve image quality
+                </div>
+
+            </a>
+
+
+
+            <!--
+            ==========================================
+            ADD NEW TOOLS BELOW THIS LINE
+
+            Just copy one card and change:
+            1. href
+            2. icon
+            3. name
+            4. description
+
+            ==========================================
+            -->
+
+
+            <!-- EXAMPLE FUTURE TOOL
+
+            <a
+                href="image-compressor.html"
+                class="tool-card"
+            >
+
+                <div class="tool-icon">
+                    🗜️
+                </div>
+
+                <div class="tool-name">
+                    Image Compressor
+                </div>
+
+                <div class="tool-description">
+                    Compress images
+                </div>
+
+            </a>
+
+            -->
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <strong>Power Tools</strong>
+        by ShopCom
+
+        <br>
+
+        Simple tools for everyday work.
+
+    </footer>
+
 
 </body>
 </html>
