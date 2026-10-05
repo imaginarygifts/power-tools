@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Image Enhancer - Power Tools</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, #24213d, transparent 40%),
+        radial-gradient(circle at bottom right, #152c35, transparent 40%),
+        #0b0b11;
+    color: white;
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    background: rgba(10,10,16,.75);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.logo span {
+    background: linear-gradient(90deg,#ff4ecd,#8b5cff,#00d4ff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.badge {
+    font-size: 11px;
+    background: rgba(255,255,255,.08);
+    padding: 7px 10px;
+    border-radius: 20px;
+    color: #bbb;
+}
+
+/* MAIN */
+
+.container {
+    width: min(1100px, 94%);
+    margin: auto;
+    padding: 28px 0 50px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(28px, 6vw, 48px);
+    margin-bottom: 8px;
+}
+
+.hero h1 span {
+    background: linear-gradient(
+        90deg,
+        #ff43c7,
+        #8b5cff,
+        #00c8ff
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: #9b9ba8;
+    font-size: 14px;
+}
+
+/* UPLOAD */
+
+.upload-box {
+    border: 2px dashed rgba(255,255,255,.16);
+    background: rgba(255,255,255,.035);
+    border-radius: 22px;
+    min-height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: .25s;
+    overflow: hidden;
+}
+
+.upload-box:hover {
+    border-color: #9b5cff;
+    background: rgba(155,92,255,.08);
+}
+
+.upload-content {
+    padding: 30px;
+}
+
+.upload-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 20px;
+    margin: auto auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: linear-gradient(
+        135deg,
+        #ff3dbb,
+        #7657ff
+    );
+}
+
+.upload-box h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.upload-box p {
+    color: #888894;
+    font-size: 13px;
+}
+
+#fileInput {
+    display: none;
+}
+
+/* WORKSPACE */
+
+.workspace {
+    display: none;
+    margin-top: 25px;
+}
+
+.preview-area {
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.canvas-wrap {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    background:
+        linear-gradient(45deg,#15151c 25%,transparent 25%),
+        linear-gradient(-45deg,#15151c 25%,transparent 25%),
+        linear-gradient(45deg,transparent 75%,#15151c 75%),
+        linear-gradient(-45deg,transparent 75%,#15151c 75%);
+    background-size: 25px 25px;
+    background-position: 0 0,0 12.5px,12.5px -12.5px,-12.5px 0;
+    border-radius: 14px;
+}
+
+canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 10px 35px rgba(0,0,0,.5);
+}
+
+/* CONTROLS */
+
+.controls {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+}
+
+.control {
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.control label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #c7c7d0;
+    margin-bottom: 10px;
+}
+
+.control strong {
+    color: white;
+}
+
+input[type=range] {
+    width: 100%;
+    accent-color: #9b5cff;
+}
+
+/* SCALE */
+
+.scale-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.scale-btn {
+    flex: 1;
+    padding: 11px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: #171720;
+    color: white;
+    cursor: pointer;
+}
+
+.scale-btn.active {
+    background: linear-gradient(
+        135deg,
+        #ff3dbb,
+        #7657ff
+    );
+    border-color: transparent;
+}
+
+/* BUTTONS */
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+button {
+    font-family: inherit;
+}
+
+.action-btn {
+    border: 0;
+    border-radius: 14px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+}
+
+.enhance-btn {
+    background: linear-gradient(
+        135deg,
+        #ff3bb8,
+        #7856ff
+    );
+}
+
+.download-btn {
+    background: linear-gradient(
+        135deg,
+        #00b894,
+        #0088ff
+    );
+}
+
+.reset-btn {
+    background: #20202a;
+}
+
+.new-btn {
+    background: #20202a;
+}
+
+/* BEFORE AFTER */
+
+.compare {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.compare button {
+    border: 0;
+    background: rgba(255,255,255,.07);
+    color: white;
+    padding: 9px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+/* INFO */
+
+.info {
+    margin-top: 20px;
+    padding: 18px;
+    background: rgba(255,255,255,.035);
+    border-radius: 16px;
+    color: #888894;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.loading {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(5,5,10,.82);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.spinner {
+    width: 55px;
+    height: 55px;
+    border: 4px solid rgba(255,255,255,.15);
+    border-top-color: #a35cff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading p {
+    margin-top: 15px;
+    color: #bbb;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:650px) {
+
+    header {
+        padding: 0 15px;
+    }
+
+    .container {
+        width: 94%;
+        padding-top: 20px;
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .canvas-wrap {
+        height: 380px;
+    }
+
+    .actions {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-box {
+        min-height: 190px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Power <span>Tools</span>
+    </div>
+
+    <div class="badge">
+        Image Enhancer
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>
+            Enhance Your <span>Image</span>
+        </h1>
+
+        <p>
+            Improve clarity, details, sharpness and resolution
+        </p>
+
+    </div>
+
+
+    <!-- UPLOAD -->
+
+    <div
+        class="upload-box"
+        id="uploadBox"
+    >
+
+        <div class="upload-content">
+
+            <div class="upload-icon">
+                ✨
+            </div>
+
+            <h2>
+                Upload an Image
+            </h2>
+
+            <p>
+                JPG, PNG or WebP
+            </p>
+
+        </div>
+
+    </div>
+
+    <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+    >
+
+
+    <!-- WORKSPACE -->
+
+    <div
+        class="workspace"
+        id="workspace"
+    >
+
+        <div class="preview-area">
+
+            <div class="canvas-wrap">
+
+                <canvas
+                    id="canvas"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTROLS -->
+
+        <div class="controls">
+
+            <div class="control">
+
+                <label>
+                    <span>Upscale</span>
+                    <strong id="scaleValue">2×</strong>
+                </label>
+
+                <div class="scale-buttons">
+
+                    <button
+                        class="scale-btn active"
+                        data-scale="2"
+                    >
+                        2×
+                    </button>
+
+                    <button
+                        class="scale-btn"
+                        data-scale="4"
+                    >
+                        4×
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="control">
+
+                <label>
+                    <span>Sharpness</span>
+                    <strong id="sharpValue">50</strong>
+                </label>
+
+                <input
+                    id="sharpness"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                >
+
+            </div>
+
+
+            <div class="control">
+
+                <label>
+                    <span>Clarity</span>
+                    <strong id="clarityValue">35</strong>
+                </label>
+
+                <input
+                    id="clarity"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="35"
+                >
+
+            </div>
+
+
+            <div class="control">
+
+                <label>
+                    <span>Contrast</span>
+                    <strong id="contrastValue">10</strong>
+                </label>
+
+                <input
+                    id="contrast"
+                    type="range"
+                    min="-50"
+                    max="50"
+                    value="10"
+                >
+
+            </div>
+
+
+            <div class="control">
+
+                <label>
+                    <span>Brightness</span>
+                    <strong id="brightnessValue">0</strong>
+                </label>
+
+                <input
+                    id="brightness"
+                    type="range"
+                    min="-50"
+                    max="50"
+                    value="0"
+                >
+
+            </div>
+
+
+            <div class="control">
+
+                <label>
+                    <span>Saturation</span>
+                    <strong id="saturationValue">5</strong>
+                </label>
+
+                <input
+                    id="saturation"
+                    type="range"
+                    min="-50"
+                    max="50"
+                    value="5"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="action-btn enhance-btn"
+                id="enhanceBtn"
+            >
+                ✨ Enhance Image
+            </button>
+
+            <button
+                class="action-btn download-btn"
+                id="downloadBtn"
+            >
+                ⬇ Save High Quality
+            </button>
+
+            <button
+                class="action-btn reset-btn"
+                id="resetBtn"
+            >
+                ↺ Reset
+            </button>
+
+            <button
+                class="action-btn new-btn"
+                id="newBtn"
+            >
+                ＋ New Image
+            </button>
+
+        </div>
+
+
+        <div class="compare">
+
+            <button id="compareBtn">
+                👁 Show Original
+            </button>
+
+        </div>
+
+
+        <div class="info">
+
+            <b>Enhancement process</b><br>
+
+            The browser first upscales the image, then applies
+            detail enhancement, sharpening, contrast optimization
+            and color correction before exporting the final image.
+
+            For true AI detail reconstruction, a super-resolution
+            neural network can be added to this pipeline.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- LOADING -->
+
+<div
+    class="loading"
+    id="loading"
+>
+
+    <div class="spinner"></div>
+
+    <p id="loadingText">
+        Enhancing image...
+    </p>
+
+</div>
+
+
+<script>
+
+const fileInput = document.getElementById("fileInput");
+const uploadBox = document.getElementById("uploadBox");
+
+const workspace = document.getElementById("workspace");
+const canvas = document.getElementById("canvas");
+
+const ctx = canvas.getContext("2d", {
+    willReadFrequently: true
+});
+
+let originalImage = null;
+let originalCanvas = null;
+
+let scale = 2;
+
+let enhanced = false;
+
+
+/* -----------------------------------
+   UPLOAD
+----------------------------------- */
+
+uploadBox.addEventListener("click", () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", e => {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const img = new Image();
+
+        img.onload = function() {
+
+            originalImage = img;
+
+            originalCanvas =
+                document.createElement("canvas");
+
+            originalCanvas.width = img.naturalWidth;
+            originalCanvas.height = img.naturalHeight;
+
+            const originalCtx =
+                originalCanvas.getContext("2d");
+
+            originalCtx.drawImage(
+                img,
+                0,
+                0
+            );
+
+            workspace.style.display = "block";
+
+            drawOriginal();
+
+        };
+
+        img.src = event.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* -----------------------------------
+   DRAW ORIGINAL
+----------------------------------- */
+
+function drawOriginal() {
+
+    canvas.width =
+        originalImage.naturalWidth;
+
+    canvas.height =
+        originalImage.naturalHeight;
+
+    ctx.drawImage(
+        originalImage,
+        0,
+        0
+    );
+
+    enhanced = false;
+
+}
+
+
+/* -----------------------------------
+   SCALE
+----------------------------------- */
+
+document
+.querySelectorAll(".scale-btn")
+.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        document
+        .querySelectorAll(".scale-btn")
+        .forEach(b =>
+            b.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        scale =
+            Number(button.dataset.scale);
+
+        document.getElementById(
+            "scaleValue"
+        ).textContent = scale + "×";
+
+    });
+
+});
+
+
+/* -----------------------------------
+   SLIDER VALUES
+----------------------------------- */
+
+const sliders = [
+
+    ["sharpness","sharpValue"],
+    ["clarity","clarityValue"],
+    ["contrast","contrastValue"],
+    ["brightness","brightnessValue"],
+    ["saturation","saturationValue"]
+
+];
+
+sliders.forEach(([input,output]) => {
+
+    document
+    .getElementById(input)
+    .addEventListener("input", function() {
+
+        document
+        .getElementById(output)
+        .textContent = this.value;
+
+    });
+
+});
+
+
+/* -----------------------------------
+   ENHANCE
+----------------------------------- */
+
+document
+.getElementById("enhanceBtn")
+.addEventListener("click", async () => {
+
+    if (!originalImage) return;
+
+    showLoading(
+        "Enhancing image..."
+    );
+
+    await sleep(100);
+
+    enhanceImage();
+
+    hideLoading();
+
+});
+
+
+function enhanceImage() {
+
+    const width =
+        originalImage.naturalWidth * scale;
+
+    const height =
+        originalImage.naturalHeight * scale;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    /*
+        High quality browser interpolation
+    */
+
+    ctx.imageSmoothingEnabled = true;
+
+    ctx.imageSmoothingQuality = "high";
+
+
+    const brightness =
+        Number(
+            document.getElementById(
+                "brightness"
+            ).value
+        );
+
+    const contrast =
+        Number(
+            document.getElementById(
+                "contrast"
+            ).value
+        );
+
+    const saturation =
+        Number(
+            document.getElementById(
+                "saturation"
+            ).value
+        );
+
+
+    /*
+        Color enhancement
+    */
+
+    const contrastFactor =
+        (259 * (contrast + 255)) /
+        (255 * (259 - contrast));
+
+
+    ctx.filter =
+        `brightness(${100 + brightness}%)
+         contrast(${100 + contrast}%)
+         saturate(${100 + saturation}%)`;
+
+
+    ctx.drawImage(
+        originalImage,
+        0,
+        0,
+        width,
+        height
+    );
+
+    ctx.filter = "none";
+
+
+    /*
+        Detail processing
+    */
+
+    const sharp =
+        Number(
+            document.getElementById(
+                "sharpness"
+            ).value
+        ) / 100;
+
+
+    const clarity =
+        Number(
+            document.getElementById(
+                "clarity"
+            ).value
+        ) / 100;
+
+
+    const imageData =
+        ctx.getImageData(
+            0,
+            0,
+            width,
+            height
+        );
+
+    const data =
+        imageData.data;
+
+
+    /*
+        Local contrast / detail enhancement
+    */
+
+    if (clarity > 0) {
+
+        for (
+            let y = 1;
+            y < height - 1;
+            y++
+        ) {
+
+            for (
+                let x = 1;
+                x < width - 1;
+                x++
+            ) {
+
+                const i =
+                    (y * width + x) * 4;
+
+                const left =
+                    (y * width + x - 1) * 4;
+
+                const right =
+                    (y * width + x + 1) * 4;
+
+                const top =
+                    ((y - 1) * width + x) * 4;
+
+                const bottom =
+                    ((y + 1) * width + x) * 4;
+
+
+                for (
+                    let c = 0;
+                    c < 3;
+                    c++
+                ) {
+
+                    const center =
+                        data[i + c];
+
+                    const average =
+                        (
+                            data[left + c] +
+                            data[right + c] +
+                            data[top + c] +
+                            data[bottom + c]
+                        ) / 4;
+
+
+                    const detail =
+                        center - average;
+
+
+                    data[i + c] =
+                        clamp(
+                            center +
+                            detail *
+                            clarity *
+                            0.8
+                        );
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /*
+        Sharpening
+    */
+
+    if (sharp > 0) {
+
+        const copy =
+            new Uint8ClampedArray(data);
+
+
+        for (
+            let y = 1;
+            y < height - 1;
+            y++
+        ) {
+
+            for (
+                let x = 1;
+                x < width - 1;
+                x++
+            ) {
+
+                const i =
+                    (y * width + x) * 4;
+
+
+                for (
+                    let c = 0;
+                    c < 3;
+                    c++
+                ) {
+
+                    const center =
+                        copy[i + c];
+
+                    const surrounding =
+                        (
+                            copy[i - 4 + c] +
+                            copy[i + 4 + c] +
+                            copy[i - width * 4 + c] +
+                            copy[i + width * 4 + c]
+                        ) / 4;
+
+
+                    const detail =
+                        center -
+                        surrounding;
+
+
+                    data[i + c] =
+                        clamp(
+                            center +
+                            detail *
+                            sharp *
+                            1.5
+                        );
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    ctx.putImageData(
+        imageData,
+        0,
+        0
+    );
+
+
+    enhanced = true;
+
+}
+
+
+/* -----------------------------------
+   CLAMP
+----------------------------------- */
+
+function clamp(value) {
+
+    return Math.max(
+        0,
+        Math.min(
+            255,
+            value
+        )
+    );
+
+}
+
+
+/* -----------------------------------
+   DOWNLOAD
+----------------------------------- */
+
+document
+.getElementById("downloadBtn")
+.addEventListener("click", () => {
+
+    if (!originalImage) return;
+
+    if (!enhanced) {
+
+        enhanceImage();
+
+    }
+
+
+    canvas.toBlob(
+        blob => {
+
+            const url =
+                URL.createObjectURL(blob);
+
+            const a =
+                document.createElement("a");
+
+            a.href = url;
+
+            a.download =
+                "enhanced-image.png";
+
+            a.click();
+
+            URL.revokeObjectURL(url);
+
+        },
+        "image/png"
+    );
+
+});
+
+
+/* -----------------------------------
+   RESET
+----------------------------------- */
+
+document
+.getElementById("resetBtn")
+.addEventListener("click", () => {
+
+    document.getElementById(
+        "sharpness"
+    ).value = 50;
+
+    document.getElementById(
+        "clarity"
+    ).value = 35;
+
+    document.getElementById(
+        "contrast"
+    ).value = 10;
+
+    document.getElementById(
+        "brightness"
+    ).value = 0;
+
+    document.getElementById(
+        "saturation"
+    ).value = 5;
+
+
+    document.getElementById(
+        "sharpValue"
+    ).textContent = 50;
+
+    document.getElementById(
+        "clarityValue"
+    ).textContent = 35;
+
+    document.getElementById(
+        "contrastValue"
+    ).textContent = 10;
+
+    document.getElementById(
+        "brightnessValue"
+    ).textContent = 0;
+
+    document.getElementById(
+        "saturationValue"
+    ).textContent = 5;
+
+
+    drawOriginal();
+
+});
+
+
+/* -----------------------------------
+   NEW IMAGE
+----------------------------------- */
+
+document
+.getElementById("newBtn")
+.addEventListener("click", () => {
+
+    fileInput.value = "";
+
+    workspace.style.display = "none";
+
+    originalImage = null;
+
+    originalCanvas = null;
+
+});
+
+
+/* -----------------------------------
+   BEFORE / AFTER
+----------------------------------- */
+
+document
+.getElementById("compareBtn")
+.addEventListener("click", () => {
+
+    const button =
+        document.getElementById(
+            "compareBtn"
+        );
+
+
+    if (enhanced) {
+
+        canvas.width =
+            originalImage.naturalWidth;
+
+        canvas.height =
+            originalImage.naturalHeight;
+
+        ctx.drawImage(
+            originalImage,
+            0,
+            0
+        );
+
+        button.textContent =
+            "✨ Show Enhanced";
+
+        enhanced = false;
+
+    } else {
+
+        enhanceImage();
+
+        button.textContent =
+            "👁 Show Original";
+
+        enhanced = true;
+
+    }
+
+});
+
+
+/* -----------------------------------
+   LOADING
+----------------------------------- */
+
+function showLoading(text) {
+
+    document.getElementById(
+        "loadingText"
+    ).textContent = text;
+
+    document.getElementById(
+        "loading"
+    ).style.display = "flex";
+
+}
+
+
+function hideLoading() {
+
+    document.getElementById(
+        "loading"
+    ).style.display = "none";
+
+}
+
+
+function sleep(ms) {
+
+    return new Promise(
+        resolve => setTimeout(
+            resolve,
+            ms
+        )
+    );
+
+}
+
+</script>
+
+</body>
+</html>
