@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Power Tools - Background Remover</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0d0d12;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.container {
+    width: min(1100px, 94%);
+    margin: auto;
+    padding: 30px 0 60px;
+}
+
+/* Header */
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.logo span {
+    background: linear-gradient(
+        90deg,
+        #ff0080,
+        #7928ff,
+        #00c6ff
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    color: #999;
+    margin-top: 8px;
+}
+
+/* Upload */
+
+.upload-box {
+    border: 2px dashed #444;
+    border-radius: 22px;
+    padding: 45px 20px;
+    text-align: center;
+    background: #15151c;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.upload-box:hover {
+    border-color: #8b5cf6;
+    background: #181820;
+}
+
+.upload-icon {
+    font-size: 55px;
+    margin-bottom: 10px;
+}
+
+.upload-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.upload-info {
+    color: #888;
+    margin-top: 8px;
+}
+
+#fileInput {
+    display: none;
+}
+
+/* Buttons */
+
+button {
+    border: 0;
+    border-radius: 12px;
+    padding: 13px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.primary-btn {
+    color: white;
+    background: linear-gradient(
+        135deg,
+        #ff0080,
+        #7928ff
+    );
+}
+
+.secondary-btn {
+    background: #27272f;
+    color: white;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* Progress */
+
+.progress-section {
+    display: none;
+    margin-top: 25px;
+    background: #15151c;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.progress-text {
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #292933;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #ff0080,
+        #7928ff,
+        #00c6ff
+    );
+    transition: width .3s;
+}
+
+/* Result */
+
+.result-section {
+    display: none;
+    margin-top: 30px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.image-card {
+    background: #15151c;
+    border-radius: 18px;
+    padding: 15px;
+}
+
+.image-card h3 {
+    margin: 5px 0 15px;
+}
+
+.preview {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #ddd;
+    background-image:
+        linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 25px 25px;
+    background-position:
+        0 0,
+        0 12.5px,
+        12.5px -12.5px,
+        -12.5px 0px;
+}
+
+.preview img {
+    max-width: 100%;
+    max-height: 500px;
+    display: block;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* Mobile */
+
+@media(max-width:700px) {
+
+    .container {
+        padding-top: 20px;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-box {
+        padding: 35px 15px;
+    }
+
+    .preview {
+        min-height: 230px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">
+            Power <span>Tools</span>
+        </div>
+
+        <div class="subtitle">
+            AI Background Remover
+        </div>
+
+    </div>
+
+
+    <!-- Upload -->
+
+    <label class="upload-box" for="fileInput">
+
+        <div class="upload-icon">
+            🖼️
+        </div>
+
+        <div class="upload-title">
+            Upload Image
+        </div>
+
+        <div class="upload-info">
+            JPG, PNG or WEBP
+        </div>
+
+    </label>
+
+    <input
+        type="file"
+        id="fileInput"
+        accept="image/png,image/jpeg,image/webp"
+    >
+
+
+    <!-- Progress -->
+
+    <div class="progress-section" id="progressSection">
+
+        <div class="progress-text" id="progressText">
+            Preparing...
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Result -->
+
+    <div
+        class="result-section"
+        id="resultSection"
+    >
+
+        <div class="result-grid">
+
+            <div class="image-card">
+
+                <h3>
+                    Original
+                </h3>
+
+                <div class="preview">
+
+                    <img
+                        id="originalImage"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="image-card">
+
+                <h3>
+                    Background Removed
+                </h3>
+
+                <div class="preview">
+
+                    <img
+                        id="resultImage"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="primary-btn"
+                id="downloadBtn"
+                disabled
+            >
+                Download PNG
+            </button>
+
+            <button
+                class="secondary-btn"
+                id="newImageBtn"
+            >
+                Remove Another Image
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import removeBackground from
+"https://cdn.jsdelivr.net/npm/@imgly/background-removal/+esm";
+
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const originalImage =
+    document.getElementById("originalImage");
+
+const resultImage =
+    document.getElementById("resultImage");
+
+const resultSection =
+    document.getElementById("resultSection");
+
+const progressSection =
+    document.getElementById("progressSection");
+
+const progressText =
+    document.getElementById("progressText");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
+
+const newImageBtn =
+    document.getElementById("newImageBtn");
+
+
+let resultBlob = null;
+
+
+/* File selected */
+
+fileInput.addEventListener(
+    "change",
+    async function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        await processImage(file);
+
+    }
+);
+
+
+/* Process image */
+
+async function processImage(file) {
+
+    try {
+
+        resultSection.style.display = "none";
+
+        progressSection.style.display = "block";
+
+        downloadBtn.disabled = true;
+
+        progressText.textContent =
+            "Loading image...";
+
+        progressFill.style.width = "5%";
+
+
+        /* Original preview */
+
+        const originalURL =
+            URL.createObjectURL(file);
+
+        originalImage.src =
+            originalURL;
+
+
+        progressText.textContent =
+            "AI is removing the background...";
+
+        progressFill.style.width = "20%";
+
+
+        /* Remove background */
+
+        resultBlob =
+            await removeBackground(
+                file,
+                {
+                    progress:
+                    (key, current, total) => {
+
+                        if (total > 0) {
+
+                            const percent =
+                                Math.round(
+                                    (current / total) * 100
+                                );
+
+                            progressFill.style.width =
+                                Math.min(
+                                    95,
+                                    20 + percent * 0.75
+                                ) + "%";
+
+                            progressText.textContent =
+                                "Removing background... " +
+                                percent +
+                                "%";
+                        }
+                    }
+                }
+            );
+
+
+        progressText.textContent =
+            "Creating transparent PNG...";
+
+        progressFill.style.width =
+            "100%";
+
+
+        /* Result */
+
+        const resultURL =
+            URL.createObjectURL(resultBlob);
+
+        resultImage.src =
+            resultURL;
+
+
+        setTimeout(() => {
+
+            progressSection.style.display =
+                "none";
+
+            resultSection.style.display =
+                "block";
+
+            downloadBtn.disabled =
+                false;
+
+        }, 400);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        progressText.textContent =
+            "Something went wrong. Please try another image.";
+
+        progressFill.style.width =
+            "0%";
+
+    }
+
+}
+
+
+/* Download PNG */
+
+downloadBtn.addEventListener(
+    "click",
+    function () {
+
+        if (!resultBlob) {
+            return;
+        }
+
+        const url =
+            URL.createObjectURL(resultBlob);
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            "background-removed.png";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+        URL.revokeObjectURL(url);
+
+    }
+);
+
+
+/* New image */
+
+newImageBtn.addEventListener(
+    "click",
+    function () {
+
+        fileInput.value = "";
+
+        resultSection.style.display =
+            "none";
+
+        progressSection.style.display =
+            "none";
+
+        resultBlob = null;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+);
+
+</script>
+
+</body>
+</html>
