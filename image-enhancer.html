@@ -2,436 +2,813 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
 
-<title>AI Image Enhancer - Power Tools</title>
+<title>AI Image Enhancer</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
+html,body{
+    width:100%;
+    min-height:100%;
+    background:#09090d;
+    color:#fff;
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+
+    height:62px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 18px;
+
+    position:sticky;
+    top:0;
+
+    z-index:100;
+
     background:
-        radial-gradient(circle at top left, #24213d, transparent 40%),
-        radial-gradient(circle at bottom right, #152c35, transparent 40%),
-        #0b0b11;
-    color: white;
-    min-height: 100vh;
+        rgba(9,9,13,.88);
+
+    backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 }
 
-/* HEADER */
+.logo{
 
-header {
-    height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 22px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    background: rgba(10,10,16,.75);
-    backdrop-filter: blur(15px);
-    position: sticky;
-    top: 0;
-    z-index: 20;
+    font-size:19px;
+    font-weight:800;
 }
 
-.logo {
-    font-size: 20px;
-    font-weight: 800;
-}
+.logo span{
 
-.logo span {
-    background: linear-gradient(90deg,#ff4ecd,#8b5cff,#00d4ff);
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-.badge {
-    font-size: 11px;
-    background: rgba(255,255,255,.08);
-    padding: 7px 10px;
-    border-radius: 20px;
-    color: #bbb;
-}
-
-/* MAIN */
-
-.container {
-    width: min(1100px, 94%);
-    margin: auto;
-    padding: 28px 0 50px;
-}
-
-.hero {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.hero h1 {
-    font-size: clamp(28px, 6vw, 48px);
-    margin-bottom: 8px;
-}
-
-.hero h1 span {
-    background: linear-gradient(
-        90deg,
-        #ff43c7,
-        #8b5cff,
-        #00c8ff
-    );
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-.hero p {
-    color: #9b9ba8;
-    font-size: 14px;
-}
-
-/* UPLOAD */
-
-.upload-box {
-    border: 2px dashed rgba(255,255,255,.16);
-    background: rgba(255,255,255,.035);
-    border-radius: 22px;
-    min-height: 220px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-    transition: .25s;
-    overflow: hidden;
-}
-
-.upload-box:hover {
-    border-color: #9b5cff;
-    background: rgba(155,92,255,.08);
-}
-
-.upload-content {
-    padding: 30px;
-}
-
-.upload-icon {
-    width: 65px;
-    height: 65px;
-    border-radius: 20px;
-    margin: auto auto 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    background: linear-gradient(
-        135deg,
-        #ff3dbb,
-        #7657ff
-    );
-}
-
-.upload-box h2 {
-    font-size: 20px;
-    margin-bottom: 8px;
-}
-
-.upload-box p {
-    color: #888894;
-    font-size: 13px;
-}
-
-#fileInput {
-    display: none;
-}
-
-/* WORKSPACE */
-
-.workspace {
-    display: none;
-    margin-top: 25px;
-}
-
-.preview-area {
-    background: rgba(0,0,0,.35);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 20px;
-    padding: 12px;
-    overflow: hidden;
-}
-
-.canvas-wrap {
-    width: 100%;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: auto;
     background:
-        linear-gradient(45deg,#15151c 25%,transparent 25%),
-        linear-gradient(-45deg,#15151c 25%,transparent 25%),
-        linear-gradient(45deg,transparent 75%,#15151c 75%),
-        linear-gradient(-45deg,transparent 75%,#15151c 75%);
-    background-size: 25px 25px;
-    background-position: 0 0,0 12.5px,12.5px -12.5px,-12.5px 0;
-    border-radius: 14px;
+        linear-gradient(
+            90deg,
+            #ff35c8,
+            #8a5cff,
+            #25c8ff
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-canvas {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    box-shadow: 0 10px 35px rgba(0,0,0,.5);
+.status{
+
+    font-size:11px;
+
+    padding:
+        7px 10px;
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    color:#aaa;
 }
 
-/* CONTROLS */
+/* =========================
+   MAIN
+========================= */
 
-.controls {
-    margin-top: 18px;
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 12px;
+.main{
+
+    width:
+        min(1100px,94%);
+
+    margin:auto;
+
+    padding:
+        22px 0 35px;
 }
 
-.control {
-    background: rgba(255,255,255,.045);
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 16px;
-    padding: 14px;
+.title{
+
+    text-align:center;
+
+    margin-bottom:18px;
 }
 
-.control label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: #c7c7d0;
-    margin-bottom: 10px;
+.title h1{
+
+    font-size:
+        clamp(27px,7vw,43px);
+
+    font-weight:850;
 }
 
-.control strong {
-    color: white;
+.title h1 span{
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3cc8,
+            #8c59ff,
+            #23caff
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-input[type=range] {
-    width: 100%;
-    accent-color: #9b5cff;
+.title p{
+
+    margin-top:7px;
+
+    color:#858592;
+
+    font-size:13px;
 }
 
-/* SCALE */
+/* =========================
+   UPLOAD
+========================= */
 
-.scale-buttons {
-    display: flex;
-    gap: 8px;
+.upload{
+
+    min-height:180px;
+
+    border:
+        1.5px dashed
+        rgba(255,255,255,.16);
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:.2s;
 }
 
-.scale-btn {
-    flex: 1;
-    padding: 11px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.1);
-    background: #171720;
-    color: white;
-    cursor: pointer;
+.upload:hover{
+
+    border-color:#935dff;
+
+    background:
+        rgba(130,80,255,.07);
 }
 
-.scale-btn.active {
-    background: linear-gradient(
-        135deg,
-        #ff3dbb,
-        #7657ff
-    );
-    border-color: transparent;
+.upload-icon{
+
+    width:55px;
+    height:55px;
+
+    margin:
+        0 auto 12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:17px;
+
+    font-size:25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff38c8,
+            #765cff
+        );
 }
 
-/* BUTTONS */
+.upload h2{
 
-.actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 15px;
+    font-size:18px;
+
+    margin-bottom:6px;
 }
 
-button {
-    font-family: inherit;
+.upload p{
+
+    font-size:12px;
+
+    color:#777783;
 }
 
-.action-btn {
-    border: 0;
-    border-radius: 14px;
-    padding: 15px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    color: white;
+#fileInput{
+
+    display:none;
 }
 
-.enhance-btn {
-    background: linear-gradient(
-        135deg,
-        #ff3bb8,
-        #7856ff
-    );
+/* =========================
+   EDITOR
+========================= */
+
+.editor{
+
+    display:none;
+
+    margin-top:15px;
 }
 
-.download-btn {
-    background: linear-gradient(
-        135deg,
-        #00b894,
-        #0088ff
-    );
+/*
+    STICKY IMAGE CANVAS
+*/
+
+.canvas-panel{
+
+    position:sticky;
+
+    top:77px;
+
+    z-index:30;
+
+    background:#09090d;
+
+    border-radius:20px;
+
+    padding-bottom:10px;
 }
 
-.reset-btn {
-    background: #20202a;
+/* =========================
+   COMPARISON
+========================= */
+
+.compare{
+
+    position:relative;
+
+    width:100%;
+
+    height:
+        min(66vh,620px);
+
+    min-height:350px;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    background:#101016;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 }
 
-.new-btn {
-    background: #20202a;
+/*
+    ORIGINAL IMAGE
+*/
+
+.image-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
 }
 
-/* BEFORE AFTER */
+.image-layer img{
 
-.compare {
-    margin-top: 15px;
-    text-align: center;
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    user-select:none;
+
+    -webkit-user-drag:none;
 }
 
-.compare button {
-    border: 0;
-    background: rgba(255,255,255,.07);
-    color: white;
-    padding: 9px 15px;
-    border-radius: 30px;
-    cursor: pointer;
+.original{
+
+    z-index:1;
 }
 
-/* INFO */
+/*
+    ENHANCED IMAGE
+*/
 
-.info {
-    margin-top: 20px;
-    padding: 18px;
-    background: rgba(255,255,255,.035);
-    border-radius: 16px;
-    color: #888894;
-    font-size: 12px;
-    line-height: 1.6;
+.enhanced{
+
+    z-index:2;
+
+    width:50%;
+
+    overflow:hidden;
 }
 
-.loading {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(5,5,10,.82);
-    backdrop-filter: blur(10px);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+/*
+    IMPORTANT:
+    This keeps the enhanced image
+    aligned with original.
+*/
+
+.enhanced img{
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100vw;
+
+    max-width:none;
+
+    height:100%;
+
+    object-fit:contain;
+
 }
 
-.spinner {
-    width: 55px;
-    height: 55px;
-    border: 4px solid rgba(255,255,255,.15);
-    border-top-color: #a35cff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+/*
+    Since image dimensions can vary,
+    JS will correct this dynamically.
+*/
+
+.divider{
+
+    position:absolute;
+
+    top:0;
+    bottom:0;
+
+    left:50%;
+
+    width:2px;
+
+    background:#fff;
+
+    z-index:10;
+
+    box-shadow:
+        0 0 10px rgba(0,0,0,.6);
+
+    pointer-events:none;
 }
 
-.loading p {
-    margin-top: 15px;
-    color: #bbb;
+.divider-button{
+
+    position:absolute;
+
+    left:50%;
+
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    color:#111;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.4);
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+.label{
+
+    position:absolute;
+
+    top:12px;
+
+    padding:
+        6px 9px;
+
+    border-radius:8px;
+
+    background:
+        rgba(0,0,0,.55);
+
+    backdrop-filter:
+        blur(8px);
+
+    font-size:10px;
+
+    z-index:15;
+
+    pointer-events:none;
+}
+
+.label.original-label{
+
+    left:12px;
+}
+
+.label.enhanced-label{
+
+    right:12px;
+}
+
+/* =========================
+   EMPTY ENHANCED STATE
+========================= */
+
+.enhanced-placeholder{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#777783;
+
+    font-size:13px;
+
+    text-align:center;
+
+    padding:20px;
+
+    z-index:5;
+}
+
+/* =========================
+   ENHANCEMENT CONTROL
+========================= */
+
+.controls{
+
+    margin-top:12px;
+
+    padding:
+        16px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.control-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:12px;
+}
+
+.control-title{
+
+    font-size:14px;
+
+    font-weight:700;
+}
+
+.percent{
+
+    font-size:22px;
+
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3bc8,
+            #825cff
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+input[type=range]{
+
+    width:100%;
+
+    height:5px;
+
+    appearance:none;
+
+    border-radius:10px;
+
+    background:#292932;
+
+    outline:none;
+}
+
+input[type=range]::-webkit-slider-thumb{
+
+    appearance:none;
+
+    width:23px;
+    height:23px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    border:
+        5px solid #855cff;
+
+    cursor:pointer;
+}
+
+.range-labels{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:8px;
+
+    color:#6f6f7b;
+
+    font-size:10px;
+}
+
+/* =========================
+   ENHANCE BUTTON
+========================= */
+
+.enhance-btn{
+
+    width:100%;
+
+    margin-top:12px;
+
+    border:0;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff35c7,
+            #765bff
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(128,75,255,.22);
+}
+
+.enhance-btn:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+}
+
+/* =========================
+   DOWNLOAD
+========================= */
+
+.download{
+
+    display:none;
+
+    margin-top:10px;
+
+    width:100%;
+
+    padding:14px;
+
+    border:0;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00c98b,
+            #008eff
+        );
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.info{
+
+    margin-top:12px;
+
+    padding:13px;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#777783;
+
+    font-size:11px;
+
+    line-height:1.5;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:999;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:
+        rgba(5,5,9,.82);
+
+    backdrop-filter:
+        blur(12px);
+}
+
+.spinner{
+
+    width:48px;
+    height:48px;
+
+    border:
+        4px solid
+        rgba(255,255,255,.15);
+
+    border-top-color:#8b5cff;
+
+    border-radius:50%;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
     }
+
 }
 
-/* MOBILE */
+.loading-text{
 
-@media(max-width:650px) {
+    margin-top:13px;
 
-    header {
-        padding: 0 15px;
-    }
+    font-size:13px;
 
-    .container {
-        width: 94%;
-        padding-top: 20px;
-    }
-
-    .controls {
-        grid-template-columns: 1fr;
-    }
-
-    .canvas-wrap {
-        height: 380px;
-    }
-
-    .actions {
-        grid-template-columns: 1fr;
-    }
-
-    .upload-box {
-        min-height: 190px;
-    }
+    color:#aaa;
 }
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:650px){
+
+    .main{
+
+        width:94%;
+
+        padding-top:17px;
+    }
+
+    .canvas-panel{
+
+        top:70px;
+    }
+
+    .compare{
+
+        height:
+            min(58vh,520px);
+
+        min-height:300px;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
     <div class="logo">
         Power <span>Tools</span>
     </div>
 
-    <div class="badge">
-        Image Enhancer
+    <div class="status">
+        AI Enhancer
     </div>
 
 </header>
 
-<div class="container">
 
-    <div class="hero">
+<main class="main">
+
+    <section class="title">
 
         <h1>
-            Enhance Your <span>Image</span>
+            AI Image <span>Enhancer</span>
         </h1>
 
         <p>
-            Improve clarity, details, sharpness and resolution
+            Restore details. Reduce blur. Generate pixels.
         </p>
 
-    </div>
+    </section>
 
 
     <!-- UPLOAD -->
 
     <div
-        class="upload-box"
-        id="uploadBox"
+        class="upload"
+        id="upload"
     >
 
-        <div class="upload-content">
+        <div>
 
             <div class="upload-icon">
                 ✨
             </div>
 
             <h2>
-                Upload an Image
+                Upload your image
             </h2>
 
             <p>
-                JPG, PNG or WebP
+                JPG • PNG • WEBP
             </p>
 
         </div>
@@ -441,212 +818,143 @@ button {
     <input
         type="file"
         id="fileInput"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
     >
 
 
-    <!-- WORKSPACE -->
+    <!-- EDITOR -->
 
-    <div
-        class="workspace"
-        id="workspace"
+    <section
+        class="editor"
+        id="editor"
     >
 
-        <div class="preview-area">
+        <div class="canvas-panel">
 
-            <div class="canvas-wrap">
+            <div class="compare" id="compare">
 
-                <canvas
-                    id="canvas"
-                ></canvas>
+                <div class="image-layer original">
 
-            </div>
-
-        </div>
-
-
-        <!-- CONTROLS -->
-
-        <div class="controls">
-
-            <div class="control">
-
-                <label>
-                    <span>Upscale</span>
-                    <strong id="scaleValue">2×</strong>
-                </label>
-
-                <div class="scale-buttons">
-
-                    <button
-                        class="scale-btn active"
-                        data-scale="2"
+                    <img
+                        id="originalImage"
                     >
-                        2×
-                    </button>
 
-                    <button
-                        class="scale-btn"
-                        data-scale="4"
+                </div>
+
+
+                <div
+                    class="image-layer enhanced"
+                    id="enhancedLayer"
+                >
+
+                    <img
+                        id="enhancedImage"
                     >
-                        4×
-                    </button>
+
+                    <div
+                        class="enhanced-placeholder"
+                        id="placeholder"
+                    >
+                        AI enhanced preview<br>
+                        will appear here
+                    </div>
+
+                </div>
+
+
+                <div class="label original-label">
+                    ORIGINAL
+                </div>
+
+                <div class="label enhanced-label">
+                    ENHANCED
+                </div>
+
+
+                <div
+                    class="divider"
+                    id="divider"
+                >
+
+                    <div class="divider-button">
+                        ↔
+                    </div>
 
                 </div>
 
             </div>
 
 
-            <div class="control">
+            <!-- ENHANCEMENT -->
 
-                <label>
-                    <span>Sharpness</span>
-                    <strong id="sharpValue">50</strong>
-                </label>
+            <div class="controls">
+
+                <div class="control-top">
+
+                    <div class="control-title">
+                        Enhancement
+                    </div>
+
+                    <div
+                        class="percent"
+                        id="percent"
+                    >
+                        50%
+                    </div>
+
+                </div>
+
 
                 <input
-                    id="sharpness"
                     type="range"
+                    id="strength"
                     min="0"
                     max="100"
                     value="50"
                 >
 
-            </div>
 
+                <div class="range-labels">
 
-            <div class="control">
+                    <span>Original</span>
 
-                <label>
-                    <span>Clarity</span>
-                    <strong id="clarityValue">35</strong>
-                </label>
+                    <span>Maximum Detail</span>
 
-                <input
-                    id="clarity"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="35"
-                >
+                </div>
 
             </div>
 
-
-            <div class="control">
-
-                <label>
-                    <span>Contrast</span>
-                    <strong id="contrastValue">10</strong>
-                </label>
-
-                <input
-                    id="contrast"
-                    type="range"
-                    min="-50"
-                    max="50"
-                    value="10"
-                >
-
-            </div>
-
-
-            <div class="control">
-
-                <label>
-                    <span>Brightness</span>
-                    <strong id="brightnessValue">0</strong>
-                </label>
-
-                <input
-                    id="brightness"
-                    type="range"
-                    min="-50"
-                    max="50"
-                    value="0"
-                >
-
-            </div>
-
-
-            <div class="control">
-
-                <label>
-                    <span>Saturation</span>
-                    <strong id="saturationValue">5</strong>
-                </label>
-
-                <input
-                    id="saturation"
-                    type="range"
-                    min="-50"
-                    max="50"
-                    value="5"
-                >
-
-            </div>
-
-        </div>
-
-
-        <div class="actions">
 
             <button
-                class="action-btn enhance-btn"
+                class="enhance-btn"
                 id="enhanceBtn"
             >
                 ✨ Enhance Image
             </button>
 
+
             <button
-                class="action-btn download-btn"
+                class="download"
                 id="downloadBtn"
             >
-                ⬇ Save High Quality
+                ⬇ Save Enhanced Image
             </button>
 
-            <button
-                class="action-btn reset-btn"
-                id="resetBtn"
-            >
-                ↺ Reset
-            </button>
 
-            <button
-                class="action-btn new-btn"
-                id="newBtn"
-            >
-                ＋ New Image
-            </button>
+            <div class="info">
+
+                AI enhancement uses a super-resolution model
+                to reconstruct higher-resolution image details.
+                The enhancement percentage controls how strongly
+                the AI result is blended into the final image.
+
+            </div>
 
         </div>
 
+    </section>
 
-        <div class="compare">
-
-            <button id="compareBtn">
-                👁 Show Original
-            </button>
-
-        </div>
-
-
-        <div class="info">
-
-            <b>Enhancement process</b><br>
-
-            The browser first upscales the image, then applies
-            detail enhancement, sharpening, contrast optimization
-            and color correction before exporting the final image.
-
-            For true AI detail reconstruction, a super-resolution
-            neural network can be added to this pipeline.
-
-        </div>
-
-    </div>
-
-</div>
+</main>
 
 
 <!-- LOADING -->
@@ -658,479 +966,439 @@ button {
 
     <div class="spinner"></div>
 
-    <p id="loadingText">
-        Enhancing image...
-    </p>
+    <div
+        class="loading-text"
+        id="loadingText"
+    >
+        AI is enhancing your image...
+    </div>
 
 </div>
 
 
 <script>
 
-const fileInput = document.getElementById("fileInput");
-const uploadBox = document.getElementById("uploadBox");
+/*
+==========================================================
+CONFIGURATION
+==========================================================
 
-const workspace = document.getElementById("workspace");
-const canvas = document.getElementById("canvas");
+IMPORTANT:
 
-const ctx = canvas.getContext("2d", {
-    willReadFrequently: true
-});
+DO NOT put your Replicate API token here.
 
-let originalImage = null;
-let originalCanvas = null;
+The browser should call YOUR backend:
 
-let scale = 2;
+/api/enhance
 
-let enhanced = false;
+Your backend then calls Replicate.
+
+Example:
+
+Browser
+   ↓
+/api/enhance
+   ↓
+Replicate
+   ↓
+Real-ESRGAN
+==========================================================
+*/
+
+const API_ENDPOINT = "/api/enhance";
 
 
-/* -----------------------------------
+/* Elements */
+
+const upload =
+    document.getElementById("upload");
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const editor =
+    document.getElementById("editor");
+
+const originalImage =
+    document.getElementById("originalImage");
+
+const enhancedImage =
+    document.getElementById("enhancedImage");
+
+const enhancedLayer =
+    document.getElementById("enhancedLayer");
+
+const placeholder =
+    document.getElementById("placeholder");
+
+const compare =
+    document.getElementById("compare");
+
+const divider =
+    document.getElementById("divider");
+
+const strength =
+    document.getElementById("strength");
+
+const percent =
+    document.getElementById("percent");
+
+const enhanceBtn =
+    document.getElementById("enhanceBtn");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
+
+const loading =
+    document.getElementById("loading");
+
+const loadingText =
+    document.getElementById("loadingText");
+
+
+let originalFile = null;
+
+let enhancedURL = null;
+
+let enhancementReady = false;
+
+
+/* ==========================================
    UPLOAD
------------------------------------ */
+========================================== */
 
-uploadBox.addEventListener("click", () => {
-    fileInput.click();
-});
+upload.addEventListener(
+    "click",
+    () => fileInput.click()
+);
 
-fileInput.addEventListener("change", e => {
 
-    const file = e.target.files[0];
+fileInput.addEventListener(
+    "change",
+    handleFile
+);
 
-    if (!file) return;
 
-    const reader = new FileReader();
+async function handleFile(event){
 
-    reader.onload = function(event) {
+    const file =
+        event.target.files[0];
 
-        const img = new Image();
+    if(!file) return;
 
-        img.onload = function() {
+    originalFile = file;
 
-            originalImage = img;
+    const localURL =
+        URL.createObjectURL(file);
 
-            originalCanvas =
-                document.createElement("canvas");
+    originalImage.src =
+        localURL;
 
-            originalCanvas.width = img.naturalWidth;
-            originalCanvas.height = img.naturalHeight;
+    enhancedImage.removeAttribute("src");
 
-            const originalCtx =
-                originalCanvas.getContext("2d");
+    placeholder.style.display =
+        "flex";
 
-            originalCtx.drawImage(
-                img,
-                0,
-                0
+    editor.style.display =
+        "block";
+
+    downloadBtn.style.display =
+        "none";
+
+    enhancementReady = false;
+
+    enhancedLayer.style.width =
+        "50%";
+
+    divider.style.left =
+        "50%";
+
+    /*
+        Scroll editor into view
+    */
+
+    setTimeout(() => {
+
+        editor.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },100);
+
+}
+
+
+/* ==========================================
+   STRENGTH
+========================================== */
+
+strength.addEventListener(
+    "input",
+    () => {
+
+        const value =
+            Number(strength.value);
+
+        percent.textContent =
+            value + "%";
+
+        /*
+            Live blend once AI result exists
+        */
+
+        if(enhancementReady){
+
+            updateBlend();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   ENHANCE
+========================================== */
+
+enhanceBtn.addEventListener(
+    "click",
+    enhance
+);
+
+
+async function enhance(){
+
+    if(!originalFile) return;
+
+
+    const currentStrength =
+        Number(strength.value);
+
+
+    if(currentStrength === 0){
+
+        enhancedImage.src =
+            URL.createObjectURL(
+                originalFile
             );
 
-            workspace.style.display = "block";
+        placeholder.style.display =
+            "none";
 
-            drawOriginal();
+        enhancementReady = true;
 
-        };
+        updateBlend();
 
-        img.src = event.target.result;
+        downloadBtn.style.display =
+            "block";
 
-    };
+        return;
+    }
 
-    reader.readAsDataURL(file);
-
-});
-
-
-/* -----------------------------------
-   DRAW ORIGINAL
------------------------------------ */
-
-function drawOriginal() {
-
-    canvas.width =
-        originalImage.naturalWidth;
-
-    canvas.height =
-        originalImage.naturalHeight;
-
-    ctx.drawImage(
-        originalImage,
-        0,
-        0
-    );
-
-    enhanced = false;
-
-}
-
-
-/* -----------------------------------
-   SCALE
------------------------------------ */
-
-document
-.querySelectorAll(".scale-btn")
-.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        document
-        .querySelectorAll(".scale-btn")
-        .forEach(b =>
-            b.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        scale =
-            Number(button.dataset.scale);
-
-        document.getElementById(
-            "scaleValue"
-        ).textContent = scale + "×";
-
-    });
-
-});
-
-
-/* -----------------------------------
-   SLIDER VALUES
------------------------------------ */
-
-const sliders = [
-
-    ["sharpness","sharpValue"],
-    ["clarity","clarityValue"],
-    ["contrast","contrastValue"],
-    ["brightness","brightnessValue"],
-    ["saturation","saturationValue"]
-
-];
-
-sliders.forEach(([input,output]) => {
-
-    document
-    .getElementById(input)
-    .addEventListener("input", function() {
-
-        document
-        .getElementById(output)
-        .textContent = this.value;
-
-    });
-
-});
-
-
-/* -----------------------------------
-   ENHANCE
------------------------------------ */
-
-document
-.getElementById("enhanceBtn")
-.addEventListener("click", async () => {
-
-    if (!originalImage) return;
 
     showLoading(
-        "Enhancing image..."
+        "AI is generating new image details..."
     );
 
-    await sleep(100);
-
-    enhanceImage();
-
-    hideLoading();
-
-});
+    enhanceBtn.disabled =
+        true;
 
 
-function enhanceImage() {
+    try{
 
-    const width =
-        originalImage.naturalWidth * scale;
+        /*
+            Convert image to base64
+            for our backend.
+        */
 
-    const height =
-        originalImage.naturalHeight * scale;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    /*
-        High quality browser interpolation
-    */
-
-    ctx.imageSmoothingEnabled = true;
-
-    ctx.imageSmoothingQuality = "high";
+        const base64 =
+            await fileToBase64(
+                originalFile
+            );
 
 
-    const brightness =
-        Number(
-            document.getElementById(
-                "brightness"
-            ).value
-        );
+        const response =
+            await fetch(
+                API_ENDPOINT,
+                {
 
-    const contrast =
-        Number(
-            document.getElementById(
-                "contrast"
-            ).value
-        );
+                    method:"POST",
 
-    const saturation =
-        Number(
-            document.getElementById(
-                "saturation"
-            ).value
-        );
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
 
+                    body:JSON.stringify({
 
-    /*
-        Color enhancement
-    */
+                        image:base64,
 
-    const contrastFactor =
-        (259 * (contrast + 255)) /
-        (255 * (259 - contrast));
+                        /*
+                            We request maximum
+                            AI enhancement.
 
+                            The frontend controls
+                            the final strength.
+                        */
 
-    ctx.filter =
-        `brightness(${100 + brightness}%)
-         contrast(${100 + contrast}%)
-         saturate(${100 + saturation}%)`;
+                        scale:4,
 
+                        face_enhance:true
 
-    ctx.drawImage(
-        originalImage,
-        0,
-        0,
-        width,
-        height
-    );
-
-    ctx.filter = "none";
-
-
-    /*
-        Detail processing
-    */
-
-    const sharp =
-        Number(
-            document.getElementById(
-                "sharpness"
-            ).value
-        ) / 100;
-
-
-    const clarity =
-        Number(
-            document.getElementById(
-                "clarity"
-            ).value
-        ) / 100;
-
-
-    const imageData =
-        ctx.getImageData(
-            0,
-            0,
-            width,
-            height
-        );
-
-    const data =
-        imageData.data;
-
-
-    /*
-        Local contrast / detail enhancement
-    */
-
-    if (clarity > 0) {
-
-        for (
-            let y = 1;
-            y < height - 1;
-            y++
-        ) {
-
-            for (
-                let x = 1;
-                x < width - 1;
-                x++
-            ) {
-
-                const i =
-                    (y * width + x) * 4;
-
-                const left =
-                    (y * width + x - 1) * 4;
-
-                const right =
-                    (y * width + x + 1) * 4;
-
-                const top =
-                    ((y - 1) * width + x) * 4;
-
-                const bottom =
-                    ((y + 1) * width + x) * 4;
-
-
-                for (
-                    let c = 0;
-                    c < 3;
-                    c++
-                ) {
-
-                    const center =
-                        data[i + c];
-
-                    const average =
-                        (
-                            data[left + c] +
-                            data[right + c] +
-                            data[top + c] +
-                            data[bottom + c]
-                        ) / 4;
-
-
-                    const detail =
-                        center - average;
-
-
-                    data[i + c] =
-                        clamp(
-                            center +
-                            detail *
-                            clarity *
-                            0.8
-                        );
+                    })
 
                 }
+            );
 
-            }
+
+        if(!response.ok){
+
+            throw new Error(
+                "Enhancement API failed"
+            );
 
         }
 
-    }
+
+        const result =
+            await response.json();
 
 
-    /*
-        Sharpening
-    */
+        /*
+            Backend should return:
 
-    if (sharp > 0) {
-
-        const copy =
-            new Uint8ClampedArray(data);
-
-
-        for (
-            let y = 1;
-            y < height - 1;
-            y++
-        ) {
-
-            for (
-                let x = 1;
-                x < width - 1;
-                x++
-            ) {
-
-                const i =
-                    (y * width + x) * 4;
-
-
-                for (
-                    let c = 0;
-                    c < 3;
-                    c++
-                ) {
-
-                    const center =
-                        copy[i + c];
-
-                    const surrounding =
-                        (
-                            copy[i - 4 + c] +
-                            copy[i + 4 + c] +
-                            copy[i - width * 4 + c] +
-                            copy[i + width * 4 + c]
-                        ) / 4;
-
-
-                    const detail =
-                        center -
-                        surrounding;
-
-
-                    data[i + c] =
-                        clamp(
-                            center +
-                            detail *
-                            sharp *
-                            1.5
-                        );
-
-                }
-
+            {
+                "image":
+                "https://....png"
             }
+        */
+
+        if(!result.image){
+
+            throw new Error(
+                "No enhanced image returned"
+            );
 
         }
 
+
+        enhancedURL =
+            result.image;
+
+
+        enhancedImage.src =
+            enhancedURL;
+
+
+        placeholder.style.display =
+            "none";
+
+
+        enhancementReady =
+            true;
+
+
+        updateBlend();
+
+
+        downloadBtn.style.display =
+            "block";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to enhance image. " +
+            "Please check the API connection."
+        );
+
+    }finally{
+
+        enhanceBtn.disabled =
+            false;
+
+        hideLoading();
+
     }
-
-
-    ctx.putImageData(
-        imageData,
-        0,
-        0
-    );
-
-
-    enhanced = true;
 
 }
 
 
-/* -----------------------------------
-   CLAMP
------------------------------------ */
+/* ==========================================
+   BLEND
+========================================== */
 
-function clamp(value) {
+function updateBlend(){
 
-    return Math.max(
-        0,
-        Math.min(
-            255,
-            value
-        )
-    );
+    if(!enhancementReady)
+        return;
+
+
+    const value =
+        Number(strength.value);
+
+
+    /*
+        0 = original
+        100 = full enhanced
+    */
+
+    enhancedLayer.style.width =
+        value + "%";
+
+    divider.style.left =
+        value + "%";
+
+
+    /*
+        At 0%, enhanced side disappears.
+        At 100%, enhanced image covers entire
+        canvas.
+    */
 
 }
 
 
-/* -----------------------------------
+/* ==========================================
    DOWNLOAD
------------------------------------ */
+========================================== */
 
-document
-.getElementById("downloadBtn")
-.addEventListener("click", () => {
+downloadBtn.addEventListener(
+    "click",
+    async () => {
 
-    if (!originalImage) return;
-
-    if (!enhanced) {
-
-        enhanceImage();
-
-    }
+        if(!enhancedURL)
+            return;
 
 
-    canvas.toBlob(
-        blob => {
+        const strengthValue =
+            Number(strength.value);
+
+
+        /*
+            Download the AI output.
+
+            If you want the downloaded image to
+            exactly match 30%, 50%, 70%, etc.,
+            the backend should generate/blend
+            that level before returning it.
+
+            For now the downloaded file is the
+            full AI-enhanced result.
+        */
+
+        try{
+
+            const response =
+                await fetch(
+                    enhancedURL
+                );
+
+            const blob =
+                await response.blob();
 
             const url =
                 URL.createObjectURL(blob);
@@ -1141,176 +1409,216 @@ document
             a.href = url;
 
             a.download =
+                "enhanced-" +
+                strengthValue +
+                "percent.png";
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            a.remove();
+
+            URL.revokeObjectURL(url);
+
+        }catch(error){
+
+            /*
+                Fallback
+            */
+
+            const a =
+                document.createElement("a");
+
+            a.href =
+                enhancedURL;
+
+            a.download =
                 "enhanced-image.png";
 
             a.click();
 
-            URL.revokeObjectURL(url);
-
-        },
-        "image/png"
-    );
-
-});
-
-
-/* -----------------------------------
-   RESET
------------------------------------ */
-
-document
-.getElementById("resetBtn")
-.addEventListener("click", () => {
-
-    document.getElementById(
-        "sharpness"
-    ).value = 50;
-
-    document.getElementById(
-        "clarity"
-    ).value = 35;
-
-    document.getElementById(
-        "contrast"
-    ).value = 10;
-
-    document.getElementById(
-        "brightness"
-    ).value = 0;
-
-    document.getElementById(
-        "saturation"
-    ).value = 5;
-
-
-    document.getElementById(
-        "sharpValue"
-    ).textContent = 50;
-
-    document.getElementById(
-        "clarityValue"
-    ).textContent = 35;
-
-    document.getElementById(
-        "contrastValue"
-    ).textContent = 10;
-
-    document.getElementById(
-        "brightnessValue"
-    ).textContent = 0;
-
-    document.getElementById(
-        "saturationValue"
-    ).textContent = 5;
-
-
-    drawOriginal();
-
-});
-
-
-/* -----------------------------------
-   NEW IMAGE
------------------------------------ */
-
-document
-.getElementById("newBtn")
-.addEventListener("click", () => {
-
-    fileInput.value = "";
-
-    workspace.style.display = "none";
-
-    originalImage = null;
-
-    originalCanvas = null;
-
-});
-
-
-/* -----------------------------------
-   BEFORE / AFTER
------------------------------------ */
-
-document
-.getElementById("compareBtn")
-.addEventListener("click", () => {
-
-    const button =
-        document.getElementById(
-            "compareBtn"
-        );
-
-
-    if (enhanced) {
-
-        canvas.width =
-            originalImage.naturalWidth;
-
-        canvas.height =
-            originalImage.naturalHeight;
-
-        ctx.drawImage(
-            originalImage,
-            0,
-            0
-        );
-
-        button.textContent =
-            "✨ Show Enhanced";
-
-        enhanced = false;
-
-    } else {
-
-        enhanceImage();
-
-        button.textContent =
-            "👁 Show Original";
-
-        enhanced = true;
+        }
 
     }
-
-});
-
-
-/* -----------------------------------
-   LOADING
------------------------------------ */
-
-function showLoading(text) {
-
-    document.getElementById(
-        "loadingText"
-    ).textContent = text;
-
-    document.getElementById(
-        "loading"
-    ).style.display = "flex";
-
-}
+);
 
 
-function hideLoading() {
+/* ==========================================
+   FILE → BASE64
+========================================== */
 
-    document.getElementById(
-        "loading"
-    ).style.display = "none";
-
-}
-
-
-function sleep(ms) {
+function fileToBase64(file){
 
     return new Promise(
-        resolve => setTimeout(
-            resolve,
-            ms
-        )
+        (resolve,reject) => {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(file);
+
+        }
     );
 
 }
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+function showLoading(text){
+
+    loadingText.textContent =
+        text;
+
+    loading.style.display =
+        "flex";
+
+}
+
+
+function hideLoading(){
+
+    loading.style.display =
+        "none";
+
+}
+
+
+/* ==========================================
+   IMAGE ALIGNMENT
+========================================== */
+
+/*
+    Keep original and enhanced images
+    perfectly aligned.
+*/
+
+function alignImages(){
+
+    if(
+        !originalImage.naturalWidth ||
+        !originalImage.naturalHeight
+    )
+        return;
+
+
+    enhancedImage.style.height =
+        "100%";
+
+}
+
+
+/* ==========================================
+   SLIDER DRAG
+========================================== */
+
+let dragging = false;
+
+
+compare.addEventListener(
+    "pointerdown",
+    event => {
+
+        dragging = true;
+
+        compare.setPointerCapture(
+            event.pointerId
+        );
+
+        updateSlider(
+            event
+        );
+
+    }
+);
+
+
+compare.addEventListener(
+    "pointermove",
+    event => {
+
+        if(!dragging)
+            return;
+
+        updateSlider(
+            event
+        );
+
+    }
+);
+
+
+compare.addEventListener(
+    "pointerup",
+    () => {
+
+        dragging = false;
+
+    }
+);
+
+
+function updateSlider(event){
+
+    const rect =
+        compare.getBoundingClientRect();
+
+
+    let x =
+        event.clientX -
+        rect.left;
+
+
+    let value =
+        (x / rect.width) * 100;
+
+
+    value =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                value
+            )
+        );
+
+
+    strength.value =
+        Math.round(value);
+
+    percent.textContent =
+        Math.round(value) + "%";
+
+
+    updateBlend();
+
+}
+
+
+/* ==========================================
+   IMAGE LOAD
+========================================== */
+
+originalImage.addEventListener(
+    "load",
+    alignImages
+);
+
+enhancedImage.addEventListener(
+    "load",
+    alignImages
+);
 
 </script>
 
