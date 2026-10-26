@@ -11,47 +11,62 @@
 
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:#f5f7fb;color:#111827;font-family:Arial,sans-serif}
-.app{max-width:900px;margin:auto;padding:14px}
-.header,.section,.bottom-action,.preview-card{background:#fff;border-radius:18px;padding:18px;margin-bottom:15px;box-shadow:0 4px 20px #0000000a}
-.header h1{margin:0;font-size:23px}
-.header p{color:#6b7280;font-size:14px}
+body{margin:0;background:#f4f6fa;color:#111827;font-family:Arial,Helvetica,sans-serif}
+.app{max-width:1000px;margin:auto;padding:14px}
+.header,.section,.preview-card,.bottom-action{background:#fff;border-radius:19px;padding:18px;margin-bottom:15px;box-shadow:0 5px 22px #00000008}
+.header h1{font-size:24px;margin:0}
+.header p{color:#6b7280;font-size:14px;margin-bottom:0}
 .preview-card{position:sticky;top:5px;z-index:10;padding:12px}
 .preview-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.live-badge{background:#dcfce7;color:#15803d;border-radius:20px;padding:6px 10px;font-size:11px;font-weight:bold}
-.preview-box{height:195px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border:1px solid #e5e7eb;border-radius:15px;overflow:hidden}
-#qrPreview{width:175px;height:175px;display:flex;align-items:center;justify-content:center}
-#qrPreview canvas,#qrPreview img,#qrPreview svg{display:block;width:100%!important;height:100%!important}
-.section-title{font-size:19px;font-weight:800;margin-bottom:15px}
+.preview-title strong{font-size:16px}
+.live-badge{background:#dcfce7;color:#15803d;padding:6px 10px;border-radius:30px;font-size:11px;font-weight:bold}
+.preview-box{height:205px;display:flex;justify-content:center;align-items:center;background:#f8fafc;border:1px solid #e5e7eb;border-radius:15px;overflow:hidden}
+#qrPreview{width:180px;height:180px;display:flex;justify-content:center;align-items:center;overflow:hidden}
+#qrPreview canvas,#qrPreview img{width:100%!important;height:100%!important;display:block}
+.section-title{font-size:20px;font-weight:800;margin-bottom:15px}
 label{display:block;font-size:14px;font-weight:bold;margin-bottom:7px}
-textarea,input[type=text],select{width:100%;padding:13px;border:1px solid #d9dee8;border-radius:12px;font-size:15px;background:white;color:#111827}
+textarea,input[type=text],select{width:100%;padding:13px;border:1px solid #d9dee8;border-radius:12px;background:#fff;color:#111827;font-size:15px;min-width:0}
 textarea{min-height:90px;resize:vertical}
-textarea:focus,input:focus,select:focus{outline:1px solid #2563eb}
-.style-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.style-btn,.quality-btn{padding:15px 5px;border:1.5px solid #dce1e9;background:#fff;border-radius:13px;font-weight:bold;cursor:pointer}
-.style-btn.active,.quality-btn.active{border-color:#2563eb;background:#eff6ff;color:#1d4ed8}
+textarea:focus,input:focus,select:focus{outline:1px solid #2563eb;border-color:#2563eb}
+.style-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.style-btn,.quality-btn{padding:15px 5px;border:1.5px solid #dce1e9;background:#fff;border-radius:14px;font-size:14px;font-weight:bold;cursor:pointer}
+.style-btn.active,.quality-btn.active{border-color:#2563eb;background:#eff6ff;color:#1d4ed8;box-shadow:0 0 0 1px #2563eb}
 .two-column{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.color-row{display:flex;gap:8px;align-items:center}
-.color-picker-wrap{width:58px;min-width:58px;height:50px;border:1px solid #ddd;padding:5px;border-radius:10px}
-input[type=color]{width:100%;height:100%;padding:0;border:0;background:transparent}
-.logo-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.logo-card{min-height:95px;padding:8px 4px;border:1.5px solid #dce1e9;border-radius:13px;background:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;min-width:0}
+.color-row{display:flex;align-items:center;gap:9px}
+.color-picker-wrap{width:60px;min-width:60px;height:49px;padding:5px;border:1px solid #d9dee8;border-radius:11px}
+input[type=color]{width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer}
+.logo-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.logo-card{min-width:0;min-height:100px;border:1.5px solid #dce1e9;background:#fff;border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer}
 .logo-card.active{border-color:#2563eb;background:#eff6ff}
-.logo-icon,.logo-none{width:40px;height:40px;object-fit:contain;display:flex;align-items:center;justify-content:center}
-.logo-none{font-size:29px}
-.logo-name{font-size:11px;font-weight:bold;text-align:center}
-.custom-upload{margin:18px 0 22px;padding:20px;border:2px dashed #ccd5e3;border-radius:14px;background:#fafcff;display:block;cursor:pointer}
-.upload-title{font-weight:bold;font-size:16px}
-.upload-subtitle,.helper{color:#6b7280;font-size:12px;margin-top:5px}
+.logo-icon{width:42px;height:42px;object-fit:contain}
+.logo-fallback{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold}
+.logo-name{font-size:11px;font-weight:bold;text-align:center;overflow-wrap:anywhere}
+.custom-upload{display:block;margin:18px 0 22px;padding:20px;border:2px dashed #ccd5e3;border-radius:15px;background:#fafcff;cursor:pointer}
+.upload-title{font-size:16px;font-weight:bold}
+.upload-subtitle,.helper{font-size:12px;color:#6b7280;margin-top:5px}
 #customLogoInput{display:none}
 .slider-row{display:flex;align-items:center;gap:12px}
 .slider-wrap{flex:1}
 input[type=range]{width:100%;accent-color:#2563eb}
-.slider-value{padding:9px;border:1px solid #ddd;border-radius:9px;font-weight:bold}
-.quality-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.generate-btn{width:100%;min-height:58px;border:0;border-radius:14px;background:#1677f2;color:white;font-size:17px;font-weight:bold;cursor:pointer}
+.slider-value{min-width:55px;text-align:center;padding:9px;border:1px solid #ddd;border-radius:9px;font-weight:bold}
+.quality-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.quality-btn{padding:12px 3px;font-size:12px}
+.generate-btn{width:100%;min-height:60px;background:#1677f2;color:white;border:0;border-radius:15px;font-size:17px;font-weight:bold;cursor:pointer}
 .generate-btn:disabled{opacity:.6}
-@media(max-width:420px){.app{padding:9px}.section{padding:14px}.logo-grid{gap:5px}.logo-card{min-height:84px}.logo-icon,.logo-none{width:34px;height:34px}.logo-name{font-size:10px}.two-column{grid-template-columns:1fr}}
+.status{font-size:12px;color:#64748b;margin-top:9px;text-align:center}
+@media(max-width:600px){
+.app{padding:9px}
+.header,.section{padding:15px;border-radius:17px}
+.header h1{font-size:22px}
+.preview-card{padding:10px}
+.preview-box{height:190px}
+#qrPreview{width:165px;height:165px}
+.two-column{grid-template-columns:1fr}
+.logo-grid{gap:6px}
+.logo-card{min-height:88px}
+.logo-icon,.logo-fallback{width:36px;height:36px}
+.quality-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 </style>
 </head>
 
@@ -60,7 +75,7 @@ input[type=range]{width:100%;accent-color:#2563eb}
 
 <div class="header">
 <h1>QR Code Generator</h1>
-<p>Create and customize your QR code with live preview.</p>
+<p>Create and customize your QR code with a live preview.</p>
 </div>
 
 <div class="preview-card">
@@ -80,9 +95,9 @@ input[type=range]{width:100%;accent-color:#2563eb}
 <div class="section">
 <div class="section-title">🎨 QR Style</div>
 <div class="style-grid">
-<button class="style-btn active" data-style="square">Square</button>
-<button class="style-btn" data-style="dots">Dots</button>
-<button class="style-btn" data-style="heart">♥ Heart</button>
+<button class="style-btn active" data-style="square" type="button">Square</button>
+<button class="style-btn" data-style="dots" type="button">Dots</button>
+<button class="style-btn" data-style="heart" type="button">♥ Heart Dots</button>
 </div>
 </div>
 
@@ -99,14 +114,14 @@ input[type=range]{width:100%;accent-color:#2563eb}
 <div class="section-title">🎨 Colors</div>
 <div class="two-column">
 <div>
-<label>QR Color</label>
+<label for="qrColorText">QR Color</label>
 <div class="color-row">
 <div class="color-picker-wrap"><input type="color" id="qrColorPicker" value="#000000"></div>
 <input type="text" id="qrColorText" value="#000000" maxlength="7">
 </div>
 </div>
 <div>
-<label>Background Color</label>
+<label for="bgColorText">Background Color</label>
 <div class="color-row">
 <div class="color-picker-wrap"><input type="color" id="bgColorPicker" value="#ffffff"></div>
 <input type="text" id="bgColorText" value="#ffffff" maxlength="7">
@@ -117,15 +132,11 @@ input[type=range]{width:100%;accent-color:#2563eb}
 
 <div class="section">
 <div class="section-title">🖼️ Logo</div>
-<div class="logo-grid" id="logoGrid">
-<button class="logo-card active" data-logo="none">
-<div class="logo-none">∅</div><div class="logo-name">None</div>
-</button>
-</div>
+<div class="logo-grid" id="logoGrid"></div>
 
 <label class="custom-upload" for="customLogoInput">
 <div class="upload-title">🖼️ Upload Custom Logo</div>
-<div class="upload-subtitle">Choose PNG, JPG or SVG</div>
+<div class="upload-subtitle">Choose a PNG, JPG, WEBP or SVG image</div>
 </label>
 <input type="file" id="customLogoInput" accept="image/png,image/jpeg,image/webp,image/svg+xml">
 
@@ -134,7 +145,7 @@ input[type=range]{width:100%;accent-color:#2563eb}
 <div class="slider-wrap"><input type="range" id="logoSize" min="10" max="35" value="20"></div>
 <div class="slider-value" id="logoSizeValue">20%</div>
 </div>
-<div class="helper">A smaller logo usually helps QR scanning.</div>
+<div class="helper">Large logos can reduce QR scanning reliability.</div>
 </div>
 
 <div class="section">
@@ -149,7 +160,8 @@ input[type=range]{width:100%;accent-color:#2563eb}
 </div>
 
 <div class="bottom-action">
-<button id="generateBtn" class="generate-btn">⬇ Generate / Download QR</button>
+<button class="generate-btn" id="generateBtn" type="button">⬇ Generate / Download QR</button>
+<div class="status" id="status">Ready</div>
 </div>
 
 </div>
@@ -163,61 +175,51 @@ let currentStyle = 'square';
 let currentLogo = 'none';
 let customLogo = null;
 let currentQuality = 'standard';
-let qr = null;
-let renderVersion = 0;
+let qrInstance = null;
+let previewTimer = null;
+let previewVersion = 0;
 
 const qualitySizes = {
-  standard: 800,
-  hd: 1280,
-  fhd: 1920,
-  qhd: 2560,
-  uhd: 3840
+  standard:800,
+  hd:1280,
+  fhd:1920,
+  qhd:2560,
+  uhd:3840
 };
 
-const iconNames = {
-  instagram:'instagram',
-  google:'google',
-  gpay:'googlepay',
-  phonepe:'phonepe',
-  paytm:'paytm',
-  whatsapp:'whatsapp',
-  facebook:'facebook',
-  youtube:'youtube',
-  maps:'googlemaps',
-  linkedin:'linkedin',
-  telegram:'telegram',
-  x:'x',
-  spotify:'spotify'
-};
-
-const logoLabels = {
-  instagram:'Instagram',google:'Google',gpay:'GPay',
-  phonepe:'PhonePe',paytm:'Paytm',whatsapp:'WhatsApp',
-  facebook:'Facebook',youtube:'YouTube',maps:'Maps',
-  linkedin:'LinkedIn',telegram:'Telegram',x:'X',
-  spotify:'Spotify',upi:'UPI',bhimupi:'BHIM UPI'
-};
-
-const upiSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60"><rect width="100" height="60" rx="8" fill="white"/><path d="M15 12h10l-6 18h10L18 49H8l7-18H5z" fill="#e83e8c"/><text x="37" y="40" font-size="25" font-weight="bold" fill="#111">UPI</text></svg>`;
-
-const bhimSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#e85b25"/><text x="50" y="59" text-anchor="middle" font-size="30" font-weight="bold" fill="white">B</text><text x="50" y="82" text-anchor="middle" font-size="11" fill="white">BHIM UPI</text></svg>`;
+const logoInfo = [
+  ['instagram','Instagram','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/instagram.svg'],
+  ['google','Google','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/google.svg'],
+  ['gpay','GPay','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/googlepay.svg'],
+  ['phonepe','PhonePe','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/phonepe.svg'],
+  ['paytm','Paytm','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/paytm.svg'],
+  ['whatsapp','WhatsApp','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/whatsapp.svg'],
+  ['facebook','Facebook','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/facebook.svg'],
+  ['youtube','YouTube','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/youtube.svg'],
+  ['maps','Maps','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/googlemaps.svg'],
+  ['linkedin','LinkedIn','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/linkedin.svg'],
+  ['telegram','Telegram','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/telegram.svg'],
+  ['x','X','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/x.svg'],
+  ['spotify','Spotify','https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/spotify.svg'],
+  ['upi','UPI','builtin:upi'],
+  ['bhimupi','BHIM UPI','builtin:bhim']
+];
 
 function svgData(svg) {
-  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
 
-const logoSources = {
-  ...Object.fromEntries(
-    Object.entries(iconNames).map(([key,name]) => [
-      key, `https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/${name}.svg`
-    ])
-  ),
-  upi: svgData(upiSVG),
-  bhimupi: svgData(bhimSVG)
-};
+const upiSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60"><rect width="100" height="60" rx="8" fill="white"/><path d="M15 12h10l-6 18h10L18 49H8l7-18H5z" fill="#e83e8c"/><text x="37" y="40" font-size="25" font-weight="bold" fill="#111">UPI</text></svg>`;
+const bhimSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#e85b25"/><text x="50" y="62" text-anchor="middle" font-size="37" font-weight="bold" fill="white">B</text></svg>`;
+
+const logoSources = {};
+logoInfo.forEach(([key,name,src]) => {
+  logoSources[key] = src === 'builtin:upi' ? svgData(upiSVG) :
+                     src === 'builtin:bhim' ? svgData(bhimSVG) : src;
+});
 
 function validHex(v) {
-  return /^#[0-9a-f]{6}$/i.test(v.trim());
+  return /^#[0-9a-f]{6}$/i.test((v || '').trim());
 }
 function qrColor() {
   return validHex($('qrColorText').value) ? $('qrColorText').value.trim() : '#000000';
@@ -228,227 +230,303 @@ function bgColor() {
 function getText() {
   return $('qrText').value.trim() || 'https://example.com';
 }
-function getLogo() {
-  return customLogo || (currentLogo !== 'none' ? logoSources[currentLogo] : undefined);
+function getLogoSource() {
+  return customLogo || (currentLogo !== 'none' ? logoSources[currentLogo] : null);
 }
-function getLogoSize() {
-  return Number($('logoSize').value) / 100;
+function setStatus(message) {
+  $('status').textContent = message;
 }
 
 function buildLogoGrid() {
   const grid = $('logoGrid');
+  grid.innerHTML = '';
 
-  Object.entries(logoSources).forEach(([key,src]) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'logo-card';
-    button.dataset.logo = key;
+  const items = [['none','None',null], ...logoInfo];
 
-    const img = document.createElement('img');
-    img.className = 'logo-icon';
-    img.src = src;
-    img.alt = logoLabels[key];
-    img.onerror = () => {
-      img.style.display = 'none';
-      const fallback = document.createElement('div');
-      fallback.className = 'logo-none';
-      fallback.textContent = '●';
-      button.insertBefore(fallback,button.firstChild);
-    };
+  items.forEach(([key,name,src]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'logo-card' + (key === 'none' ? ' active' : '');
+    btn.dataset.logo = key;
+
+    if (key === 'none') {
+      const icon = document.createElement('div');
+      icon.className = 'logo-fallback';
+      icon.textContent = '∅';
+      btn.appendChild(icon);
+    } else {
+      const img = document.createElement('img');
+      img.className = 'logo-icon';
+      img.alt = name;
+      img.src = src;
+
+      img.onerror = () => {
+        img.style.display = 'none';
+        const fallback = document.createElement('div');
+        fallback.className = 'logo-fallback';
+        fallback.textContent = name.slice(0,1);
+        if (!btn.querySelector('.logo-fallback')) btn.insertBefore(fallback,btn.firstChild);
+      };
+
+      btn.appendChild(img);
+    }
 
     const label = document.createElement('div');
     label.className = 'logo-name';
-    label.textContent = logoLabels[key];
-
-    button.append(img,label);
-    grid.appendChild(button);
+    label.textContent = name;
+    btn.appendChild(label);
+    grid.appendChild(btn);
   });
 }
 
-function qrOptions(size,text,margin) {
-  const corner = $('cornerStyle').value;
-  return {
+/* Load the chosen logo into an Image object.
+   Data URLs work for uploaded logos and built-in UPI logos.
+   Remote logos need to permit cross-origin image loading for PNG export. */
+function loadLogoImage(src) {
+  return new Promise((resolve,reject) => {
+    if (!src) {
+      resolve(null);
+      return;
+    }
+
+    const img = new Image();
+    if (!src.startsWith('data:')) img.crossOrigin = 'anonymous';
+
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Logo could not load. Try uploading the logo image instead.'));
+
+    img.src = src;
+  });
+}
+
+function getMatrix(text) {
+  if (typeof qrcode !== 'function') {
+    throw new Error('QR library did not load. Check your internet connection and reload.');
+  }
+
+  const qr = qrcode(0,'H');
+  qr.addData(text);
+  qr.make();
+  return qr;
+}
+
+function inFinder(r,c,n) {
+  return (r<8 && c<8) ||
+         (r<8 && c>=n-8) ||
+         (r>=n-8 && c<8);
+}
+
+function inAlignment(r,c,n) {
+  if (n < 25) return false;
+
+  const centers = [6,n-7];
+
+  for (const ar of centers) {
+    for (const ac of centers) {
+      if ((ar===6 && ac===6) ||
+          (ar===6 && ac===n-7) ||
+          (ar===n-7 && ac===6)) continue;
+
+      if (Math.abs(r-ar)<=2 && Math.abs(c-ac)<=2) return true;
+    }
+  }
+  return false;
+}
+
+function drawHeart(ctx,x,y,w,h,color) {
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(w,h);
+  ctx.beginPath();
+  ctx.moveTo(.5,.92);
+  ctx.bezierCurveTo(.42,.82,.02,.57,.02,.30);
+  ctx.bezierCurveTo(.02,.05,.34,-.02,.5,.22);
+  ctx.bezierCurveTo(.66,-.02,.98,.05,.98,.30);
+  ctx.bezierCurveTo(.98,.57,.58,.82,.5,.92);
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawFinder(ctx,x,y,unit,color,style) {
+  ctx.fillStyle = color;
+
+  if (style === 'dot') {
+    ctx.beginPath();
+    ctx.arc(x+3.5*unit,y+3.5*unit,3.5*unit,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = bgColor();
+    ctx.beginPath();
+    ctx.arc(x+3.5*unit,y+3.5*unit,2.5*unit,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x+3.5*unit,y+3.5*unit,1.5*unit,0,Math.PI*2);
+    ctx.fill();
+    return;
+  }
+
+  ctx.fillRect(x,y,7*unit,7*unit);
+  ctx.fillStyle = bgColor();
+  ctx.fillRect(x+unit,y+unit,5*unit,5*unit);
+  ctx.fillStyle = color;
+  ctx.fillRect(x+2*unit,y+2*unit,3*unit,3*unit);
+}
+
+function drawHeartQR(ctx,text,size,logoImage) {
+  const matrix = getMatrix(text);
+  const n = matrix.getModuleCount();
+  const quiet = 4;
+  const unit = size/(n+quiet*2);
+  const fg = qrColor();
+  const bg = bgColor();
+
+  ctx.clearRect(0,0,size,size);
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,size,size);
+
+  /* Draw normal QR finder patterns. */
+  const finders = [[0,0],[0,n-7],[n-7,0]];
+  finders.forEach(([r,c]) => {
+    drawFinder(ctx,(c+quiet)*unit,(r+quiet)*unit,unit,fg,$('cornerStyle').value);
+  });
+
+  for (let r=0;r<n;r++) {
+    for (let c=0;c<n;c++) {
+      if (!matrix.isDark(r,c)) continue;
+
+      if (inFinder(r,c,n)) continue;
+
+      const x = (c+quiet)*unit;
+      const y = (r+quiet)*unit;
+
+      /* Alignment patterns remain square for QR reliability. */
+      if (inAlignment(r,c,n)) {
+        ctx.fillStyle = fg;
+        ctx.fillRect(x,y,unit,unit);
+        continue;
+      }
+
+      drawHeart(ctx,x+unit*.06,y+unit*.06,unit*.88,unit*.88,fg);
+    }
+  }
+
+  drawCenterLogo(ctx,size,logoImage);
+}
+
+function drawCenterLogo(ctx,size,logoImage) {
+  if (!logoImage) return;
+
+  const ratio = Number($('logoSize').value)/100;
+  const side = size*ratio*.85;
+  const x = (size-side)/2;
+  const y = x;
+
+  /* White background protects the logo from overlapping QR modules. */
+  ctx.fillStyle = bgColor();
+  ctx.fillRect(x-side*.10,y-side*.10,side*1.20,side*1.20);
+
+  const maxW = side;
+  const maxH = side;
+  const scale = Math.min(maxW/logoImage.naturalWidth,maxH/logoImage.naturalHeight);
+  const w = logoImage.naturalWidth*scale;
+  const h = logoImage.naturalHeight*scale;
+
+  ctx.drawImage(logoImage,x+(side-w)/2,y+(side-h)/2,w,h);
+}
+
+function renderStandardQR(container,text,size,logoImage) {
+  if (typeof QRCodeStyling !== 'function') {
+    throw new Error('QR styling library did not load. Check your internet connection.');
+  }
+
+  container.innerHTML = '';
+
+  qrInstance = new QRCodeStyling({
     width:size,
     height:size,
     type:'canvas',
     data:text,
-    margin,
+    margin:12,
     qrOptions:{errorCorrectionLevel:'H'},
     dotsOptions:{
       type:currentStyle === 'dots' ? 'dots' : 'square',
       color:qrColor()
     },
     backgroundOptions:{color:bgColor()},
-    cornersSquareOptions:{type:corner,color:qrColor()},
-    cornersDotOptions:{
-      type:corner === 'dot' ? 'dot' : 'square',
+    cornersSquareOptions:{
+      type:$('cornerStyle').value,
       color:qrColor()
     },
-    image:getLogo(),
+    cornersDotOptions:{
+      type:$('cornerStyle').value === 'dot' ? 'dot' : 'square',
+      color:qrColor()
+    },
+    image:getLogoSource() || undefined,
     imageOptions:{
       hideBackgroundDots:true,
-      imageSize:getLogoSize(),
-      margin:4,
+      imageSize:Number($('logoSize').value)/100,
+      margin:5,
       crossOrigin:'anonymous'
     }
-  };
+  });
+
+  qrInstance.append(container);
 }
 
-/* Heart SVG renderer. Uses the QR matrix library for valid QR data. */
-function makeHeartSVG(text,size) {
-  if (typeof qrcode !== 'function') {
-    throw new Error('QR library failed to load. Check your internet connection.');
-  }
-
-  const matrix = qrcode(0,'H');
-  matrix.addData(text);
-  matrix.make();
-
-  const n = matrix.getModuleCount();
-  const quiet = 4;
-  const unit = size / (n + quiet * 2);
-  const fg = qrColor();
-  const bg = bgColor();
-  const shapes = [];
-
-  function inFinder(r,c) {
-    return (r < 8 && c < 8) ||
-           (r < 8 && c >= n-8) ||
-           (r >= n-8 && c < 8);
-  }
-
-  function inAlignment(r,c) {
-    if (n < 25) return false;
-
-    const centers = [6,n-7];
-    for (const ar of centers) {
-      for (const ac of centers) {
-        if ((ar===6 && ac===6) ||
-            (ar===6 && ac===n-7) ||
-            (ar===n-7 && ac===6)) continue;
-
-        if (Math.abs(r-ar)<=2 && Math.abs(c-ac)<=2) return true;
-      }
-    }
-    return false;
-  }
-
-  function structural(r,c) {
-    return inFinder(r,c) || r===6 || c===6 || inAlignment(r,c);
-  }
-
-  const heartPath =
-    'M 0.5 0.9 C 0.39 0.79 0.06 0.55 0.06 0.31 ' +
-    'C 0.06 0.06 0.36 0.02 0.5 0.25 ' +
-    'C 0.64 0.02 0.94 0.06 0.94 0.31 ' +
-    'C 0.94 0.55 0.61 0.79 0.5 0.9 Z';
-
-  for (let r=0; r<n; r++) {
-    for (let c=0; c<n; c++) {
-      if (!matrix.isDark(r,c)) continue;
-
-      const x = (c+quiet)*unit;
-      const y = (r+quiet)*unit;
-
-      if (structural(r,c)) {
-        shapes.push(`<rect x="${x}" y="${y}" width="${unit}" height="${unit}"/>`);
-      } else {
-        const pad = unit * 0.06;
-        shapes.push(
-          `<path d="${heartPath}" transform="translate(${x+pad} ${y+pad}) scale(${unit*0.88})"/>`
-        );
-      }
-    }
-  }
-
-  const logo = getLogo();
-  let logoMarkup = '';
-
-  if (logo) {
-    const side = size * getLogoSize() * 0.75;
-    const x = (size-side)/2;
-    const pad = size*0.012;
-    const safeLogo = logo.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
-
-    logoMarkup =
-      `<rect x="${x-pad}" y="${x-pad}" width="${side+pad*2}" height="${side+pad*2}" rx="${pad*2}" fill="${bg}"/>` +
-      `<image href="${safeLogo}" xlink:href="${safeLogo}" x="${x}" y="${x}" width="${side}" height="${side}" preserveAspectRatio="xMidYMid meet"/>`;
-  }
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" fill="${bg}"/><g fill="${fg}">${shapes.join('')}</g>${logoMarkup}</svg>`;
-}
-
-async function svgToPng(svg,size) {
-  const blob = new Blob([svg],{type:'image/svg+xml;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-
-  try {
-    const img = new Image();
-
-    await new Promise((resolve,reject) => {
-      img.onload = resolve;
-      img.onerror = () => reject(new Error('Could not render the QR image. Try a different logo.'));
-      img.src = url;
-    });
-
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = bgColor();
-    ctx.fillRect(0,0,size,size);
-    ctx.drawImage(img,0,0,size,size);
-
-    return await new Promise((resolve,reject) => {
-      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG export failed')),'image/png');
-    });
-  } finally {
-    URL.revokeObjectURL(url);
-  }
-}
-
-async function updateQR() {
-  const version = ++renderVersion;
+async function updatePreview() {
+  const version = ++previewVersion;
   const container = $('qrPreview');
+  const text = getText();
 
   try {
     if (currentStyle === 'heart') {
-      const svg = makeHeartSVG(getText(),800);
-      if (version !== renderVersion) return;
-      container.innerHTML = svg;
-      return;
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 600;
+
+      const ctx = canvas.getContext('2d');
+      const src = getLogoSource();
+      let logoImage = null;
+
+      if (src) {
+        try {
+          logoImage = await loadLogoImage(src);
+        } catch (e) {
+          console.warn(e);
+        }
+      }
+
+      if (version !== previewVersion) return;
+
+      drawHeartQR(ctx,text,600,logoImage);
+      container.innerHTML = '';
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      container.appendChild(canvas);
+    } else {
+      renderStandardQR(container,text,400);
     }
 
-    if (typeof QRCodeStyling !== 'function') {
-      throw new Error('QR styling library failed to load.');
-    }
-
+    setStatus('Preview updated');
+  } catch (e) {
+    console.error(e);
     container.innerHTML = '';
-    qr = new QRCodeStyling(qrOptions(400,getText(),12));
-    qr.append(container);
-  } catch (error) {
-    console.error(error);
-    container.innerHTML = '';
-    const message = document.createElement('div');
-    message.style.cssText = 'font-size:12px;color:#b91c1c;text-align:center;padding:12px';
-    message.textContent = error.message;
-    container.appendChild(message);
+    const error = document.createElement('div');
+    error.style.cssText = 'font-size:12px;color:#b91c1c;padding:10px;text-align:center';
+    error.textContent = e.message;
+    container.appendChild(error);
+    setStatus('Could not generate preview');
   }
 }
 
-function downloadBlob(blob,filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url),3000);
+function schedulePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(updatePreview,150);
 }
 
-async function downloadQR() {
+async function generateDownload() {
   const text = $('qrText').value.trim();
 
   if (!text) {
@@ -459,117 +537,195 @@ async function downloadQR() {
 
   const button = $('generateBtn');
   button.disabled = true;
-  button.textContent = 'Preparing QR code...';
+  button.textContent = 'Generating...';
+  setStatus('Preparing your PNG');
 
   try {
     const size = qualitySizes[currentQuality];
 
     if (currentStyle === 'heart') {
-      const svg = makeHeartSVG(text,size);
-      const png = await svgToPng(svg,size);
-      downloadBlob(png,'QR-Code-'+currentQuality.toUpperCase()+'.png');
-    } else {
-      if (typeof QRCodeStyling !== 'function') {
-        throw new Error('QR library failed to load. Check your internet connection.');
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      let logoImage = null;
+      const src = getLogoSource();
+
+      if (src) {
+        logoImage = await loadLogoImage(src);
       }
 
-      const instance = new QRCodeStyling(qrOptions(size,text,30));
+      drawHeartQR(ctx,text,size,logoImage);
+
+      const blob = await new Promise((resolve,reject) => {
+        canvas.toBlob(b => b ? resolve(b) : reject(new Error('PNG export failed.')),'image/png');
+      });
+
+      saveBlob(blob,'QR-Code-'+currentQuality.toUpperCase()+'.png');
+    } else {
+      if (typeof QRCodeStyling !== 'function') {
+        throw new Error('QR library did not load. Reload the page while online.');
+      }
+
+      const instance = new QRCodeStyling({
+        width:size,
+        height:size,
+        type:'canvas',
+        data:text,
+        margin:30,
+        qrOptions:{errorCorrectionLevel:'H'},
+        dotsOptions:{
+          type:currentStyle === 'dots' ? 'dots' : 'square',
+          color:qrColor()
+        },
+        backgroundOptions:{color:bgColor()},
+        cornersSquareOptions:{
+          type:$('cornerStyle').value,
+          color:qrColor()
+        },
+        cornersDotOptions:{
+          type:$('cornerStyle').value === 'dot' ? 'dot' : 'square',
+          color:qrColor()
+        },
+        image:getLogoSource() || undefined,
+        imageOptions:{
+          hideBackgroundDots:true,
+          imageSize:Number($('logoSize').value)/100,
+          margin:5,
+          crossOrigin:'anonymous'
+        }
+      });
+
       const blob = await instance.getRawData('png');
 
-      if (!blob) throw new Error('Could not generate PNG.');
-      downloadBlob(blob,'QR-Code-'+currentQuality.toUpperCase()+'.png');
+      if (!blob) throw new Error('PNG generation failed.');
+      saveBlob(blob,'QR-Code-'+currentQuality.toUpperCase()+'.png');
     }
-  } catch (error) {
-    console.error(error);
-    alert('Download failed: '+error.message);
+
+    setStatus('Download started');
+  } catch (e) {
+    console.error(e);
+    alert('Could not download QR code: '+e.message);
+    setStatus('Download failed');
   } finally {
     button.disabled = false;
     button.textContent = '⬇ Generate / Download QR';
   }
 }
 
-document.querySelectorAll('.style-btn').forEach(button => {
-  button.addEventListener('click',() => {
+function saveBlob(blob,name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url),5000);
+}
+
+/* QR text and styles */
+$('qrText').addEventListener('input',schedulePreview);
+$('cornerStyle').addEventListener('change',schedulePreview);
+
+document.querySelectorAll('.style-btn').forEach(btn => {
+  btn.addEventListener('click',() => {
     document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('active'));
-    button.classList.add('active');
-    currentStyle = button.dataset.style;
-    updateQR();
+    btn.classList.add('active');
+    currentStyle = btn.dataset.style;
+    schedulePreview();
   });
 });
 
-$('qrText').addEventListener('input',updateQR);
-$('cornerStyle').addEventListener('change',updateQR);
-
+/* Colors */
 [
   ['qrColorPicker','qrColorText'],
   ['bgColorPicker','bgColorText']
 ].forEach(([picker,text]) => {
   $(picker).addEventListener('input',() => {
     $(text).value = $(picker).value;
-    updateQR();
+    schedulePreview();
   });
 
   $(text).addEventListener('input',() => {
     if (validHex($(text).value)) {
       $(picker).value = $(text).value;
-      updateQR();
+      schedulePreview();
     }
   });
 });
 
+/* Built-in logo selection */
 $('logoGrid').addEventListener('click',event => {
-  const button = event.target.closest('.logo-card');
-  if (!button) return;
+  const btn = event.target.closest('.logo-card');
+  if (!btn) return;
 
   document.querySelectorAll('.logo-card').forEach(b=>b.classList.remove('active'));
-  button.classList.add('active');
+  btn.classList.add('active');
 
-  currentLogo = button.dataset.logo;
+  currentLogo = btn.dataset.logo;
   customLogo = null;
   $('customLogoInput').value = '';
-  updateQR();
+  schedulePreview();
 });
 
+/* Custom logo upload */
 $('customLogoInput').addEventListener('change',event => {
   const file = event.target.files[0];
   if (!file) return;
 
   if (!file.type.startsWith('image/')) {
-    alert('Please select an image file.');
+    alert('Please select a valid image.');
+    return;
+  }
+
+  if (file.size > 10*1024*1024) {
+    alert('Please select an image smaller than 10 MB.');
+    event.target.value = '';
     return;
   }
 
   const reader = new FileReader();
 
   reader.onload = () => {
-    customLogo = reader.result;
-    currentLogo = 'custom';
+    const img = new Image();
 
-    document.querySelectorAll('.logo-card').forEach(b=>b.classList.remove('active'));
-    updateQR();
+    img.onload = () => {
+      customLogo = reader.result;
+      currentLogo = 'custom';
+
+      document.querySelectorAll('.logo-card').forEach(b=>b.classList.remove('active'));
+      schedulePreview();
+    };
+
+    img.onerror = () => alert('Could not load this image. Try a PNG or JPG file.');
+    img.src = reader.result;
   };
 
-  reader.onerror = () => alert('Could not read the selected image.');
+  reader.onerror = () => alert('Could not read the selected file.');
   reader.readAsDataURL(file);
 });
 
+/* Logo size */
 $('logoSize').addEventListener('input',event => {
   $('logoSizeValue').textContent = event.target.value+'%';
-  updateQR();
+  schedulePreview();
 });
 
-document.querySelectorAll('.quality-btn').forEach(button => {
-  button.addEventListener('click',() => {
+/* Download quality */
+document.querySelectorAll('.quality-btn').forEach(btn => {
+  btn.addEventListener('click',() => {
     document.querySelectorAll('.quality-btn').forEach(b=>b.classList.remove('active'));
-    button.classList.add('active');
-    currentQuality = button.dataset.quality;
+    btn.classList.add('active');
+    currentQuality = btn.dataset.quality;
   });
 });
 
-$('generateBtn').addEventListener('click',downloadQR);
+$('generateBtn').addEventListener('click',generateDownload);
 
 buildLogoGrid();
-updateQR();
+updatePreview();
 </script>
 </body>
 </html>
